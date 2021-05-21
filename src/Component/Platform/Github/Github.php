@@ -62,4 +62,45 @@ class Github extends AbstractPlatform
             $config
         );
     }
+
+    public function addLabels(string ...$labels): void
+    {
+        foreach ($labels as $label) {
+            $this->pullRequest->labels[] = $label;
+        }
+
+        $this->pullRequest->labels = array_unique($this->pullRequest->labels);
+
+        $this->client->issues()->update(
+            $this->githubOwner,
+            $this->githubRepository,
+            $this->pullRequest->id,
+            [
+                'labels' => $this->pullRequest->labels
+            ]
+        );
+    }
+
+    public function removeLabels(string ...$labels): void
+    {
+        $prLabels = array_flip($this->pullRequest->labels);
+
+        foreach ($labels as $label) {
+            if (isset($prLabels[$label])) {
+                unset($prLabels[$label]);
+            }
+        }
+
+        $this->pullRequest->labels = array_flip($prLabels);
+
+        $this->client->issues()->update(
+            $this->githubOwner,
+            $this->githubRepository,
+            $this->pullRequest->id,
+            [
+                'labels' => $this->pullRequest->labels
+            ]
+        );
+
+    }
 }
