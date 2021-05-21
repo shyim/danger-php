@@ -89,6 +89,32 @@ return (new Config())
 
 ```
 
+## CI Integration
+
+### Github Actions
+
+```yaml
+name: Danger
+on:
+  pull_request:
+
+jobs:
+  pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone
+        uses: actions/checkout@v1
+
+      - name: Download latest Danger
+        run: wget https://github.com/shyim/danger-php/releases/download/0.0.1/danger.phar
+
+      - name: Danger
+        run: php danger.phar ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PULL_REQUEST_ID: ${{ github.event.pull_request.number }}
+```
+
 ## Screenshots
 
 ![Example Comment](https://i.imgur.com/e2OEChE.png)
