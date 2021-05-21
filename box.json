@@ -1,0 +1,26 @@
+{
+  "alias": "danger.phar",
+  "directories": [
+    "src",
+    "vendor"
+  ],
+  "compactors": [
+    "KevinGH\\Box\\Compactor\\Json",
+    "KevinGH\\Box\\Compactor\\Php"
+  ],
+  "finder": [
+    {
+      "name": "*.php",
+      "exclude": [
+        "tests"
+      ],
+      "in": [
+        "vendor",
+        "src"
+      ]
+    }
+  ],
+  "git-version": "package_version",
+  "output": "danger.phar",
+  "compression": "GZ"
+}
