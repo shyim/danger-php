@@ -89,6 +89,10 @@ return (new Config())
 
 ```
 
+## Screenshots
+
+![Example Comment](https://i.imgur.com/e2OEChE.png)
+
 ## Roadmap
 
 - Add GitLab Support
