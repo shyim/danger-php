@@ -18,7 +18,7 @@ return (new Config())
             ->getFiles();
 
         $files = $prFiles
-            ->filterFilesMatching('src/Rule/*')
+            ->matches('src/Rule/*')
             ->filterStatus(File::STATUS_ADDED);
 
         if ($files->count() && !$prFiles->has('docs/builtin-rules.md')) {

@@ -19,7 +19,7 @@ class FileCollection extends Collection
         return File::class;
     }
 
-    public function filterFilesMatching(string $pattern): self
+    public function matches(string $pattern): self
     {
         return $this->filter(function (File $file) use ($pattern) {
             return fnmatch($pattern, $file->name);

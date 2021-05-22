@@ -115,7 +115,7 @@ class FileCollectionTest extends TestCase
 
         $c = new FileCollection([$f1, $f2, $f3]);
 
-        $newCollection = $c->filterFilesMatching('changelogs/**/*.md');
+        $newCollection = $c->matches('changelogs/**/*.md');
 
         static::assertCount(1, $newCollection);
         static::assertSame('changelogs/_unreleased/some-file.md', $newCollection->first()->name);
