@@ -60,7 +60,7 @@ class PullRequest extends \Danger\Struct\PullRequest
             $file->deletions = 0;
             $file->changes = $file->additions + $file->deletions;
 
-            $collection->add($file);
+            $collection->set($file->name, $file);
         }
 
         return $this->files = $collection;

@@ -60,7 +60,7 @@ class PullRequest extends \Danger\Struct\PullRequest
             $file->deletions = $rawGithubFile['deletions'];
             $file->changes = $rawGithubFile['changes'];
 
-            $collection->add($file);
+            $collection->set($file->name, $file);
         }
 
         return $this->files = $collection;
