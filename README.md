@@ -10,9 +10,8 @@ This project is still in the early phase. Feel free to try it out and contribute
 
 ## Badges
 
+[![codecov](https://codecov.io/gh/shyim/danger-php/branch/main/graph/badge.svg)](https://codecov.io/gh/shyim/danger-php)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/shyim/danger-php/blob/main/LICENSE)
-
-
 
 ## Installation
 

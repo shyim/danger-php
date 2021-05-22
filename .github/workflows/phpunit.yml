@@ -1,0 +1,27 @@
+name: PHPUnit
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          tools: pecl
+          extensions: xdebug
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run test suite
+        run: php vendor/bin/phpunit
+
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./clover.xml
