@@ -6,7 +6,7 @@ COPY . /app
 
 RUN apk add --no-cache git zip unzip && \
     install-php-extensions bcmath gd intl sockets bz2 gmp soap zip gmp && \
-    composer install -d /app && \
+    composer install --no-dev -d /app && \
     ln -s /app/bin/danger /usr/local/bin/danger
 
 ENTRYPOINT [ "/app/bin/danger" ]
