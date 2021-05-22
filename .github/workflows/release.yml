@@ -18,12 +18,11 @@ jobs:
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Get Changelog
-        id: changelog
         run: |
           wget https://github.com/git-chglog/git-chglog/releases/download/v0.14.2/git-chglog_0.14.2_linux_amd64.tar.gz
           tar xf git-chglog_0.14.2_linux_amd64.tar.gz
-          ./git-chglog ${{ steps.get_version.outputs.VERSION > /tmp/changelog.txt
-          rm CHANGELOG.md  LICENSE  README.md  git-chglog  git-chglog_0.14.2_linux_amd64.tar.gz
+          ./git-chglog ${{ steps.get_version.outputs.VERSION }} > /tmp/changelog.txt
+          rm CHANGELOG.md LICENSE README.md git-chglog git-chglog_0.14.2_linux_amd64.tar.gz
 
       - uses: shivammathur/setup-php@v2
         with:
