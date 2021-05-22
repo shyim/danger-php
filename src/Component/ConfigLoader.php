@@ -28,6 +28,6 @@ class ConfigLoader
             return $c;
         }
 
-        throw new InvalidConfigurationException('Cannot find danger.php');
+        throw new InvalidConfigurationException('Cannot find .danger.php in your Project');
     }
 }

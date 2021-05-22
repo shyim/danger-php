@@ -1,0 +1,34 @@
+style: github
+template: CHANGELOG.tpl.md
+info:
+  title: CHANGELOG
+  repository_url: https://github.com/FriendsOfShopware/FroshPluginUploader
+options:
+  commits:
+    filters:
+      Type:
+        - feat
+        - fix
+        - docs
+        - perf
+        - refactor
+        - compat
+        - chore
+  commit_groups:
+    title_maps:
+      feat: Features
+      docs: Documentation
+      fix: Bug Fixes
+      perf: Performance Improvements
+      refactor: Code Refactoring
+      compat: Compability
+      chore: Chore
+  header:
+    pattern: '^(\w*)(?:\((\w*)\))?:\s(.*)$'
+    pattern_maps:
+      - Type
+      - Scope
+      - Subject
+  notes:
+    keywords:
+      - BREAKING CHANGE

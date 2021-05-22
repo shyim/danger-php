@@ -10,6 +10,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+        with:
+          depth: '0'
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+
+      - name: Get Changelog
+        id: changelog
+        run: |
+          wget https://github.com/git-chglog/git-chglog/releases/download/v0.14.2/git-chglog_0.14.2_linux_amd64.tar.gz
+          tar xf git-chglog_0.14.2_linux_amd64.tar.gz
+          ./git-chglog ${{ steps.get_version.outputs.VERSION > /tmp/changelog.txt
+          rm CHANGELOG.md  LICENSE  README.md  git-chglog  git-chglog_0.14.2_linux_amd64.tar.gz
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -20,10 +34,6 @@ jobs:
 
       - name: Remove dev deps
         run: composer install --no-dev
-
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Set version string
         run: sed -i -e "s/__VERSION__/${{ steps.get_version.outputs.VERSION }}/g" src/Application.php
@@ -39,6 +49,7 @@ jobs:
         with:
           tag_name: ${{ steps.get_version.outputs.VERSION }}
           release_name: ${{ steps.get_version.outputs.VERSION }}
+          body_path: /tmp/changelog.txt
           draft: false
           prerelease: false
 
@@ -52,3 +63,13 @@ jobs:
           asset_path: danger.phar
           asset_name: danger.phar
           asset_content_type: application/octet-stream
+
+      - name: Login into Github Docker Registery
+        run: echo "${{ secrets.GHCR_PASSWORD }}" | docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
+
+      - name: Build image and push
+        run: |
+          docker build -t ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }} .
+          docker build -t ghcr.io/shyim/danger-php .
+          docker push ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }}
+          docker push ghcr.io/shyim/danger-php
