@@ -48,4 +48,20 @@ class CiCommandTest extends TestCase
         static::assertSame(-1, $returnCode);
         static::assertStringContainsString('The comment has been created at http://danger.local/test', $output->fetch());
     }
+
+    public function testNotValidWarning(): void
+    {
+        $platform = $this->createMock(Github::class);
+        $platform->method('post')->willReturn('http://danger.local/test');
+
+        $detector = $this->createMock(PlatformDetector::class);
+        $detector->method('detect')->willReturn($platform);
+        $output = new BufferedOutput();
+
+        $cmd = new CiCommand($detector, new ConfigLoader(), new Runner(), new HTMLRenderer());
+        $returnCode = $cmd->run(new ArgvInput(['danger', '--config=' . dirname(__DIR__) . '/configs/warning.php']), $output);
+
+        static::assertSame(0, $returnCode);
+        static::assertStringContainsString('The comment has been created at http://danger.local/test', $output->fetch());
+    }
 }

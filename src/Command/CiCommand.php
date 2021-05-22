@@ -58,6 +58,6 @@ class CiCommand extends Command
 
         $io->info('The comment has been created at ' . $commentLink);
 
-        return -1;
+        return $context->hasFailures() ? -1 : 0;
     }
 }
