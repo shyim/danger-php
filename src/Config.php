@@ -13,6 +13,11 @@ class Config
      */
     private array $rules = [];
 
+    /**
+     * @var callable[]
+     */
+    private array $afterHooks = [];
+
     private string $updateCommentMode = self::UPDATE_COMMENT_MODE_UPDATE;
 
     private ?string $githubCommentProxyUrl = null;
@@ -26,9 +31,21 @@ class Config
         return $this;
     }
 
+    public function after(callable $closure): static
+    {
+        $this->afterHooks[] = $closure;
+
+        return $this;
+    }
+
     public function getRules(): array
     {
         return $this->rules;
+    }
+
+    public function getAfterHooks(): array
+    {
+        return $this->afterHooks;
     }
 
     public function useCommentMode(string $mode): static

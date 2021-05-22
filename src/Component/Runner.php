@@ -15,6 +15,13 @@ class Runner
         }
 
         /**
+         * Run after hooks. Can be used to set labels after all rules has been run
+         */
+        foreach ($config->getAfterHooks() as $afterHook) {
+            $afterHook($context);
+        }
+
+        /**
          * When useThreadOnFails is enabled but no failures enabled deactivate it
          */
         if ($config->isThreadEnabled() && count($context->getFailures()) === 0) {
