@@ -21,7 +21,7 @@ class GitlabCommandTest extends TestCase
         $output = new BufferedOutput();
         $cmd->run(new ArgvInput(['danger', 'test', '1']), $output);
 
-        static::assertStringContainsString('You need the environment variable DANGER_GITLAB_TOKEN with an Gitlab API Token to use this command', $output->fetch());
+        static::assertStringContainsString('DANGER_GITLAB_TOKEN ', $output->fetch());
     }
 
     public function testValid(): void
