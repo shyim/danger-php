@@ -18,11 +18,15 @@ jobs:
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Get Changelog
+        id: changelog
         run: |
           wget https://github.com/git-chglog/git-chglog/releases/download/v0.14.2/git-chglog_0.14.2_linux_amd64.tar.gz
           tar xf git-chglog_0.14.2_linux_amd64.tar.gz
-          ./git-chglog ${{ steps.get_version.outputs.VERSION }} > /tmp/changelog.txt
-          rm CHANGELOG.md LICENSE README.md git-chglog git-chglog_0.14.2_linux_amd64.tar.gz
+          REPORT=$(./git-chglog ${{ steps.get_version.outputs.VERSION }})
+          REPORT="${REPORT//'%'/'%25'}"
+          REPORT="${REPORT//$'\n'/'%0A'}"
+          REPORT="${REPORT//$'\r'/'%0D'}"
+          echo "::set-output name=CHANGELOG::$REPORT"
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -48,7 +52,7 @@ jobs:
         with:
           tag_name: ${{ steps.get_version.outputs.VERSION }}
           release_name: ${{ steps.get_version.outputs.VERSION }}
-          body_path: /tmp/changelog.txt
+          body: "${{ steps.changelog.outputs.CHANGELOG }}"
           draft: false
           prerelease: false
 
