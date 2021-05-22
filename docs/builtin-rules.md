@@ -29,3 +29,40 @@ Checks the commit amount in the pull request
 
 - maxAmount (int) default: 1
 - (optional) message (string)
+
+## \Danger\Rule\ConditionRule
+
+Allows running multiple rules when a condition is met
+
+### Parameters
+
+- function which checks are the condition met
+- array of rules to be executed
+
+
+### Example
+
+```php
+<?php
+
+use Danger\Context;
+use Danger\Config;
+use Danger\Platform\Github\Github;
+use Danger\Rule\CommitRegexRule;
+use Danger\Rule\ConditionRule;
+use Danger\Rule\MaxCommitRule;
+
+/**
+ * We check the commit amount and commit message only when the target platform is Github
+ */
+return (new Config())
+    ->useRule(new ConditionRule(
+            function (Context $context) {
+                return $context->platform instanceof Github;
+            },
+            [
+                new MaxCommitRule(1),
+                new CommitRegexRule('/^(feat|fix|docs|perf|refactor|compat|chore)(\(.+\))?\:\s(.{3,})/m')
+            ]
+        ));
+```
