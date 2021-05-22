@@ -14,9 +14,11 @@ class CheckPhpCsFixerRule
     {
         exec('php vendor/bin/php-cs-fixer fix --format=json', $cmdOutput, $resultCode);
 
+        // @codeCoverageIgnoreStart
         if (!isset($cmdOutput[0])) {
             $context->failure('PHP-CS-Fixer did not run');
         }
+        // @codeCoverageIgnoreEnd
 
         if (count(json_decode($cmdOutput[0], true)['files'])) {
             $context->failure('Found some Code-Style issues. Please run <code>./vendor/bin/php-cs-fixer fix</code> on your branch');

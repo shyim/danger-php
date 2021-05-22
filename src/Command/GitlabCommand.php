@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Danger\Command;
 
-use Danger\Component\ConfigLoader;
-use Danger\Component\Platform\Gitlab\Gitlab;
-use Danger\Component\Runner;
+use Danger\ConfigLoader;
 use Danger\Context;
+use Danger\Platform\Gitlab\Gitlab;
+use Danger\Runner;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

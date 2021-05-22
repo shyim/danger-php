@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Danger\Command;
 
-use Danger\Component\ConfigLoader;
-use Danger\Component\Platform\PlatformDetector;
-use Danger\Component\Renderer\HTMLRenderer;
-use Danger\Component\Runner;
+use Danger\ConfigLoader;
 use Danger\Context;
+use Danger\Platform\PlatformDetector;
+use Danger\Renderer\HTMLRenderer;
+use Danger\Runner;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

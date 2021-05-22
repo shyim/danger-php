@@ -12,9 +12,8 @@ return static function (ContainerConfigurator $configurator): void {
         ->public()
         ->autowire()
         ->autoconfigure()
-        ->load('Danger\\Command\\', dirname(__DIR__) . '/Command')
-        ->load('Danger\\Component\\', dirname(__DIR__) . '/Component')
-        ->exclude(dirname(__DIR__) . '/Component/Struct')
+        ->load('Danger\\', dirname(__DIR__))
+        ->exclude(dirname(__DIR__) . '/{Struct,Rule,Resources,Context.php}')
     ;
 
     $configurator

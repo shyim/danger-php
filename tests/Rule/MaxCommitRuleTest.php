@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace Danger\Tests\Rule;
 
-use Danger\Component\Platform\Github\Github;
-use Danger\Component\Struct\Commit;
-use Danger\Component\Struct\CommitCollection;
-use Danger\Component\Struct\Github\PullRequest;
 use Danger\Context;
+use Danger\Platform\Github\Github;
 use Danger\Rule\MaxCommitRule;
+use Danger\Struct\Commit;
+use Danger\Struct\CommitCollection;
+use Danger\Struct\Github\PullRequest;
 use PHPUnit\Framework\TestCase;
 
 /**

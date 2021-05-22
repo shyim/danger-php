@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Danger;
 
-use Danger\Component\Platform\AbstractPlatform;
+use Danger\Platform\AbstractPlatform;
 
 class Context
 {
