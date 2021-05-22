@@ -82,18 +82,12 @@ abstract class Collection implements \IteratorAggregate, \Countable
         uasort($this->elements, $closure);
     }
 
-    /**
-     * @return static
-     */
-    public function filter(\Closure $closure)
+    public function filter(\Closure $closure): static
     {
         return $this->createNew(array_filter($this->elements, $closure));
     }
 
-    /**
-     * @return static
-     */
-    public function slice(int $offset, ?int $length = null)
+    public function slice(int $offset, ?int $length = null): static
     {
         return $this->createNew(\array_slice($this->elements, $offset, $length, true));
     }

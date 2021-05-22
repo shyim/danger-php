@@ -21,21 +21,15 @@ class FileCollectionTest extends TestCase
 
         $c = new FileCollection([$f]);
 
-        static::assertTrue($c->hasAddedFile('CHANGELOG.md'));
-        static::assertFalse($c->hasModifiedFile('CHANGELOG.md'));
-        static::assertFalse($c->hasRemovedFile('CHANGELOG.md'));
+        static::assertCount(1, $c->filterStatus(File::STATUS_ADDED));
 
         $f->status = File::STATUS_MODIFIED;
 
-        static::assertFalse($c->hasAddedFile('CHANGELOG.md'));
-        static::assertTrue($c->hasModifiedFile('CHANGELOG.md'));
-        static::assertFalse($c->hasRemovedFile('CHANGELOG.md'));
+        static::assertCount(1, $c->filterStatus(File::STATUS_MODIFIED));
 
         $f->status = File::STATUS_REMOVED;
 
-        static::assertFalse($c->hasAddedFile('CHANGELOG.md'));
-        static::assertFalse($c->hasModifiedFile('CHANGELOG.md'));
-        static::assertTrue($c->hasRemovedFile('CHANGELOG.md'));
+        static::assertCount(1, $c->filterStatus(File::STATUS_REMOVED));
     }
 
     public function testClear(): void
@@ -106,5 +100,24 @@ class FileCollectionTest extends TestCase
         });
 
         static::assertSame('A', $c->first()->name);
+    }
+
+    public function testFilesMatching(): void
+    {
+        $f1 = new File('');
+        $f1->name = 'README.md';
+
+        $f2 = new File('');
+        $f2->name = 'changelogs/_unreleased/some-file.md';
+
+        $f3 = new File('');
+        $f3->name = 'src/Test.php';
+
+        $c = new FileCollection([$f1, $f2, $f3]);
+
+        $newCollection = $c->filterFilesMatching('changelogs/**/*.md');
+
+        static::assertCount(1, $newCollection);
+        static::assertSame('changelogs/_unreleased/some-file.md', $newCollection->first()->name);
     }
 }

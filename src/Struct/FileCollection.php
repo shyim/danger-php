@@ -19,24 +19,17 @@ class FileCollection extends Collection
         return File::class;
     }
 
-    public function hasAddedFile(string $fileName): bool
+    public function filterFilesMatching(string $pattern): self
     {
-        return $this->filter(function (File $file) use ($fileName) {
-            return $file->name === $fileName && $file->status === File::STATUS_ADDED;
-        })->first() !== null;
+        return $this->filter(function (File $file) use ($pattern) {
+            return fnmatch($pattern, $file->name);
+        });
     }
 
-    public function hasModifiedFile(string $fileName): bool
+    public function filterStatus(string $status): self
     {
-        return $this->filter(function (File $file) use ($fileName) {
-            return $file->name === $fileName && $file->status === File::STATUS_MODIFIED;
-        })->first() !== null;
-    }
-
-    public function hasRemovedFile(string $fileName): bool
-    {
-        return $this->filter(function (File $file) use ($fileName) {
-            return $file->name === $fileName && $file->status === File::STATUS_REMOVED;
-        })->first() !== null;
+        return $this->filter(function (File $file) use ($status) {
+            return $file->status === $status;
+        });
     }
 }
