@@ -22,6 +22,9 @@ abstract class PullRequest
 
     public array $assignees;
 
+    public array $rawCommits = [];
+    public array $rawFiles = [];
+
     abstract public function getCommits(): CommitCollection;
 
     abstract public function getFiles(): FileCollection;

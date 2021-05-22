@@ -10,6 +10,8 @@ abstract class AbstractPlatform
 {
     public PullRequest $pullRequest;
 
+    public array $raw = [];
+
     /**
      * @internal Only for internal Danger usage
      */

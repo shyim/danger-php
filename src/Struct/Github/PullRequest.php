@@ -10,8 +10,6 @@ use Github\Client as GithubClient;
 
 class PullRequest extends \Danger\Struct\PullRequest
 {
-    private array $rawGithubCommits = [];
-    private array $rawGithubFiles = [];
     private ?CommitCollection $commits = null;
     private ?FileCollection $files = null;
 
@@ -25,11 +23,11 @@ class PullRequest extends \Danger\Struct\PullRequest
             return $this->commits;
         }
 
-        $this->rawGithubCommits = $this->client->pullRequest()->commits($this->owner, $this->repo, $this->id);
+        $this->rawCommits = $this->client->pullRequest()->commits($this->owner, $this->repo, $this->id);
 
         $collection = new CommitCollection();
 
-        foreach ($this->rawGithubCommits as $rawGithubCommit) {
+        foreach ($this->rawCommits as $rawGithubCommit) {
             $commit = new Commit();
             $commit->sha = $rawGithubCommit['sha'];
             $commit->createdAt = new \DateTime($rawGithubCommit['commit']['committer']['date']);
@@ -50,11 +48,11 @@ class PullRequest extends \Danger\Struct\PullRequest
             return $this->files;
         }
 
-        $this->rawGithubFiles = $this->client->pullRequest()->files($this->owner, $this->repo, $this->id);
+        $this->rawFiles = $this->client->pullRequest()->files($this->owner, $this->repo, $this->id);
 
         $collection = new FileCollection();
 
-        foreach ($this->rawGithubFiles as $rawGithubFile) {
+        foreach ($this->rawFiles as $rawGithubFile) {
             $file = new File($rawGithubFile['raw_url']);
             $file->name = $rawGithubFile['filename'];
             $file->status = $rawGithubFile['status'];

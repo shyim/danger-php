@@ -10,8 +10,6 @@ use Gitlab\Client;
 
 class PullRequest extends \Danger\Struct\PullRequest
 {
-    public array $rawGitlabCommits = [];
-    public array $rawGitlabFiles = [];
     private ?CommitCollection $commits = null;
     private ?FileCollection $files = null;
 
@@ -25,11 +23,11 @@ class PullRequest extends \Danger\Struct\PullRequest
             return $this->commits;
         }
 
-        $this->rawGitlabCommits = $this->client->mergeRequests()->commits($this->projectIdentifier, (int) $this->id);
+        $this->rawCommits = $this->client->mergeRequests()->commits($this->projectIdentifier, (int) $this->id);
 
         $collection = new CommitCollection();
 
-        foreach ($this->rawGitlabCommits as $rawGithubCommit) {
+        foreach ($this->rawCommits as $rawGithubCommit) {
             $commit = new Commit();
             $commit->sha = $rawGithubCommit['id'];
             $commit->createdAt = new \DateTime($rawGithubCommit['committed_date']);
@@ -50,11 +48,11 @@ class PullRequest extends \Danger\Struct\PullRequest
             return $this->files;
         }
 
-        $this->rawGitlabFiles = $this->client->mergeRequests()->changes($this->projectIdentifier, (int) $this->id);
+        $this->rawFiles = $this->client->mergeRequests()->changes($this->projectIdentifier, (int) $this->id);
 
         $collection = new FileCollection();
 
-        foreach ($this->rawGitlabFiles['changes'] as $rawGithubFile) {
+        foreach ($this->rawFiles['changes'] as $rawGithubFile) {
             $file = new File($this->client, $this->projectIdentifier, $rawGithubFile['new_path'], $this->latestSha);
             $file->name = $rawGithubFile['new_path'];
             $file->status = $rawGithubFile['new_file'] ? File::STATUS_ADDED : ($rawGithubFile['deleted_file'] ? File::STATUS_REMOVED : File::STATUS_MODIFIED);

@@ -6,8 +6,6 @@ This project ports [Danger](https://danger.systems/ruby/) to PHP.
 This project is still in the early phase. Feel free to try it out and contribute!
 
 
-
-
 ## Badges
 
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/shyim/danger-php/blob/main/LICENSE)
@@ -16,14 +14,29 @@ This project is still in the early phase. Feel free to try it out and contribute
 
 ## Installation
 
+### Composer
+
 Install danger-php using Composer
 
 ```bash 
-  composer global require shyim/danger-php
+composer global require shyim/danger-php
 ```
 
-Install danger-php using phar attached on Github Releases
-## Usage/Examples
+### Phar Archive
+
+Every release has an phar archive attached
+
+### Docker
+
+Use the [prebuilt Docker image](https://github.com/users/shyim/packages/container/package/danger-php)
+
+## Documentation
+
+- [Getting started](./docs/getting_started.md)
+- [Builtin Rules](./docs/builtin-rules.md)
+- [Danger Context](./docs/context.md)
+- [CI Integration](./docs/ci.md)
+- [Commands](./docs/commands.md)
 
 ### Disallow multiple commits with same message
 
@@ -88,48 +101,6 @@ return (new Config())
 ;
 
 ```
-
-## CI Integration
-
-### Github Actions
-
-```yaml
-name: Danger
-on:
-  pull_request:
-
-jobs:
-  pr:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clone
-        uses: actions/checkout@v1
-
-      - name: Download latest Danger
-        run: wget https://github.com/shyim/danger-php/releases/download/0.0.1/danger.phar
-
-      - name: Danger
-        run: php danger.phar ci
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_PULL_REQUEST_ID: ${{ github.event.pull_request.number }}
-```
-
-### Gitlab CI
-
-```yaml
-Danger:
-    image:
-        name: ghcr.io/shyim/danger-php:latest
-        entrypoint: ["/bin/sh", "-c"]
-    rules:
-      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    script:
-        - danger ci
-```
-
-You will need also a new environment variable `DANGER_GITLAB_TOKEN` with  a Gitlab Token to be able to post the message.
-For this purpose you should use a Bot account
 
 ## Screenshots
 

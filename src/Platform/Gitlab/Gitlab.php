@@ -12,9 +12,9 @@ class Gitlab extends AbstractPlatform
 {
     private string $projectIdentifier;
 
-    public array $rawGitlabMergeRequest = [];
+    public array $raw = [];
 
-    public function __construct(private Client $client, private GitlabCommenter $commenter)
+    public function __construct(public Client $client, private GitlabCommenter $commenter)
     {
     }
 
@@ -22,16 +22,16 @@ class Gitlab extends AbstractPlatform
     {
         $this->projectIdentifier = $projectIdentifier;
 
-        $this->rawGitlabMergeRequest = $this->client->mergeRequests()->show($projectIdentifier, (int) $id);
+        $this->raw = $this->client->mergeRequests()->show($projectIdentifier, (int) $id);
 
-        $this->pullRequest = new PullRequest($this->client, $projectIdentifier, $this->rawGitlabMergeRequest['sha']);
+        $this->pullRequest = new PullRequest($this->client, $projectIdentifier, $this->raw['sha']);
         $this->pullRequest->id = $id;
-        $this->pullRequest->title = $this->rawGitlabMergeRequest['title'];
-        $this->pullRequest->body = $this->rawGitlabMergeRequest['description'];
-        $this->pullRequest->labels = $this->rawGitlabMergeRequest['labels'];
-        $this->pullRequest->assignees = array_map(function (array $assignee) { return $assignee['username']; }, $this->rawGitlabMergeRequest['assignees']);
-        $this->pullRequest->createdAt = new \DateTime($this->rawGitlabMergeRequest['created_at']);
-        $this->pullRequest->updatedAt = new \DateTime($this->rawGitlabMergeRequest['updated_at']);
+        $this->pullRequest->title = $this->raw['title'];
+        $this->pullRequest->body = $this->raw['description'];
+        $this->pullRequest->labels = $this->raw['labels'];
+        $this->pullRequest->assignees = array_map(function (array $assignee) { return $assignee['username']; }, $this->raw['assignees']);
+        $this->pullRequest->createdAt = new \DateTime($this->raw['created_at']);
+        $this->pullRequest->updatedAt = new \DateTime($this->raw['updated_at']);
     }
 
     public function post(string $body, Config $config): string
@@ -42,7 +42,7 @@ class Gitlab extends AbstractPlatform
                 (int) $this->pullRequest->id,
                 $body,
                 $config,
-                $this->rawGitlabMergeRequest['web_url']
+                $this->raw['web_url']
             );
         }
 
@@ -51,7 +51,7 @@ class Gitlab extends AbstractPlatform
             (int) $this->pullRequest->id,
             $body,
             $config,
-            $this->rawGitlabMergeRequest['web_url']
+            $this->raw['web_url']
         );
     }
 

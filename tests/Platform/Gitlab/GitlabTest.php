@@ -33,7 +33,7 @@ class GitlabTest extends TestCase
         $gitlab = new Gitlab($client, new GitlabCommenter($client));
         $gitlab->load('test', '1');
 
-        static::assertSame(json_decode(file_get_contents(__DIR__ . '/payloads/mr.json'), true), $gitlab->rawGitlabMergeRequest);
+        static::assertSame(json_decode(file_get_contents(__DIR__ . '/payloads/mr.json'), true), $gitlab->raw);
         static::assertSame('1', $gitlab->pullRequest->id);
         static::assertSame('Update Test', $gitlab->pullRequest->title);
         static::assertSame('Bodyyy', $gitlab->pullRequest->body);

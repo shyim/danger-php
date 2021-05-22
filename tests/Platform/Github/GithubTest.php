@@ -32,7 +32,7 @@ class GithubTest extends TestCase
         $github = new Github($client, new GithubCommenter($client, new MockHttpClient()));
         $github->load('FriendsOfShopware/FroshPluginUploader', '144');
 
-        static::assertSame(json_decode($prBody, true), $github->rawGithubPullRequest);
+        static::assertSame(json_decode($prBody, true), $github->raw);
         static::assertSame('144', $github->pullRequest->id);
         static::assertSame('Test PR commenting', $github->pullRequest->title);
         static::assertSame('Body', $github->pullRequest->body);

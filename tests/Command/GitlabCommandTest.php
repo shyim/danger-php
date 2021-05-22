@@ -17,6 +17,10 @@ class GitlabCommandTest extends TestCase
 {
     public function testRunWithoutToken(): void
     {
+        if (isset($_SERVER['DANGER_GITLAB_TOKEN'])) {
+            unset($_SERVER['DANGER_GITLAB_TOKEN']);
+        }
+
         $cmd = new GitlabCommand($this->createMock(Gitlab::class), new ConfigLoader(), new Runner());
         $output = new BufferedOutput();
         $cmd->run(new ArgvInput(['danger', 'test', '1']), $output);
