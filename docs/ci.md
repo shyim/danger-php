@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Download latest Danger
-        run: wget https://github.com/shyim/danger-php/releases/download/0.0.3/danger.phar
+        run: wget https://github.com/shyim/danger-php/releases/latest/download/danger.phar
 
       - name: Danger
         run: php danger.phar ci
