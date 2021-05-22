@@ -11,24 +11,16 @@ use Gitlab\Client;
 class Gitlab extends AbstractPlatform
 {
     private string $projectIdentifier;
-    private Client $client;
 
-    private array $rawGitlabMergeRequest = [];
+    public array $rawGitlabMergeRequest = [];
 
-    public function __construct(private GitlabCommenter $commenter)
+    public function __construct(private Client $client, private GitlabCommenter $commenter)
     {
     }
 
     public function load(string $projectIdentifier, string $id): void
     {
         $this->projectIdentifier = $projectIdentifier;
-        $this->client = new Client();
-
-        if (isset($_SERVER['CI_SERVER_URL'])) {
-            $this->client->setUrl($_SERVER['CI_SERVER_URL']);
-        }
-
-        $this->client->authenticate($_SERVER['DANGER_GITLAB_TOKEN'], Client::AUTH_HTTP_TOKEN);
 
         $this->rawGitlabMergeRequest = $this->client->mergeRequests()->show($projectIdentifier, (int) $id);
 
@@ -46,7 +38,6 @@ class Gitlab extends AbstractPlatform
     {
         if ($config->isThreadEnabled()) {
             return $this->commenter->postThread(
-                $this->client,
                 $this->projectIdentifier,
                 (int) $this->pullRequest->id,
                 $body,
@@ -56,7 +47,6 @@ class Gitlab extends AbstractPlatform
         }
 
         return $this->commenter->postNote(
-            $this->client,
             $this->projectIdentifier,
             (int) $this->pullRequest->id,
             $body,
@@ -68,12 +58,12 @@ class Gitlab extends AbstractPlatform
     public function removePost(Config $config): void
     {
         if ($config->isThreadEnabled()) {
-            $this->commenter->removeThread($this->client, $this->projectIdentifier, (int) $this->pullRequest->id);
+            $this->commenter->removeThread($this->projectIdentifier, (int) $this->pullRequest->id);
 
             return;
         }
 
-        $this->commenter->removeNote($this->client, $this->projectIdentifier, (int) $this->pullRequest->id);
+        $this->commenter->removeNote($this->projectIdentifier, (int) $this->pullRequest->id);
     }
 
     public function addLabels(string ...$labels): void

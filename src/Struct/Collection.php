@@ -25,11 +25,7 @@ abstract class Collection implements \IteratorAggregate, \Countable
     {
         $this->validateType($element);
 
-        if ($key === null) {
-            $this->elements[] = $element;
-        } else {
-            $this->elements[$key] = $element;
-        }
+        $this->elements[$key] = $element;
     }
 
     /**
@@ -89,16 +85,6 @@ abstract class Collection implements \IteratorAggregate, \Countable
     /**
      * @return static
      */
-    public function filterInstance(string $class)
-    {
-        return $this->filter(static function ($item) use ($class) {
-            return $item instanceof $class;
-        });
-    }
-
-    /**
-     * @return static
-     */
     public function filter(\Closure $closure)
     {
         return $this->createNew(array_filter($this->elements, $closure));
@@ -115,11 +101,6 @@ abstract class Collection implements \IteratorAggregate, \Countable
     public function getElements(): array
     {
         return $this->elements;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return array_values($this->elements);
     }
 
     public function first()
@@ -145,10 +126,7 @@ abstract class Collection implements \IteratorAggregate, \Countable
         yield from $this->elements;
     }
 
-    protected function getExpectedClass(): ?string
-    {
-        return null;
-    }
+    abstract protected function getExpectedClass(): string;
 
     /**
      * @return static
@@ -158,12 +136,9 @@ abstract class Collection implements \IteratorAggregate, \Countable
         return new static($elements);
     }
 
-    protected function validateType($element): void
+    private function validateType($element): void
     {
         $expectedClass = $this->getExpectedClass();
-        if ($expectedClass === null) {
-            return;
-        }
 
         if (!$element instanceof $expectedClass) {
             $elementClass = \get_class($element);

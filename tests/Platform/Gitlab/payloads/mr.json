@@ -1,0 +1,145 @@
+{
+  "id": 101010928,
+  "iid": 1,
+  "project_id": 23869599,
+  "title": "Update Test",
+  "description": "Bodyyy",
+  "state": "opened",
+  "created_at": "2021-05-21T23:12:46.921Z",
+  "updated_at": "2021-05-22T08:39:38.878Z",
+  "merged_by": null,
+  "merged_at": null,
+  "closed_by": null,
+  "closed_at": null,
+  "target_branch": "master",
+  "source_branch": "foo",
+  "user_notes_count": 1,
+  "upvotes": 0,
+  "downvotes": 0,
+  "author": {
+    "id": 148258,
+    "name": "Shyim",
+    "username": "shyim",
+    "state": "active",
+    "avatar_url": "https:\/\/secure.gravatar.com\/avatar\/c98b2f218992c87aee03a2deabe26578?s=80&d=identicon",
+    "web_url": "https:\/\/gitlab.com\/shyim"
+  },
+  "assignees": [
+    {
+      "id": 148258,
+      "name": "Shyim",
+      "username": "shyim",
+      "state": "active",
+      "avatar_url": "https:\/\/secure.gravatar.com\/avatar\/c98b2f218992c87aee03a2deabe26578?s=80&d=identicon",
+      "web_url": "https:\/\/gitlab.com\/shyim"
+    }
+  ],
+  "assignee": {
+    "id": 148258,
+    "name": "Shyim",
+    "username": "shyim",
+    "state": "active",
+    "avatar_url": "https:\/\/secure.gravatar.com\/avatar\/c98b2f218992c87aee03a2deabe26578?s=80&d=identicon",
+    "web_url": "https:\/\/gitlab.com\/shyim"
+  },
+  "reviewers": [],
+  "source_project_id": 23869599,
+  "target_project_id": 23869599,
+  "labels": [
+    "Test"
+  ],
+  "work_in_progress": false,
+  "milestone": null,
+  "merge_when_pipeline_succeeds": false,
+  "merge_status": "can_be_merged",
+  "sha": "2d7f9727fb1a786543df555bb55ad4febeeb2f2f",
+  "merge_commit_sha": null,
+  "squash_commit_sha": null,
+  "discussion_locked": null,
+  "should_remove_source_branch": null,
+  "force_remove_source_branch": true,
+  "reference": "!1",
+  "references": {
+    "short": "!1",
+    "relative": "!1",
+    "full": "shyim\/test!1"
+  },
+  "web_url": "https:\/\/gitlab.com\/shyim\/test\/-\/merge_requests\/1",
+  "time_stats": {
+    "time_estimate": 0,
+    "total_time_spent": 0,
+    "human_time_estimate": null,
+    "human_total_time_spent": null
+  },
+  "squash": false,
+  "task_completion_status": {
+    "count": 0,
+    "completed_count": 0
+  },
+  "has_conflicts": false,
+  "blocking_discussions_resolved": true,
+  "approvals_before_merge": null,
+  "subscribed": true,
+  "changes_count": "3",
+  "latest_build_started_at": "2021-05-22T08:39:44.103Z",
+  "latest_build_finished_at": null,
+  "first_deployed_to_production_at": null,
+  "pipeline": {
+    "id": 307707964,
+    "project_id": 23869599,
+    "sha": "2d7f9727fb1a786543df555bb55ad4febeeb2f2f",
+    "ref": "refs\/merge-requests\/1\/head",
+    "status": "failed",
+    "created_at": "2021-05-22T08:39:39.107Z",
+    "updated_at": "2021-05-22T08:39:58.997Z",
+    "web_url": "https:\/\/gitlab.com\/shyim\/test\/-\/pipelines\/307707964"
+  },
+  "head_pipeline": {
+    "id": 307707964,
+    "project_id": 23869599,
+    "sha": "2d7f9727fb1a786543df555bb55ad4febeeb2f2f",
+    "ref": "refs\/merge-requests\/1\/head",
+    "status": "failed",
+    "created_at": "2021-05-22T08:39:39.107Z",
+    "updated_at": "2021-05-22T08:39:58.997Z",
+    "web_url": "https:\/\/gitlab.com\/shyim\/test\/-\/pipelines\/307707964",
+    "before_sha": "0000000000000000000000000000000000000000",
+    "tag": false,
+    "yaml_errors": null,
+    "user": {
+      "id": 148258,
+      "name": "Shyim",
+      "username": "shyim",
+      "state": "active",
+      "avatar_url": "https:\/\/secure.gravatar.com\/avatar\/c98b2f218992c87aee03a2deabe26578?s=80&d=identicon",
+      "web_url": "https:\/\/gitlab.com\/shyim"
+    },
+    "started_at": "2021-05-22T08:39:44.103Z",
+    "finished_at": "2021-05-22T08:39:58.991Z",
+    "committed_at": null,
+    "duration": 17,
+    "queued_duration": 4,
+    "coverage": null,
+    "detailed_status": {
+      "icon": "status_failed",
+      "text": "failed",
+      "label": "failed",
+      "group": "failed",
+      "tooltip": "failed",
+      "has_details": true,
+      "details_path": "\/shyim\/test\/-\/pipelines\/307707964",
+      "illustration": null,
+      "favicon": "https:\/\/gitlab.com\/assets\/ci_favicons\/favicon_status_failed-41304d7f7e3828808b0c26771f0309e55296819a9beea3ea9fbf6689d9857c12.png"
+    }
+  },
+  "diff_refs": {
+    "base_sha": "23e8c0515e85050857fd24cbf3673aa10e4a87cc",
+    "head_sha": "2d7f9727fb1a786543df555bb55ad4febeeb2f2f",
+    "start_sha": "23e8c0515e85050857fd24cbf3673aa10e4a87cc"
+  },
+  "merge_error": null,
+  "first_contribution": false,
+  "user": {
+    "can_merge": true
+  }
+}

@@ -10,8 +10,8 @@ use Gitlab\Client;
 
 class PullRequest extends \Danger\Struct\PullRequest
 {
-    private array $rawGitlabCommits = [];
-    private array $rawGitlabFiles = [];
+    public array $rawGitlabCommits = [];
+    public array $rawGitlabFiles = [];
     private ?CommitCollection $commits = null;
     private ?FileCollection $files = null;
 

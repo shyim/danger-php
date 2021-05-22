@@ -9,79 +9,88 @@ use Gitlab\Client;
 
 class GitlabCommenter
 {
-    public function postNote(Client $client, string $projectIdentifier, int $prId, string $body, Config $config, string $baseUrl): string
+    public function __construct(private Client $client)
     {
-        $noteIds = $this->getRelevantNoteIds($client, $projectIdentifier, $prId);
+    }
+
+    public function postNote(string $projectIdentifier, int $prId, string $body, Config $config, string $baseUrl): string
+    {
+        $noteIds = $this->getRelevantNoteIds($projectIdentifier, $prId);
 
         if ($config->getUpdateCommentMode() === Config::UPDATE_COMMENT_MODE_REPLACE) {
             foreach ($noteIds as $relevantNoteId) {
-                $client->mergeRequests()->removeNote($projectIdentifier, $prId, $relevantNoteId);
+                $this->client->mergeRequests()->removeNote($projectIdentifier, $prId, $relevantNoteId);
             }
 
-            $note = $client->mergeRequests()->addNote($projectIdentifier, $prId, $body);
+            $note = $this->client->mergeRequests()->addNote($projectIdentifier, $prId, $body);
 
             return $baseUrl . '#note_' . $note['id'];
         }
 
         if (count($noteIds) === 0) {
-            $note = $client->mergeRequests()->addNote($projectIdentifier, $prId, $body);
+            $note = $this->client->mergeRequests()->addNote($projectIdentifier, $prId, $body);
 
             return $baseUrl . '#note_' . $note['id'];
         }
 
         $noteId = array_pop($noteIds);
-        $client->mergeRequests()->updateNote($projectIdentifier, $prId, $noteId, $body);
+        $this->client->mergeRequests()->updateNote($projectIdentifier, $prId, $noteId, $body);
 
         foreach ($noteIds as $relevantNoteId) {
-            $client->mergeRequests()->removeNote($projectIdentifier, $prId, $relevantNoteId);
+            $this->client->mergeRequests()->removeNote($projectIdentifier, $prId, $relevantNoteId);
         }
 
         return $baseUrl . '#note_' . $noteId;
     }
 
-    public function postThread(Client $client, string $projectIdentifier, int $prId, string $body, Config $config, string $baseUrl): string
+    public function postThread(string $projectIdentifier, int $prId, string $body, Config $config, string $baseUrl): string
     {
-        $threadIds = $this->getRelevantThreadIds($client, $projectIdentifier, $prId);
+        $threadIds = $this->getRelevantThreadIds($projectIdentifier, $prId);
 
         if ($config->getUpdateCommentMode() === Config::UPDATE_COMMENT_MODE_REPLACE) {
             foreach ($threadIds as $threadId) {
-                $client->mergeRequests()->removeDiscussionNote($projectIdentifier, $prId, $threadId[0], $threadId[1]);
+                $this->client->mergeRequests()->removeDiscussionNote($projectIdentifier, $prId, $threadId['threadId'], $threadId['noteId']);
             }
 
-            $thread = $client->mergeRequests()->addDiscussion($projectIdentifier, $prId, ['body' => $body]);
+            $thread = $this->client->mergeRequests()->addDiscussion($projectIdentifier, $prId, ['body' => $body]);
 
             return $baseUrl . '#note_' . $thread['notes'][0]['id'];
         }
 
         if (count($threadIds)) {
-            $client->mergeRequests()->updateDiscussionNote($projectIdentifier, $prId, $threadIds[0][0], $threadIds[0][1], ['body' => $body]);
-            $client->mergeRequests()->updateDiscussionNote($projectIdentifier, $prId, $threadIds[0][0], $threadIds[0][1], ['resolved' => false]);
+            $foundThread = $threadIds[0];
 
-            return $baseUrl . '#note_' . $threadIds[0][1];
+            $this->client->mergeRequests()->updateDiscussionNote($projectIdentifier, $prId, $foundThread['threadId'], $foundThread['noteId'], ['body' => $body]);
+
+            if ($foundThread['noteBody'] !== $body) {
+                $this->client->mergeRequests()->updateDiscussionNote($projectIdentifier, $prId, $foundThread['threadId'], $foundThread['noteId'], ['resolved' => false]);
+            }
+
+            return $baseUrl . '#note_' . $foundThread['noteId'];
         }
 
-        $thread = $client->mergeRequests()->addDiscussion($projectIdentifier, $prId, ['body' => $body]);
+        $thread = $this->client->mergeRequests()->addDiscussion($projectIdentifier, $prId, ['body' => $body]);
 
         return $baseUrl . '#note_' . $thread['notes'][0]['id'];
     }
 
-    public function removeNote(Client $client, string $projectIdentifier, int $prId): void
+    public function removeNote(string $projectIdentifier, int $prId): void
     {
-        foreach ($this->getRelevantNoteIds($client, $projectIdentifier, $prId) as $relevantNoteId) {
-            $client->mergeRequests()->removeNote($projectIdentifier, $prId, $relevantNoteId);
+        foreach ($this->getRelevantNoteIds($projectIdentifier, $prId) as $relevantNoteId) {
+            $this->client->mergeRequests()->removeNote($projectIdentifier, $prId, $relevantNoteId);
         }
     }
 
-    public function removeThread(Client $client, string $projectIdentifier, int $prId): void
+    public function removeThread(string $projectIdentifier, int $prId): void
     {
-        foreach ($this->getRelevantThreadIds($client, $projectIdentifier, $prId) as $threadId) {
-            $client->mergeRequests()->removeDiscussionNote($projectIdentifier, $prId, $threadId[0], $threadId[1]);
+        foreach ($this->getRelevantThreadIds($projectIdentifier, $prId) as $threadId) {
+            $this->client->mergeRequests()->removeDiscussionNote($projectIdentifier, $prId, $threadId['threadId'], $threadId['noteId']);
         }
     }
 
-    private function getRelevantNoteIds(Client $client, string $projectIdentifier, int $prId): array
+    private function getRelevantNoteIds(string $projectIdentifier, int $prId): array
     {
-        $notes = $client->mergeRequests()->showNotes($projectIdentifier, $prId);
+        $notes = $this->client->mergeRequests()->showNotes($projectIdentifier, $prId);
 
         $ids = [];
 
@@ -98,23 +107,19 @@ class GitlabCommenter
         return $ids;
     }
 
-    private function getRelevantThreadIds(Client $client, string $projectIdentifier, int $prId): array
+    private function getRelevantThreadIds(string $projectIdentifier, int $prId): array
     {
-        $threads = $client->mergeRequests()->showDiscussions($projectIdentifier, $prId);
+        $threads = $this->client->mergeRequests()->showDiscussions($projectIdentifier, $prId);
 
         $ids = [];
 
         foreach ($threads as $thread) {
-            if ($thread['individual_note']) {
-                continue;
-            }
-
-            if ($thread['notes'][0]['type'] !== 'DiscussionNote') {
-                continue;
-            }
-
             if (str_contains($thread['notes'][0]['body'], HTMLRenderer::MARKER)) {
-                $ids[] = [$thread['id'], $thread['notes'][0]['id']];
+                $ids[] = [
+                    'threadId' => $thread['id'],
+                    'noteId' => $thread['notes'][0]['id'],
+                    'noteBody' => $thread['notes'][0]['body'],
+                ];
             }
         }
 

@@ -14,7 +14,7 @@ namespace Danger\Struct;
  */
 class FileCollection extends Collection
 {
-    protected function getExpectedClass(): ?string
+    protected function getExpectedClass(): string
     {
         return File::class;
     }
