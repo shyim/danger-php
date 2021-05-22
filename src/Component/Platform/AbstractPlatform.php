@@ -13,7 +13,7 @@ abstract class AbstractPlatform
     /**
      * @internal Only for internal Danger usage
      */
-    abstract public function load(string $owner, string $repository, string $id): void;
+    abstract public function load(string $projectIdentifier, string $id): void;
 
     /**
      * @internal Only for internal Danger usage
@@ -25,7 +25,25 @@ abstract class AbstractPlatform
      */
     abstract public function removePost(Config $config): void;
 
-    abstract public function addLabels(string ...$labels): void;
+    public function addLabels(string ...$labels): void
+    {
+        foreach ($labels as $label) {
+            $this->pullRequest->labels[] = $label;
+        }
 
-    abstract public function removeLabels(string ...$labels): void;
+        $this->pullRequest->labels = array_unique($this->pullRequest->labels);
+    }
+
+    public function removeLabels(string ...$labels): void
+    {
+        $prLabels = array_flip($this->pullRequest->labels);
+
+        foreach ($labels as $label) {
+            if (isset($prLabels[$label])) {
+                unset($prLabels[$label]);
+            }
+        }
+
+        $this->pullRequest->labels = array_flip($prLabels);
+    }
 }

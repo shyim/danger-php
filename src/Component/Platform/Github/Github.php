@@ -22,8 +22,10 @@ class Github extends AbstractPlatform
     {
     }
 
-    public function load(string $owner, string $repository, string $id): void
+    public function load(string $projectIdentifier, string $id): void
     {
+        [$owner, $repository] = explode('/', $projectIdentifier);
+
         $this->githubOwner = $owner;
         $this->githubRepository = $repository;
 
@@ -33,9 +35,6 @@ class Github extends AbstractPlatform
         $this->pullRequest->id = $id;
         $this->pullRequest->title = $this->rawGithubPullRequest['title'];
         $this->pullRequest->body = $this->rawGithubPullRequest['body'];
-        $this->pullRequest->additionsAmount = $this->rawGithubPullRequest['additions'];
-        $this->pullRequest->deletionsAmount = $this->rawGithubPullRequest['deletions'];
-        $this->pullRequest->changedFilesAmount = $this->rawGithubPullRequest['changed_files'];
         $this->pullRequest->labels = array_map(function (array $label) { return $label['name']; }, $this->rawGithubPullRequest['labels']);
         $this->pullRequest->assignees = array_map(function (array $assignee) { return $assignee['login']; }, $this->rawGithubPullRequest['assignees']);
         $this->pullRequest->createdAt = new \DateTime($this->rawGithubPullRequest['created_at']);
@@ -65,42 +64,29 @@ class Github extends AbstractPlatform
 
     public function addLabels(string ...$labels): void
     {
-        foreach ($labels as $label) {
-            $this->pullRequest->labels[] = $label;
-        }
-
-        $this->pullRequest->labels = array_unique($this->pullRequest->labels);
+        parent::addLabels(...$labels);
 
         $this->client->issues()->update(
             $this->githubOwner,
             $this->githubRepository,
             $this->pullRequest->id,
             [
-                'labels' => $this->pullRequest->labels
+                'labels' => $this->pullRequest->labels,
             ]
         );
     }
 
     public function removeLabels(string ...$labels): void
     {
-        $prLabels = array_flip($this->pullRequest->labels);
-
-        foreach ($labels as $label) {
-            if (isset($prLabels[$label])) {
-                unset($prLabels[$label]);
-            }
-        }
-
-        $this->pullRequest->labels = array_flip($prLabels);
+        parent::removeLabels(...$labels);
 
         $this->client->issues()->update(
             $this->githubOwner,
             $this->githubRepository,
             $this->pullRequest->id,
             [
-                'labels' => $this->pullRequest->labels
+                'labels' => $this->pullRequest->labels,
             ]
         );
-
     }
 }

@@ -103,7 +103,7 @@ class GithubCommenter
         return $ids;
     }
 
-    public function remove(string $owner, string $repo, string $id, Config $config)
+    public function remove(string $owner, string $repo, string $id, Config $config): void
     {
         if ($config->getGithubCommentProxy()) {
             $ch = curl_init(sprintf('%s/repos/%s/%s/issues/%s/comments', $config->getGithubCommentProxy(), $owner, $repo, $id));

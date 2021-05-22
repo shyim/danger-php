@@ -18,7 +18,8 @@
         "symfony/config": "^5.2",
         "symfony/http-client": "^5.2",
         "nyholm/psr7": "^1.4",
-        "symfony/finder": "^5.2"
+        "symfony/finder": "^5.2",
+        "m4tthumphrey/php-gitlab-api": "^11.4"
     },
     "license": "mit",
     "authors": [

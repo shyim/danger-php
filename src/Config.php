@@ -17,6 +17,8 @@ class Config
 
     private ?string $githubCommentProxyUrl = null;
 
+    private bool $useThread = false;
+
     public function useRule(callable $closure): static
     {
         $this->rules[] = $closure;
@@ -51,5 +53,17 @@ class Config
     public function getGithubCommentProxy(): ?string
     {
         return $this->githubCommentProxyUrl;
+    }
+
+    public function useThreadOnFails(bool $enable = true): static
+    {
+        $this->useThread = $enable;
+
+        return $this;
+    }
+
+    public function isThreadEnabled(): bool
+    {
+        return $this->useThread;
     }
 }

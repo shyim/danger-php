@@ -20,12 +20,6 @@ abstract class PullRequest
      */
     public array $labels = [];
 
-    public int $additionsAmount;
-
-    public int $deletionsAmount;
-
-    public int $changedFilesAmount;
-
     public array $assignees;
 
     abstract public function getCommits(): CommitCollection;

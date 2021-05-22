@@ -13,5 +13,12 @@ class Runner
         foreach ($config->getRules() as $rule) {
             $rule($context);
         }
+
+        /**
+         * When useThreadOnFails is enabled but no failures enabled deactivate it
+         */
+        if ($config->isThreadEnabled() && count($context->getFailures()) === 0) {
+            $config->useThreadOnFails(false);
+        }
     }
 }
