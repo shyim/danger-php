@@ -1,0 +1,50 @@
+[
+  {
+    "sha": "46d6cdefd6fb365aaa09a8bb1df773689713f76f",
+    "filename": ".github/checks.php",
+    "status": "added",
+    "additions": 10,
+    "deletions": 0,
+    "changes": 10,
+    "blob_url": "https://github.com/FriendsOfShopware/FroshPluginUploader/blob/04911c4a084c06d8edac20cff34c236329175c66/.github/checks.php",
+    "raw_url": "https://github.com/FriendsOfShopware/FroshPluginUploader/raw/04911c4a084c06d8edac20cff34c236329175c66/.github/checks.php",
+    "contents_url": "https://api.github.com/repos/FriendsOfShopware/FroshPluginUploader/contents/.github/checks.php?ref=04911c4a084c06d8edac20cff34c236329175c66",
+    "patch": "@@ -0,0 +1,10 @@\n+<?php\n+\n+// Verify commit\n+$commitRegex = '/^(feat|fix|docs|perf|refactor|compat|chore)(\\(.+\\))?\\:\\s(.{3,})/m';\n+\n+foreach ($commits as $item) {\n+    if (!preg_match($commitRegex, $item['commit']['message'])) {\n+        $fails[] = sprintf('Your commit message: \"%s\" does not match the Conventional commits. See https://www.conventionalcommits.org/', $item['commit']['message']);\n+    }\n+}"
+  },
+  {
+    "sha": "8d0292b72dde65dc952b4d3b0e76e8fdf3dfdb37",
+    "filename": ".github/pr_lint.php",
+    "status": "added",
+    "additions": 62,
+    "deletions": 0,
+    "changes": 62,
+    "blob_url": "https://github.com/FriendsOfShopware/FroshPluginUploader/blob/04911c4a084c06d8edac20cff34c236329175c66/.github/pr_lint.php",
+    "raw_url": "https://github.com/FriendsOfShopware/FroshPluginUploader/raw/04911c4a084c06d8edac20cff34c236329175c66/.github/pr_lint.php",
+    "contents_url": "https://api.github.com/repos/FriendsOfShopware/FroshPluginUploader/contents/.github/pr_lint.php?ref=04911c4a084c06d8edac20cff34c236329175c66",
+    "patch": "@@ -0,0 +1,62 @@\n+<?php\n+\n+$fails = [];\n+$warnings = [];\n+$notices = [];\n+\n+$github = json_decode($_SERVER['GITHUB_CONTEXT'], true);\n+\n+$ch = curl_init($github['event']['pull_request']['_links']['commits']['href']);\n+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n+curl_setopt($ch, CURLOPT_HTTPHEADER, [\n+    'authorization: Bearer ' . $_SERVER['GITHUB_TOKEN'],\n+    'user-agent: FroshyBot'\n+]);\n+$commitsBody = curl_exec($ch);\n+curl_close($ch);\n+\n+$commits = json_decode($commitsBody, true);\n+\n+function render(string $name, string $emoji, array $entries): string\n+{\n+    if (\\count($entries) === 0) {\n+        return '';\n+    }\n+\n+    $tableTpl = <<<TABLE\n+<table>\n+  <thead>\n+    <tr>\n+      <th width=\"50\"></th>\n+      <th width=\"100%\">##NAME##</th>\n+    </tr>\n+  </thead>\n+  <tbody>\n+    ##CONTENT##\n+  </tbody>\n+</table>\n+TABLE;\n+\n+    $itemTpl = <<<ITEM\n+<tr>\n+      <td>##EMOJI##</td>\n+      <td>##MSG##</td>\n+    </tr>\n+ITEM;\n+\n+\n+    $items = '';\n+\n+    foreach ($entries as $entry) {\n+        $items .= \\str_replace(['##EMOJI##', '##MSG##'], [$emoji, $entry], $itemTpl);\n+    }\n+\n+    return \\str_replace(['##NAME##', '##CONTENT##'], [$name, $items], $tableTpl);\n+}\n+\n+require __DIR__ . '/checks.php';\n+\n+$content = render('Fails', ':no_entry_sign:', $fails) . render('Warnings', ':warning:', $warnings) . render('Notice', ':book:', $notices);\n+\n+echo '::set-output name=BODY::'. str_replace(['%', \"\\n\", '\\r'], ['%25', '%0A', '%0D'], empty($content) ? 'clear' : $content);\n+"
+  },
+  {
+    "sha": "aab6a78331cb6c9b132fcf452b0470c1a4e67318",
+    "filename": ".github/workflows/danger.yml",
+    "status": "removed",
+    "additions": 0,
+    "deletions": 16,
+    "changes": 16,
+    "blob_url": "https://github.com/FriendsOfShopware/FroshPluginUploader/blob/a75f9fcc16f95511398453aef4be3d6032bc35df/.github/workflows/danger.yml",
+    "raw_url": "https://github.com/FriendsOfShopware/FroshPluginUploader/raw/a75f9fcc16f95511398453aef4be3d6032bc35df/.github/workflows/danger.yml",
+    "contents_url": "https://api.github.com/repos/FriendsOfShopware/FroshPluginUploader/contents/.github/workflows/danger.yml?ref=a75f9fcc16f95511398453aef4be3d6032bc35df",
+    "patch": "@@ -1,16 +0,0 @@\n-name: Danger\n-on:\n-  pull_request_target:\n-\n-jobs:\n-  build:\n-    runs-on: ubuntu-latest\n-    steps:\n-    - uses: actions/checkout@v1\n-\n-    - name: Danger JS\n-      run: |\n-        npm install danger\n-        node node_modules/.bin/danger ci --base master\n-      env:\n-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}"
+  },
+  {
+    "sha": "266fcecaf90d8388eadbb796e9e569ce06c00fdc",
+    "filename": ".github/workflows/lint.yml",
+    "status": "added",
+    "additions": 24,
+    "deletions": 0,
+    "changes": 24,
+    "blob_url": "https://github.com/FriendsOfShopware/FroshPluginUploader/blob/04911c4a084c06d8edac20cff34c236329175c66/.github/workflows/lint.yml",
+    "raw_url": "https://github.com/FriendsOfShopware/FroshPluginUploader/raw/04911c4a084c06d8edac20cff34c236329175c66/.github/workflows/lint.yml",
+    "contents_url": "https://api.github.com/repos/FriendsOfShopware/FroshPluginUploader/contents/.github/workflows/lint.yml?ref=04911c4a084c06d8edac20cff34c236329175c66",
+    "patch": "@@ -0,0 +1,24 @@\n+name: Checking PR\n+on:\n+  pull_request:\n+\n+jobs:\n+  pr:\n+    runs-on: ubuntu-latest\n+    steps:\n+      - name: Clone\n+        uses: actions/checkout@v1\n+\n+      - name: Linting\n+        id: linting\n+        run: php .github/pr_lint.php\n+        env:\n+          GITHUB_CONTEXT: ${{ toJSON(github) }}\n+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n+\n+      - name: Create Comment\n+        uses: mshick/add-pr-comment@v1\n+        with:\n+          message: \"${{ steps.linting.outputs.BODY }}\"\n+          proxy-url: https://kpovtvr2t0.execute-api.eu-central-1.amazonaws.com\n+          repo-token: ${{ secrets.GITHUB_TOKEN }}\n\\ No newline at end of file"
+  }
+]

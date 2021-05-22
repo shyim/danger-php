@@ -1,0 +1,34 @@
+[
+  {
+    "url": "https://api.github.com/repos/FriendsOfShopware/FroshPluginUploader/issues/comments/845450556",
+    "html_url": "https://github.com/FriendsOfShopware/FroshPluginUploader/pull/144#issuecomment-845450556",
+    "issue_url": "https://api.github.com/repos/FriendsOfShopware/FroshPluginUploader/issues/144",
+    "id": 845450556,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDg0NTQ1MDU1Ng==",
+    "user": {
+      "login": "codecov[bot]",
+      "id": 22429695,
+      "node_id": "MDM6Qm90MjI0Mjk2OTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/254?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/codecov%5Bbot%5D",
+      "html_url": "https://github.com/apps/codecov",
+      "followers_url": "https://api.github.com/users/codecov%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/codecov%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/codecov%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/codecov%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/codecov%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/codecov%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/codecov%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/codecov%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/codecov%5Bbot%5D/received_events",
+      "type": "Bot",
+      "site_admin": false
+    },
+    "created_at": "2021-05-20T20:21:40Z",
+    "updated_at": "2021-05-20T21:44:53Z",
+    "author_association": "NONE",
+    "body": "# [Codecov](https://codecov.io/gh/FriendsOfShopware/FroshPluginUploader/pull/144?src=pr&el=h1&utm_medium=referral&utm_source=github&utm_content=comment&utm_campaign=pr+comments&utm_term=FriendsOfShopware) Report\n> Merging [#144](https://codecov.io/gh/FriendsOfShopware/FroshPluginUploader/pull/144?src=pr&el=desc&utm_medium=referral&utm_source=github&utm_content=comment&utm_campaign=pr+comments&utm_term=FriendsOfShopware) (5d32fd9) into [master](https://codecov.io/gh/FriendsOfShopware/FroshPluginUploader/commit/a75f9fcc16f95511398453aef4be3d6032bc35df?el=desc&utm_medium=referral&utm_source=github&utm_content=comment&utm_campaign=pr+comments&utm_term=FriendsOfShopware) (a75f9fc) will **not change** coverage.\n> The diff coverage is `n/a`.\n\n> :exclamation: Current head 5d32fd9 differs from pull request most recent head 04911c4. Consider uploading reports for the commit 04911c4 to get more accurate results\n[![Impacted file tree graph](https://codecov.io/gh/FriendsOfShopware/FroshPluginUploader/pull/144/graphs/tree.svg?width=650&height=150&src=pr&token=AAMD57YI5V&utm_medium=referral&utm_source=github&utm_content=comment&utm_campaign=pr+comments&utm_term=FriendsOfShopware)](https://codecov.io/gh/FriendsOfShopware/FroshPluginUploader/pull/144?src=pr&el=tree&utm_medium=referral&utm_source=github&utm_content=comment&utm_campaign=pr+comments&utm_term=FriendsOfShopware)\n\n```diff\n@@           Coverage Diff            @@\n##             master    #144   +/-   ##\n========================================\n  Coverage      0.00%   0.00%           \n  Complexity      390     390           \n========================================\n  Files            39      39           \n  Lines           894     894           \n========================================\n  Misses          894     894           \n```\n\n\n\n------\n\n[Continue to review full report at Codecov](https://codecov.io/gh/FriendsOfShopware/FroshPluginUploader/pull/144?src=pr&el=continue&utm_medium=referral&utm_source=github&utm_content=comment&utm_campaign=pr+comments&utm_term=FriendsOfShopware).\n> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta?utm_medium=referral&utm_source=github&utm_content=comment&utm_campaign=pr+comments&utm_term=FriendsOfShopware)\n> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`\n> Powered by [Codecov](https://codecov.io/gh/FriendsOfShopware/FroshPluginUploader/pull/144?src=pr&el=footer&utm_medium=referral&utm_source=github&utm_content=comment&utm_campaign=pr+comments&utm_term=FriendsOfShopware). Last update [a75f9fc...04911c4](https://codecov.io/gh/FriendsOfShopware/FroshPluginUploader/pull/144?src=pr&el=lastupdated&utm_medium=referral&utm_source=github&utm_content=comment&utm_campaign=pr+comments&utm_term=FriendsOfShopware). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments?utm_medium=referral&utm_source=github&utm_content=comment&utm_campaign=pr+comments&utm_term=FriendsOfShopware).\n",
+    "performed_via_github_app": null
+  }
+]

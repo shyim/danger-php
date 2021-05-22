@@ -1,0 +1,81 @@
+[
+  {
+    "sha": "04911c4a084c06d8edac20cff34c236329175c66",
+    "node_id": "MDY6Q29tbWl0MTYxODAzMjU3OjA0OTExYzRhMDg0YzA2ZDhlZGFjMjBjZmYzNGMyMzYzMjkxNzVjNjY=",
+    "commit": {
+      "author": {
+        "name": "Soner Sayakci",
+        "email": "s.sayakci@shopware.com",
+        "date": "2021-05-20T20:20:49Z"
+      },
+      "committer": {
+        "name": "Soner Sayakci",
+        "email": "s.sayakci@shopware.com",
+        "date": "2021-05-20T21:44:42Z"
+      },
+      "message": "fix(ci): Fix commit linting for external",
+      "tree": {
+        "sha": "4b31d3d9e8a5e082de5d28b063fc5d0a08b9706d",
+        "url": "https://api.github.com/repos/FriendsOfShopware/FroshPluginUploader/git/trees/4b31d3d9e8a5e082de5d28b063fc5d0a08b9706d"
+      },
+      "url": "https://api.github.com/repos/FriendsOfShopware/FroshPluginUploader/git/commits/04911c4a084c06d8edac20cff34c236329175c66",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null
+      }
+    },
+    "url": "https://api.github.com/repos/FriendsOfShopware/FroshPluginUploader/commits/04911c4a084c06d8edac20cff34c236329175c66",
+    "html_url": "https://github.com/FriendsOfShopware/FroshPluginUploader/commit/04911c4a084c06d8edac20cff34c236329175c66",
+    "comments_url": "https://api.github.com/repos/FriendsOfShopware/FroshPluginUploader/commits/04911c4a084c06d8edac20cff34c236329175c66/comments",
+    "author": {
+      "login": "shyim",
+      "id": 6224096,
+      "node_id": "MDQ6VXNlcjYyMjQwOTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6224096?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/shyim",
+      "html_url": "https://github.com/shyim",
+      "followers_url": "https://api.github.com/users/shyim/followers",
+      "following_url": "https://api.github.com/users/shyim/following{/other_user}",
+      "gists_url": "https://api.github.com/users/shyim/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/shyim/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/shyim/subscriptions",
+      "organizations_url": "https://api.github.com/users/shyim/orgs",
+      "repos_url": "https://api.github.com/users/shyim/repos",
+      "events_url": "https://api.github.com/users/shyim/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/shyim/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "shyim",
+      "id": 6224096,
+      "node_id": "MDQ6VXNlcjYyMjQwOTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6224096?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/shyim",
+      "html_url": "https://github.com/shyim",
+      "followers_url": "https://api.github.com/users/shyim/followers",
+      "following_url": "https://api.github.com/users/shyim/following{/other_user}",
+      "gists_url": "https://api.github.com/users/shyim/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/shyim/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/shyim/subscriptions",
+      "organizations_url": "https://api.github.com/users/shyim/orgs",
+      "repos_url": "https://api.github.com/users/shyim/repos",
+      "events_url": "https://api.github.com/users/shyim/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/shyim/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "a75f9fcc16f95511398453aef4be3d6032bc35df",
+        "url": "https://api.github.com/repos/FriendsOfShopware/FroshPluginUploader/commits/a75f9fcc16f95511398453aef4be3d6032bc35df",
+        "html_url": "https://github.com/FriendsOfShopware/FroshPluginUploader/commit/a75f9fcc16f95511398453aef4be3d6032bc35df"
+      }
+    ]
+  }
+]

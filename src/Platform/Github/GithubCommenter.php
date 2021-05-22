@@ -6,10 +6,11 @@ namespace Danger\Platform\Github;
 use Danger\Config;
 use Danger\Renderer\HTMLRenderer;
 use Github\Client;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GithubCommenter
 {
-    public function __construct(private Client $client)
+    public function __construct(private Client $client, private HttpClientInterface $httpClient)
     {
     }
 
@@ -24,17 +25,14 @@ class GithubCommenter
 
     private function commentUsingProxy(string $owner, string $repo, string $id, string $body, Config $config): string
     {
-        $ch = curl_init(sprintf('%s/repos/%s/%s/issues/%s/comments', $config->getGithubCommentProxy(), $owner, $repo, $id));
-        curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, \CURLOPT_HTTPHEADER, [
-            'user-agent: Comment-Proxy',
-            'content-type: application/json',
-            'temporary-github-token: ' . $_SERVER['GITHUB_TOKEN'],
-        ]);
-        curl_setopt($ch, \CURLOPT_POSTFIELDS, json_encode(['body' => $body, 'mode' => $config->getUpdateCommentMode()]));
-
-        $response = json_decode(curl_exec($ch), true);
-        curl_close($ch);
+        $url = sprintf('%s/repos/%s/%s/issues/%s/comments', $config->getGithubCommentProxy(), $owner, $repo, $id);
+        $response = $this->httpClient->request('POST', $url, [
+            'json' => ['body' => $body, 'mode' => $config->getUpdateCommentMode()],
+            'headers' => [
+                'User-Agent' => 'Comment-Proxy',
+                'temporary-github-token' => $_SERVER['GITHUB_TOKEN'],
+            ],
+        ])->toArray();
 
         if (!isset($response['html_url'])) {
             throw new \RuntimeException(sprintf('Expected html_url in the response. But got %s', json_encode($response)));
@@ -106,17 +104,14 @@ class GithubCommenter
     public function remove(string $owner, string $repo, string $id, Config $config): void
     {
         if ($config->getGithubCommentProxy()) {
-            $ch = curl_init(sprintf('%s/repos/%s/%s/issues/%s/comments', $config->getGithubCommentProxy(), $owner, $repo, $id));
-            curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, \CURLOPT_HTTPHEADER, [
-                'user-agent: Comment-Proxy',
-                'content-type: application/json',
-                'temporary-github-token: ' . $_SERVER['GITHUB_TOKEN'],
-            ]);
-            curl_setopt($ch, \CURLOPT_POSTFIELDS, json_encode(['body' => 'delete', 'mode' => $config->getUpdateCommentMode()]));
-
-            curl_exec($ch);
-            curl_close($ch);
+            $url = sprintf('%s/repos/%s/%s/issues/%s/comments', $config->getGithubCommentProxy(), $owner, $repo, $id);
+            $this->httpClient->request('POST', $url, [
+                'json' => ['body' => 'delete', 'mode' => $config->getUpdateCommentMode()],
+                'headers' => [
+                    'User-Agent' => 'Comment-Proxy',
+                    'temporary-github-token' => $_SERVER['GITHUB_TOKEN'],
+                ],
+            ])->toArray();
 
             return;
         }
