@@ -1,0 +1,13 @@
+version: 2
+updates:
+- package-ecosystem: composer
+  directory: "/"
+  commit_message:
+    prefix: "chore"
+    include_scope: true
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  labels:
+  - automerge
+  versioning-strategy: increase
