@@ -77,7 +77,7 @@ use Danger\Context;
 
 return (new Config())
     ->useRule(function (Context $context): void {
-        if (!$context->platform->pullRequest->getFiles()->hasModifiedFile('CHANGELOG.md')) {
+        if (!$context->platform->pullRequest->getFiles()->has('CHANGELOG.md')) {
             $context->failure('Please edit also the CHANGELOG.md');
         }
     })
