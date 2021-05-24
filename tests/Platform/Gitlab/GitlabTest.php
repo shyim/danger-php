@@ -35,6 +35,7 @@ class GitlabTest extends TestCase
 
         static::assertSame(json_decode(file_get_contents(__DIR__ . '/payloads/mr.json'), true), $gitlab->raw);
         static::assertSame('1', $gitlab->pullRequest->id);
+        static::assertSame('test', $gitlab->pullRequest->projectIdentifier);
         static::assertSame('Update Test', $gitlab->pullRequest->title);
         static::assertSame('Bodyyy', $gitlab->pullRequest->body);
         static::assertSame(['Test'], $gitlab->pullRequest->labels);

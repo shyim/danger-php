@@ -34,6 +34,7 @@ class GithubTest extends TestCase
 
         static::assertSame(json_decode($prBody, true), $github->raw);
         static::assertSame('144', $github->pullRequest->id);
+        static::assertSame('FriendsOfShopware/FroshPluginUploader', $github->pullRequest->projectIdentifier);
         static::assertSame('Test PR commenting', $github->pullRequest->title);
         static::assertSame('Body', $github->pullRequest->body);
         static::assertSame([], $github->pullRequest->labels);

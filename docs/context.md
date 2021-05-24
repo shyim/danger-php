@@ -8,6 +8,7 @@ $context = new \Danger\Context();
 $context->platform->addLabels('Label 1', 'Label 2'); // Allows adding label
 $context->platform->removeLabels('Label 1', 'Label 2'); // Allows removing label
 $context->platform->pullRequest->id; // Pull Request ID
+$context->platform->pullRequest->projectIdentifier; // Github: Owner/Repository, Gitlab: Project-ID
 $context->platform->pullRequest->title; // Pull Request Title
 $context->platform->pullRequest->body; // Body
 $context->platform->pullRequest->assignees; // Assignees

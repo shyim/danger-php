@@ -33,6 +33,7 @@ class Github extends AbstractPlatform
 
         $this->pullRequest = new GithubPullRequest($this->client, $owner, $repository);
         $this->pullRequest->id = $id;
+        $this->pullRequest->projectIdentifier = $projectIdentifier;
         $this->pullRequest->title = $this->raw['title'];
         $this->pullRequest->body = $this->raw['body'];
         $this->pullRequest->labels = array_map(function (array $label) { return $label['name']; }, $this->raw['labels']);

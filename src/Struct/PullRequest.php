@@ -7,6 +7,8 @@ abstract class PullRequest
 {
     public string $id;
 
+    public string $projectIdentifier;
+
     public string $title;
 
     public string $body;

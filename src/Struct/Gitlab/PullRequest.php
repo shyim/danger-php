@@ -13,7 +13,7 @@ class PullRequest extends \Danger\Struct\PullRequest
     private ?CommitCollection $commits = null;
     private ?FileCollection $files = null;
 
-    public function __construct(private Client $client, private string $projectIdentifier, private string $latestSha)
+    public function __construct(private Client $client, private string $latestSha)
     {
     }
 

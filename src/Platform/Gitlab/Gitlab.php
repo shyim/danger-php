@@ -24,8 +24,9 @@ class Gitlab extends AbstractPlatform
 
         $this->raw = $this->client->mergeRequests()->show($projectIdentifier, (int) $id);
 
-        $this->pullRequest = new PullRequest($this->client, $projectIdentifier, $this->raw['sha']);
+        $this->pullRequest = new PullRequest($this->client, $this->raw['sha']);
         $this->pullRequest->id = $id;
+        $this->pullRequest->projectIdentifier = $projectIdentifier;
         $this->pullRequest->title = $this->raw['title'];
         $this->pullRequest->body = $this->raw['description'];
         $this->pullRequest->labels = $this->raw['labels'];
