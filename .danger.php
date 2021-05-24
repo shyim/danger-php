@@ -27,5 +27,5 @@ return (new Config())
             $context->failure('You have added a new rule. Please change the docs too.');
         }
     })
-    ->useGithubCommentProxy('https://kpovtvr2t0.execute-api.eu-central-1.amazonaws.com')
+    ->useGithubCommentProxy('https://danger.shyim.de')
 ;
