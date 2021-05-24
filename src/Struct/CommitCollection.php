@@ -19,6 +19,9 @@ class CommitCollection extends Collection
         return Commit::class;
     }
 
+    /**
+     * @return string[]
+     */
     public function getMessages(): array
     {
         return $this->fmap(function (Commit $commit) {

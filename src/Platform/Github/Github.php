@@ -13,7 +13,10 @@ class Github extends AbstractPlatform
 {
     public PullRequest $pullRequest;
 
-    public array $raw = [];
+    /**
+     * @var array{'title': string, 'body': string, 'labels': string[], 'assignees': array{'login': string}[], 'created_at': string, 'updated_at': string}
+     */
+    public array $raw;
 
     private string $githubOwner;
     private string $githubRepository;
@@ -29,7 +32,9 @@ class Github extends AbstractPlatform
         $this->githubOwner = $owner;
         $this->githubRepository = $repository;
 
-        $this->raw = $this->client->pullRequest()->show($owner, $repository, (int) $id);
+        /** @var array{'title': string, 'body': string, 'labels': string[], 'assignees': array{'login': string}[], 'created_at': string, 'updated_at': string} $raw */
+        $raw = $this->client->pullRequest()->show($owner, $repository, (int) $id);
+        $this->raw = $raw;
 
         $this->pullRequest = new GithubPullRequest($this->client, $owner, $repository);
         $this->pullRequest->id = $id;
@@ -70,7 +75,7 @@ class Github extends AbstractPlatform
         $this->client->issues()->update(
             $this->githubOwner,
             $this->githubRepository,
-            $this->pullRequest->id,
+            (int) $this->pullRequest->id,
             [
                 'labels' => $this->pullRequest->labels,
             ]
@@ -84,7 +89,7 @@ class Github extends AbstractPlatform
         $this->client->issues()->update(
             $this->githubOwner,
             $this->githubRepository,
-            $this->pullRequest->id,
+            (int) $this->pullRequest->id,
             [
                 'labels' => $this->pullRequest->labels,
             ]

@@ -1,0 +1,9 @@
+parameters:
+    level: max
+    inferPrivatePropertyTypeFromConstructor: true
+    reportUnmatchedIgnoredErrors: false
+
+    paths:
+        - %currentWorkingDirectory%/src
+    excludes_analyse:
+        - %currentWorkingDirectory%/src/Struct/Collection.php

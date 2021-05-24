@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Danger\Command;
+namespace Danger\Tests\Command;
 
+use Danger\Command\GithubCommand;
 use Danger\ConfigLoader;
 use Danger\Platform\Github\Github;
 use Danger\Runner;
@@ -23,6 +24,34 @@ class GithubCommandTest extends TestCase
         static::expectExceptionMessage('The given url must be a valid Github URL');
 
         $cmd->run(new ArgvInput(['danger', 'https://github.com']), new NullOutput());
+    }
+
+    public function testInvalidConfig(): void
+    {
+        $cmd = new GithubCommand($this->createMock(Github::class), new ConfigLoader(), new Runner());
+
+        static::expectException(\RuntimeException::class);
+        static::expectExceptionMessage('Invalid config option given');
+
+        $input = new ArgvInput(['danger', 'https://github.com']);
+        $input->bind($cmd->getDefinition());
+        $input->setOption('config', 1);
+
+        $cmd->execute($input, new NullOutput());
+    }
+
+    public function testInvalidPr(): void
+    {
+        $cmd = new GithubCommand($this->createMock(Github::class), new ConfigLoader(), new Runner());
+
+        static::expectException(\RuntimeException::class);
+        static::expectExceptionMessage('The PR links needs to be a string');
+
+        $input = new ArgvInput(['danger', 'https://github.com']);
+        $input->bind($cmd->getDefinition());
+        $input->setArgument('pr', 1);
+
+        $cmd->execute($input, new NullOutput());
     }
 
     public function testValidUrlWithoutIssues(): void

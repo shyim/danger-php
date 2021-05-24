@@ -11,6 +11,6 @@ class File extends \Danger\Struct\File
 
     public function getContent(): string
     {
-        return file_get_contents($this->rawUrl);
+        return (string) file_get_contents($this->rawUrl);
     }
 }

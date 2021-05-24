@@ -38,11 +38,17 @@ class Config
         return $this;
     }
 
+    /**
+     * @return callable[]
+     */
     public function getRules(): array
     {
         return $this->rules;
     }
 
+    /**
+     * @return callable[]
+     */
     public function getAfterHooks(): array
     {
         return $this->afterHooks;

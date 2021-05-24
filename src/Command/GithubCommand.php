@@ -34,8 +34,20 @@ class GithubCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $context = $this->assembleContextByUrl($input->getArgument('pr'));
-        $config = $this->configLoader->loadByPath($input->getOption('config'));
+        $configPath = $input->getOption('config');
+
+        if ($configPath !== null && !is_string($configPath)) {
+            throw new \RuntimeException('Invalid config option given');
+        }
+
+        $prLink = $input->getArgument('pr');
+
+        if (!is_string($prLink)) {
+            throw new \RuntimeException('The PR links needs to be a string');
+        }
+
+        $context = $this->assembleContextByUrl($prLink);
+        $config = $this->configLoader->loadByPath($configPath);
 
         $this->runner->run($config, $context);
 

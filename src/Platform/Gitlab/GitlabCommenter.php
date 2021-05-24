@@ -88,6 +88,9 @@ class GitlabCommenter
         }
     }
 
+    /**
+     * @return int[]
+     */
     private function getRelevantNoteIds(string $projectIdentifier, int $prId): array
     {
         $notes = $this->client->mergeRequests()->showNotes($projectIdentifier, $prId);
@@ -100,13 +103,16 @@ class GitlabCommenter
             }
 
             if (str_contains($note['body'], HTMLRenderer::MARKER)) {
-                $ids[] = $note['id'];
+                $ids[] = (int) $note['id'];
             }
         }
 
         return $ids;
     }
 
+    /**
+     * @return array{'threadId': string, 'noteId': int, 'noteBody': string}[]
+     */
     private function getRelevantThreadIds(string $projectIdentifier, int $prId): array
     {
         $threads = $this->client->mergeRequests()->showDiscussions($projectIdentifier, $prId);
@@ -117,7 +123,7 @@ class GitlabCommenter
             if (str_contains($thread['notes'][0]['body'], HTMLRenderer::MARKER)) {
                 $ids[] = [
                     'threadId' => $thread['id'],
-                    'noteId' => $thread['notes'][0]['id'],
+                    'noteId' => (int) $thread['notes'][0]['id'],
                     'noteBody' => $thread['notes'][0]['body'],
                 ];
             }

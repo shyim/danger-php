@@ -35,11 +35,17 @@ class CiCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $context = new Context($this->platformDetector->detect());
 
-        $config = $this->configLoader->loadByPath($input->getOption('config'));
+        $config = $input->getOption('config');
+
+        if ($config !== null && !is_string($config)) {
+            throw new \RuntimeException('Invalid config option given');
+        }
+
+        $config = $this->configLoader->loadByPath($config);
 
         $this->runner->run($config, $context);
         $io = new SymfonyStyle($input, $output);

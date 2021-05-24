@@ -16,7 +16,7 @@ class File extends \Danger\Struct\File
         $file = $this->client->repositoryFiles()->getFile($this->projectIdentifier, $this->path, $this->sha);
 
         if (isset($file['content'])) {
-            return base64_decode($file['content'], true);
+            return (string) base64_decode($file['content'], true);
         }
 
         throw new \RuntimeException(sprintf('Invalid file %s at sha %s', $this->path, $this->sha));

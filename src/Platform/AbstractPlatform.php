@@ -10,6 +10,9 @@ abstract class AbstractPlatform
 {
     public PullRequest $pullRequest;
 
+    /**
+     * @var array<string, string>
+     */
     public array $raw = [];
 
     /**

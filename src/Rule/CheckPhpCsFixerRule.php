@@ -10,18 +10,25 @@ use Danger\Context;
  */
 class CheckPhpCsFixerRule
 {
+    public function __construct(
+        private string $command = 'php vendor/bin/php-cs-fixer fix --format=json',
+        private string $executionFailed = 'PHP-CS-Fixer did not run',
+        private string $foundErrors = 'Found some Code-Style issues. Please run <code>./vendor/bin/php-cs-fixer fix</code> on your branch'
+    ) {
+    }
+
     public function __invoke(Context $context): void
     {
-        exec('php vendor/bin/php-cs-fixer fix --format=json', $cmdOutput, $resultCode);
+        exec($this->command, $cmdOutput, $resultCode);
 
         // @codeCoverageIgnoreStart
         if (!isset($cmdOutput[0])) {
-            $context->failure('PHP-CS-Fixer did not run');
+            $context->failure($this->executionFailed);
         }
         // @codeCoverageIgnoreEnd
 
         if (count(json_decode($cmdOutput[0], true)['files'])) {
-            $context->failure('Found some Code-Style issues. Please run <code>./vendor/bin/php-cs-fixer fix</code> on your branch');
+            $context->failure($this->foundErrors);
         }
     }
 }

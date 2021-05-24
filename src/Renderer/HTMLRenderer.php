@@ -41,6 +41,9 @@ class HTMLRenderer
             $this->render('Notice', ':book:', $context->getNotices());
     }
 
+    /**
+     * @param string[] $entries
+     */
     private function render(string $name, string $emoji, array $entries): string
     {
         if (\count($entries) === 0) {

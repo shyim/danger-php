@@ -43,10 +43,22 @@ class GitlabCommand extends Command
             return -1;
         }
 
-        $this->gitlab->load($input->getArgument('projectIdentifier'), $input->getArgument('mrID'));
+        $projectIdentifier = $input->getArgument('projectIdentifier');
+        $mrID = $input->getArgument('mrID');
+
+        assert(is_string($projectIdentifier));
+        assert(is_string($mrID));
+
+        $configPath = $input->getOption('config');
+
+        if ($configPath !== null && !is_string($configPath)) {
+            throw new \RuntimeException('Invalid config option given');
+        }
+
+        $this->gitlab->load($projectIdentifier, $mrID);
 
         $context = new Context($this->gitlab);
-        $config = $this->configLoader->loadByPath($input->getOption('config'));
+        $config = $this->configLoader->loadByPath($configPath);
 
         $this->runner->run($config, $context);
 

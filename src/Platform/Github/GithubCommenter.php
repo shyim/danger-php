@@ -53,7 +53,7 @@ class GithubCommenter
                 $this->client->issues()->comments()->remove($owner, $repo, $commentId);
             }
 
-            $comment = $this->client->issues()->comments()->create($owner, $repo, $id, ['body' => $body]);
+            $comment = $this->client->issues()->comments()->create($owner, $repo, (int) $id, ['body' => $body]);
 
             return $comment['html_url'];
         }
@@ -62,7 +62,7 @@ class GithubCommenter
          * Could not find any comment. Lets create a new one
          */
         if (count($ids) === 0) {
-            $comment = $this->client->issues()->comments()->create($owner, $repo, $id, ['body' => $body]);
+            $comment = $this->client->issues()->comments()->create($owner, $repo, (int) $id, ['body' => $body]);
 
             return $comment['html_url'];
         }
@@ -86,15 +86,18 @@ class GithubCommenter
         return $url;
     }
 
+    /**
+     * @return int[]
+     */
     private function getCommentIds(string $owner, string $repo, string $id): array
     {
         $ids = [];
 
-        $comments = $this->client->issues()->comments()->all($owner, $repo, $id);
+        $comments = $this->client->issues()->comments()->all($owner, $repo, (int) $id);
 
         foreach ($comments as $comment) {
             if (str_contains($comment['body'], HTMLRenderer::MARKER)) {
-                $ids[] = $comment['id'];
+                $ids[] = (int) $comment['id'];
             }
         }
 

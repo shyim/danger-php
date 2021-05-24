@@ -46,6 +46,9 @@ class Context
         return $this->hasFailures() || $this->hasNotices() || $this->hasWarnings();
     }
 
+    /**
+     * @return string[]
+     */
     public function getFailures(): array
     {
         return $this->failures;
@@ -56,6 +59,9 @@ class Context
         return count($this->failures) > 0;
     }
 
+    /**
+     * @return string[]
+     */
     public function getWarnings(): array
     {
         return $this->warnings;
@@ -66,6 +72,9 @@ class Context
         return count($this->warnings) > 0;
     }
 
+    /**
+     * @return string[]
+     */
     public function getNotices(): array
     {
         return $this->notices;

@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Danger\Command;
+namespace Danger\Tests\Command;
 
+use Danger\Command\InitCommand;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\BufferedOutput;

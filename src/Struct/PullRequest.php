@@ -22,9 +22,19 @@ abstract class PullRequest
      */
     public array $labels = [];
 
+    /**
+     * @var string[]
+     */
     public array $assignees;
 
+    /**
+     * @var array<string, array|string>
+     */
     public array $rawCommits = [];
+
+    /**
+     * @var array<string, array|string>
+     */
     public array $rawFiles = [];
 
     abstract public function getCommits(): CommitCollection;

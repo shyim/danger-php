@@ -12,7 +12,10 @@ class Gitlab extends AbstractPlatform
 {
     private string $projectIdentifier;
 
-    public array $raw = [];
+    /**
+     * @var array{'web_url': string}
+     */
+    public array $raw;
 
     public function __construct(public Client $client, private GitlabCommenter $commenter)
     {

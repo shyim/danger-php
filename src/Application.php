@@ -6,7 +6,6 @@ namespace Danger;
 use Danger\DependencyInjection\Container;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Application extends SymfonyApplication
@@ -26,7 +25,7 @@ class Application extends SymfonyApplication
         }
     }
 
-    public function getContainer(): ContainerBuilder
+    public function getContainer(): ContainerInterface
     {
         return $this->container;
     }
