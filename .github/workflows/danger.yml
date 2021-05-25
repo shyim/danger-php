@@ -15,9 +15,3 @@ jobs:
 
       - name: Composer Install
         run: composer install
-
-      - name: Run Danger
-        run: php bin/danger ci
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_PULL_REQUEST_ID: ${{ github.event.pull_request.number }}
