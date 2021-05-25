@@ -42,7 +42,24 @@
     "avatar_url": "https:\/\/secure.gravatar.com\/avatar\/c98b2f218992c87aee03a2deabe26578?s=80&d=identicon",
     "web_url": "https:\/\/gitlab.com\/shyim"
   },
-  "reviewers": [],
+  "reviewers": [
+    {
+      "id": 148258,
+      "name": "dangertestuser",
+      "username": "dangertestuser",
+      "state": "active",
+      "avatar_url": "https:\/\/secure.gravatar.com\/avatar\/c98b2f218992c87aee03a2deabe26578?s=80&d=identicon",
+      "web_url": "https:\/\/gitlab.com\/shyim"
+    },
+    {
+      "id": 148258,
+      "name": "dangertestuser2",
+      "username": "dangertestuser2",
+      "state": "active",
+      "avatar_url": "https:\/\/secure.gravatar.com\/avatar\/c98b2f218992c87aee03a2deabe26578?s=80&d=identicon",
+      "web_url": "https:\/\/gitlab.com\/shyim"
+    }
+  ],
   "source_project_id": 23869599,
   "target_project_id": 23869599,
   "labels": [

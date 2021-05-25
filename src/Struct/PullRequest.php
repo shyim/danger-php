@@ -28,6 +28,11 @@ abstract class PullRequest
     public array $assignees;
 
     /**
+     * @var string[]
+     */
+    public array $reviewers;
+
+    /**
      * @var array<string, array|string>
      */
     public array $rawCommits = [];

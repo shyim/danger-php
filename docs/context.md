@@ -12,6 +12,7 @@ $context->platform->pullRequest->projectIdentifier; // Github: Owner/Repository,
 $context->platform->pullRequest->title; // Pull Request Title
 $context->platform->pullRequest->body; // Body
 $context->platform->pullRequest->assignees; // Assignees
+$context->platform->pullRequest->reviewers; // Reviewers
 $context->platform->pullRequest->labels; // Labels
 $context->platform->pullRequest->createdAt; // Created At as \DateTime
 $context->platform->pullRequest->updatedAt; // Updated At as \DateTime

@@ -23,6 +23,7 @@ class GithubTest extends TestCase
         $prBody = file_get_contents(__DIR__ . '/payloads/pr.json');
         $httpClient = new MockHttpClient([
             new MockResponse($prBody, ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse(file_get_contents(__DIR__ . '/payloads/commits.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse(file_get_contents(__DIR__ . '/payloads/files.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
@@ -39,6 +40,7 @@ class GithubTest extends TestCase
         static::assertSame('Body', $github->pullRequest->body);
         static::assertSame([], $github->pullRequest->labels);
         static::assertSame([], $github->pullRequest->assignees);
+        static::assertSame(['dangertestuser', 'dangertestuser2'], $github->pullRequest->reviewers);
         static::assertSame(1621542059, $github->pullRequest->createdAt->getTimestamp());
         static::assertSame(1621547349, $github->pullRequest->updatedAt->getTimestamp());
 
@@ -75,6 +77,7 @@ class GithubTest extends TestCase
 
         $httpClient = new MockHttpClient([
             new MockResponse(file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($httpClient));
@@ -93,6 +96,7 @@ class GithubTest extends TestCase
 
         $httpClient = new MockHttpClient([
             new MockResponse(file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($httpClient));
@@ -110,6 +114,7 @@ class GithubTest extends TestCase
 
         $httpClient = new MockHttpClient([
             new MockResponse(file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
