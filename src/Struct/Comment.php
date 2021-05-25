@@ -3,17 +3,13 @@ declare(strict_types=1);
 
 namespace Danger\Struct;
 
-class Commit
+class Comment
 {
-    public string $sha;
-
-    public string $message;
-
     public string $author;
 
-    public string $authorEmail;
+    public string $body;
 
     public \DateTimeInterface $createdAt;
 
-    public bool $verified = false;
+    public \DateTimeInterface $updatedAt;
 }

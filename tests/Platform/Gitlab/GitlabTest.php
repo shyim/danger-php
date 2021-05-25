@@ -23,9 +23,7 @@ class GitlabTest extends TestCase
         $mockHttpClient = new MockHttpClient([
             new MockResponse(file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse(file_get_contents(__DIR__ . '/payloads/commits.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/files.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse('{"content": "VGVzdA=="}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse('{"content2": "VGVzdA=="}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/list_notes.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
@@ -55,6 +53,32 @@ class GitlabTest extends TestCase
         static::assertSame(1621672778, $commit->createdAt->getTimestamp());
         static::assertSame('2d7f9727fb1a786543df555bb55ad4febeeb2f2f', $commit->sha);
         static::assertFalse($commit->verified);
+
+        $comments = $gitlab->pullRequest->getComments();
+        static::assertSame($comments, $gitlab->pullRequest->getComments());
+
+        $comment = $comments->first();
+
+        static::assertCount(1, $comments);
+        static::assertSame('shyim', $comment->author);
+        static::assertStringContainsString('<table>', $comment->body);
+        static::assertSame(1621672794, $comment->createdAt->getTimestamp());
+        static::assertSame(1621672794, $comment->updatedAt->getTimestamp());
+    }
+
+    public function testFiles(): void
+    {
+        $mockHttpClient = new MockHttpClient([
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/files.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{"content": "VGVzdA=="}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{"content2": "VGVzdA=="}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+        ]);
+
+        $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
+
+        $gitlab = new Gitlab($client, new GitlabCommenter($client));
+        $gitlab->load('test', '1');
 
         $files = $gitlab->pullRequest->getFiles();
         static::assertSame($files, $gitlab->pullRequest->getFiles());

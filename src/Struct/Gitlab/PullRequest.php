@@ -3,15 +3,19 @@ declare(strict_types=1);
 
 namespace Danger\Struct\Gitlab;
 
+use Danger\Struct\Comment;
+use Danger\Struct\CommentCollection;
 use Danger\Struct\Commit;
 use Danger\Struct\CommitCollection;
 use Danger\Struct\FileCollection;
 use Gitlab\Client;
+use Gitlab\ResultPager;
 
 class PullRequest extends \Danger\Struct\PullRequest
 {
     private ?CommitCollection $commits = null;
     private ?FileCollection $files = null;
+    private ?CommentCollection $comments = null;
 
     public function __construct(private Client $client, private string $latestSha)
     {
@@ -64,5 +68,33 @@ class PullRequest extends \Danger\Struct\PullRequest
         }
 
         return $this->files = $collection;
+    }
+
+    public function getComments(): CommentCollection
+    {
+        if ($this->comments !== null) {
+            return $this->comments;
+        }
+
+        $this->comments = new CommentCollection();
+
+        $pager = new ResultPager($this->client);
+        $comments = $pager->fetchAll($this->client->mergeRequests(), 'showNotes', [$this->projectIdentifier, (int) $this->id]);
+
+        foreach ($comments as $commentArray) {
+            if ($commentArray['system']) {
+                continue;
+            }
+
+            $comment = new Comment();
+            $comment->author = $commentArray['author']['username'];
+            $comment->body = $commentArray['body'];
+            $comment->createdAt = new \DateTime($commentArray['created_at']);
+            $comment->updatedAt = new \DateTime($commentArray['updated_at']);
+
+            $this->comments->add($comment);
+        }
+
+        return $this->comments;
     }
 }

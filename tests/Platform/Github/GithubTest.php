@@ -26,6 +26,7 @@ class GithubTest extends TestCase
             new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse(file_get_contents(__DIR__ . '/payloads/commits.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse(file_get_contents(__DIR__ . '/payloads/files.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/comments_containg_danger.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($httpClient));
@@ -68,6 +69,17 @@ class GithubTest extends TestCase
         static::assertSame(0, $file->deletions);
         static::assertSame(10, $file->changes);
         static::assertStringContainsString('Verify commit', $file->getContent());
+
+        $comments = $github->pullRequest->getComments();
+        static::assertSame($comments, $github->pullRequest->getComments());
+
+        $comment = $comments->first();
+
+        static::assertCount(2, $comments);
+        static::assertSame('codecov[bot]', $comment->author);
+        static::assertStringContainsString('<!--- Danger-PHP-Marker -->', $comment->body);
+        static::assertSame(1621542100, $comment->createdAt->getTimestamp());
+        static::assertSame(1621547093, $comment->updatedAt->getTimestamp());
     }
 
     public function testPost(): void

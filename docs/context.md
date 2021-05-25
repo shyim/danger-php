@@ -38,6 +38,14 @@ $file->additions; // Additions to the file as int
 $file->changes; // Changes to the file as int
 $file->deletions; // Deletions to the file as int
 $file->getContent(); // Retrieve the current content of the file 
+
+$context->platform->pullRequest->getComments(); // Collection of comments
+
+$comment; // Element of comments collection
+$comment->author; // Comment author username
+$comment->body; // Comment body
+$comment->createdAt; // Comment createdAt
+$comment->updatedAt; // Comment updatedAt
 ```
 
 ## Advanced

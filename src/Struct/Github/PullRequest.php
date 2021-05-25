@@ -3,15 +3,19 @@ declare(strict_types=1);
 
 namespace Danger\Struct\Github;
 
+use Danger\Struct\Comment;
+use Danger\Struct\CommentCollection;
 use Danger\Struct\Commit;
 use Danger\Struct\CommitCollection;
 use Danger\Struct\FileCollection;
 use Github\Client as GithubClient;
+use Github\ResultPager;
 
 class PullRequest extends \Danger\Struct\PullRequest
 {
     private ?CommitCollection $commits = null;
     private ?FileCollection $files = null;
+    private ?CommentCollection $comments = null;
 
     public function __construct(private GithubClient $client, private string $owner, private string $repo)
     {
@@ -64,5 +68,28 @@ class PullRequest extends \Danger\Struct\PullRequest
         }
 
         return $this->files = $collection;
+    }
+
+    public function getComments(): CommentCollection
+    {
+        if ($this->comments !== null) {
+            return $this->comments;
+        }
+
+        $pager = new ResultPager($this->client);
+        $comments = $pager->fetchAll($this->client->pullRequest()->comments(), 'all', [$this->owner, $this->repo, $this->id]);
+        $this->comments = new CommentCollection();
+
+        foreach ($comments as $commentArray) {
+            $comment = new Comment();
+            $comment->author = $commentArray['user']['login'];
+            $comment->body = $commentArray['body'];
+            $comment->createdAt = new \DateTime($commentArray['created_at']);
+            $comment->updatedAt = new \DateTime($commentArray['updated_at']);
+
+            $this->comments->add($comment);
+        }
+
+        return $this->comments;
     }
 }

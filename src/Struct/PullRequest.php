@@ -45,4 +45,6 @@ abstract class PullRequest
     abstract public function getCommits(): CommitCollection;
 
     abstract public function getFiles(): FileCollection;
+
+    abstract public function getComments(): CommentCollection;
 }
