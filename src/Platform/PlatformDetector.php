@@ -15,11 +15,11 @@ class PlatformDetector
 
     public function detect(): AbstractPlatform
     {
-        if (isset($_SERVER['GITHUB_REPOSITORY']) && isset($_SERVER['GITHUB_PULL_REQUEST_ID']) && isset($_SERVER['GITHUB_TOKEN'])) {
+        if (isset($_SERVER['GITHUB_REPOSITORY'], $_SERVER['GITHUB_PULL_REQUEST_ID'], $_SERVER['GITHUB_TOKEN'])) {
             return $this->createFromGithubContext();
         }
 
-        if (isset($_SERVER['GITLAB_CI']) && isset($_SERVER['CI_PROJECT_ID']) && isset($_SERVER['CI_MERGE_REQUEST_IID']) && isset($_SERVER['DANGER_GITLAB_TOKEN'])) {
+        if (isset($_SERVER['GITLAB_CI'], $_SERVER['CI_PROJECT_ID'], $_SERVER['CI_MERGE_REQUEST_IID'], $_SERVER['DANGER_GITLAB_TOKEN'])) {
             return $this->createFromGitlabContext();
         }
 
