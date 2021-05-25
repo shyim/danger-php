@@ -9,28 +9,18 @@ class ConfigLoader
 {
     public function loadByPath(?string $path): Config
     {
-        if ($path) {
-            if (!file_exists($path)) {
-                throw new InvalidConfigurationException(sprintf('Cannot find %s in your Project', $path));
-            }
-
-            $c = require $path;
-
-            assert($c instanceof Config);
-
-            return $c;
+        if (!$path) {
+            $path = '.danger.php';
         }
 
-        $path = getcwd() . '/.danger.php';
-
-        if (file_exists($path)) {
-            $c = require $path;
-
-            assert($c instanceof Config);
-
-            return $c;
+        if (!file_exists($path)) {
+            throw new InvalidConfigurationException(sprintf('Cannot find %s in your Project', $path));
         }
 
-        throw new InvalidConfigurationException('Cannot find .danger.php in your Project');
+        $c = require $path;
+
+        assert($c instanceof Config);
+
+        return $c;
     }
 }
