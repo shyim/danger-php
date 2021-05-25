@@ -13,7 +13,7 @@ class ConfigLoader
             $path = '.danger.php';
         }
 
-        if (!file_exists($path)) {
+        if(!file_exists($path)) {
             throw new InvalidConfigurationException(sprintf('Cannot find %s in your Project', $path));
         }
 
