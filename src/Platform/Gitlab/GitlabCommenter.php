@@ -6,6 +6,7 @@ namespace Danger\Platform\Gitlab;
 use Danger\Config;
 use Danger\Renderer\HTMLRenderer;
 use Gitlab\Client;
+use Gitlab\ResultPager;
 
 class GitlabCommenter
 {
@@ -93,7 +94,8 @@ class GitlabCommenter
      */
     private function getRelevantNoteIds(string $projectIdentifier, int $prId): array
     {
-        $notes = $this->client->mergeRequests()->showNotes($projectIdentifier, $prId);
+        $pager = new ResultPager($this->client, 100);
+        $notes = $pager->fetchAll($this->client->mergeRequests(), 'showNotes', [$projectIdentifier, $prId]);
 
         $ids = [];
 
@@ -115,7 +117,8 @@ class GitlabCommenter
      */
     private function getRelevantThreadIds(string $projectIdentifier, int $prId): array
     {
-        $threads = $this->client->mergeRequests()->showDiscussions($projectIdentifier, $prId);
+        $pager = new ResultPager($this->client, 100);
+        $threads = $pager->fetchAll($this->client->mergeRequests(), 'showDiscussions', [$projectIdentifier, $prId]);
 
         $ids = [];
 
