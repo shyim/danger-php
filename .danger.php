@@ -27,5 +27,9 @@ return (new Config())
             $context->failure('You have added a new rule. Please change the docs too.');
         }
     })
-    ->useGithubCommentProxy('https://danger.shyim.de')
+    ->after(function (Context $context) {
+        if ($context->hasFailures()) {
+            $context->platform->addLabels('Incomplete');
+        }
+    })
 ;

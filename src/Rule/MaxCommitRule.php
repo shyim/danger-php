@@ -7,7 +7,7 @@ use Danger\Context;
 
 class MaxCommitRule
 {
-    public function __construct(private int $maxCommits = 1, private string $message = 'Please squash your commits to "###AMOUNT###" commit(s) only')
+    public function __construct(private int $maxCommits = 1, private string $message = 'Please squash your commits to ###AMOUNT### commit(s) only')
     {
     }
 
