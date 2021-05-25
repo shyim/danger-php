@@ -4,7 +4,6 @@ on:
     paths-ignore:
       - .danger.php
       - .github/**
-  check_run:
 
 jobs:
   pr:
