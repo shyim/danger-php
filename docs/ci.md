@@ -8,7 +8,7 @@ Label functions will not work on pull requests coming from forks.
 ```yaml
 name: Danger
 on:
-  pull_request:
+  pull_request_target:
 
 jobs:
   pr:
