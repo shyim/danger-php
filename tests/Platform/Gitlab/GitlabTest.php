@@ -40,6 +40,7 @@ class GitlabTest extends TestCase
         static::assertSame('Bodyyy', $gitlab->pullRequest->body);
         static::assertSame(['Test'], $gitlab->pullRequest->labels);
         static::assertSame(['shyim'], $gitlab->pullRequest->assignees);
+        static::assertSame(['dangertestuser', 'dangertestuser2'], $gitlab->pullRequest->reviewers);
         static::assertSame(1621638766, $gitlab->pullRequest->createdAt->getTimestamp());
         static::assertSame(1621672778, $gitlab->pullRequest->updatedAt->getTimestamp());
 

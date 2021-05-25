@@ -34,6 +34,7 @@ class Gitlab extends AbstractPlatform
         $this->pullRequest->body = $this->raw['description'];
         $this->pullRequest->labels = $this->raw['labels'];
         $this->pullRequest->assignees = array_map(function (array $assignee) { return $assignee['username']; }, $this->raw['assignees']);
+        $this->pullRequest->reviewers = array_map(function (array $reviewer) { return $reviewer['username']; }, $this->raw['reviewers']);
         $this->pullRequest->createdAt = new \DateTime($this->raw['created_at']);
         $this->pullRequest->updatedAt = new \DateTime($this->raw['updated_at']);
     }
