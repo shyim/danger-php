@@ -6,6 +6,7 @@ namespace Danger\Platform\Github;
 use Danger\Config;
 use Danger\Renderer\HTMLRenderer;
 use Github\Client;
+use Github\ResultPager;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GithubCommenter
@@ -93,7 +94,8 @@ class GithubCommenter
     {
         $ids = [];
 
-        $comments = $this->client->issues()->comments()->all($owner, $repo, (int) $id);
+        $pager = new ResultPager($this->client);
+        $comments = $pager->fetchAll($this->client->issues()->comments(), 'all', [$owner, $repo, (int) $id]);
 
         foreach ($comments as $comment) {
             if (str_contains($comment['body'], HTMLRenderer::MARKER)) {
