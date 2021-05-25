@@ -9,7 +9,7 @@ use Danger\Rule\MaxCommitRule;
 use Danger\Struct\File;
 
 return (new Config())
-    ->useRule(new CommitRegexRule('/^(feat|fix|docs|perf|refactor|compat|chore)(\(.+\))?\:\s(.{3,})/m'))
+    ->useRule(new CommitRegexRule('/^(feat|fix|docs|perf|refactor|compat|chore)(\(.+\))?\:\s(.{3,})/m'));;;;;
     ->useRule(new MaxCommitRule(1))
     ->useRule(new CheckPhpCsFixerRule())
     ->useRule(new CheckPhpStanRule())
