@@ -143,4 +143,71 @@ class GithubTest extends TestCase
         $github->removeLabels('Test');
         static::assertSame([], $github->pullRequest->labels);
     }
+
+    public function testLabelsWithoutPermission(): void
+    {
+        $commenter = $this->createMock(GithubCommenter::class);
+
+        $httpClient = new MockHttpClient([
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{"message": "Resource not accessible by integration"}', ['http_code' => 500, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{"message": "Resource not accessible by integration"}', ['http_code' => 500, 'response_headers' => ['content-type' => 'application/json']]),
+        ]);
+
+        $client = Client::createWithHttpClient(new Psr18Client($httpClient));
+
+        $github = new Github($client, $commenter);
+
+        $github->load('FriendsOfShopware/FroshPluginUploader', '144');
+
+        $github->addLabels('Test');
+        $github->removeLabels('Test');
+
+        static::assertSame(4, $httpClient->getRequestsCount());
+    }
+
+    public function testAddLabelOtherErrorNotIgnored(): void
+    {
+        $commenter = $this->createMock(GithubCommenter::class);
+
+        $httpClient = new MockHttpClient([
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{"message": "Permission Denied"}', ['http_code' => 500, 'response_headers' => ['content-type' => 'application/json']]),
+        ]);
+
+        $client = Client::createWithHttpClient(new Psr18Client($httpClient));
+
+        $github = new Github($client, $commenter);
+
+        $github->load('FriendsOfShopware/FroshPluginUploader', '144');
+
+        static::expectException(\RuntimeException::class);
+        static::expectExceptionMessage('Permission Denied');
+
+        $github->addLabels('Test');
+    }
+
+    public function testRemoveLabelOtherErrorNotIgnored(): void
+    {
+        $commenter = $this->createMock(GithubCommenter::class);
+
+        $httpClient = new MockHttpClient([
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{"message": "Permission Denied"}', ['http_code' => 500, 'response_headers' => ['content-type' => 'application/json']]),
+        ]);
+
+        $client = Client::createWithHttpClient(new Psr18Client($httpClient));
+
+        $github = new Github($client, $commenter);
+
+        $github->load('FriendsOfShopware/FroshPluginUploader', '144');
+
+        static::expectException(\RuntimeException::class);
+        static::expectExceptionMessage('Permission Denied');
+
+        $github->removeLabels('Test');
+    }
 }

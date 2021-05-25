@@ -73,28 +73,44 @@ class Github extends AbstractPlatform
     {
         parent::addLabels(...$labels);
 
-        $this->client->issues()->update(
-            $this->githubOwner,
-            $this->githubRepository,
-            (int) $this->pullRequest->id,
-            [
-                'labels' => $this->pullRequest->labels,
-            ]
-        );
+        try {
+            $this->client->issues()->update(
+                $this->githubOwner,
+                $this->githubRepository,
+                (int) $this->pullRequest->id,
+                [
+                    'labels' => $this->pullRequest->labels,
+                ]
+            );
+        } catch (\Throwable $e) {
+            if (str_contains($e->getMessage(), 'Resource not accessible by integration')) {
+                return;
+            }
+
+            throw $e;
+        }
     }
 
     public function removeLabels(string ...$labels): void
     {
         parent::removeLabels(...$labels);
 
-        $this->client->issues()->update(
-            $this->githubOwner,
-            $this->githubRepository,
-            (int) $this->pullRequest->id,
-            [
-                'labels' => $this->pullRequest->labels,
-            ]
-        );
+        try {
+            $this->client->issues()->update(
+                $this->githubOwner,
+                $this->githubRepository,
+                (int) $this->pullRequest->id,
+                [
+                    'labels' => $this->pullRequest->labels,
+                ]
+            );
+        } catch (\Throwable $e) {
+            if (str_contains($e->getMessage(), 'Resource not accessible by integration')) {
+                return;
+            }
+
+            throw $e;
+        }
     }
 
     /**
