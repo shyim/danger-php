@@ -7,18 +7,16 @@ updates:
     time: "06:00"
   versioning-strategy: increase
   open-pull-requests-limit: 20
-  commit_message:
-    prefix: "chore"
-    include_scope: true
+  commit-message:
+    prefix: "chore(deps): "
   allow:
     - dependency-type: all
   labels: ["Dependencies"]
 
 - package-ecosystem: "github-actions"
   directory: "/"
-  commit_message:
-    prefix: "chore"
-    include_scope: true
+  commit-message:
+    prefix: "chore(deps): "
   schedule:
     interval: daily
     time: "06:00"
