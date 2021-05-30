@@ -56,13 +56,14 @@ class PullRequest extends \Danger\Struct\PullRequest
 
         $collection = new FileCollection();
 
-        foreach ($this->rawFiles['changes'] as $rawGithubFile) {
-            $file = new File($this->client, $this->projectIdentifier, $rawGithubFile['new_path'], $this->latestSha);
-            $file->name = $rawGithubFile['new_path'];
-            $file->status = $rawGithubFile['new_file'] ? File::STATUS_ADDED : ($rawGithubFile['deleted_file'] ? File::STATUS_REMOVED : File::STATUS_MODIFIED);
+        foreach ($this->rawFiles['changes'] as $rawGitlabFile) {
+            $file = new File($this->client, $this->projectIdentifier, $rawGitlabFile['new_path'], $this->latestSha);
+            $file->name = $rawGitlabFile['new_path'];
+            $file->status = $rawGitlabFile['new_file'] ? File::STATUS_ADDED : ($rawGitlabFile['deleted_file'] ? File::STATUS_REMOVED : File::STATUS_MODIFIED);
             $file->additions = 0;
             $file->deletions = 0;
             $file->changes = $file->additions + $file->deletions;
+            $file->patch = $rawGitlabFile['diff'];
 
             $collection->set($file->name, $file);
         }

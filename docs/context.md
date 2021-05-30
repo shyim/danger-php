@@ -37,6 +37,7 @@ $file->status; // File status can be added, modified, removed
 $file->additions; // Additions to the file as int
 $file->changes; // Changes to the file as int
 $file->deletions; // Deletions to the file as int
+$file->patch; // Git patch of this file
 $file->getContent(); // Retrieve the current content of the file 
 
 $context->platform->pullRequest->getComments(); // Collection of comments

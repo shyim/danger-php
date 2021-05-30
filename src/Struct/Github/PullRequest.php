@@ -63,6 +63,7 @@ class PullRequest extends \Danger\Struct\PullRequest
             $file->additions = $rawGithubFile['additions'];
             $file->deletions = $rawGithubFile['deletions'];
             $file->changes = $rawGithubFile['changes'];
+            $file->patch = $rawGithubFile['patch'];
 
             $collection->set($file->name, $file);
         }
