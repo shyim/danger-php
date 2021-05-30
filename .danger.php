@@ -2,17 +2,17 @@
 
 use Danger\Config;
 use Danger\Context;
-use Danger\Rule\CheckPhpCsFixerRule;
-use Danger\Rule\CheckPhpStanRule;
-use Danger\Rule\CommitRegexRule;
-use Danger\Rule\MaxCommitRule;
+use Danger\Rule\CheckPhpCsFixer;
+use Danger\Rule\CheckPhpStan;
+use Danger\Rule\CommitRegex;
+use Danger\Rule\MaxCommit;
 use Danger\Struct\File;
 
 return (new Config())
-    ->useRule(new CommitRegexRule('/^(feat|fix|docs|perf|refactor|compat|chore)(\(.+\))?\:\s(.{3,})/m'))
-    ->useRule(new MaxCommitRule(1))
-    ->useRule(new CheckPhpCsFixerRule())
-    ->useRule(new CheckPhpStanRule())
+    ->useRule(new CommitRegex('/^(feat|fix|docs|perf|refactor|compat|chore)(\(.+\))?\:\s(.{3,})/m'))
+    ->useRule(new MaxCommit(1))
+    ->useRule(new CheckPhpCsFixer())
+    ->useRule(new CheckPhpStan())
     ->useRule(function (Context $context) {
         $prFiles = $context
             ->platform

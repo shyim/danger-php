@@ -10,6 +10,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Application extends SymfonyApplication
 {
+    public const PACKAGE_NAME = 'shyim/danger-php';
+    public const RULE_DEPRECATION_MESSAGE = 'This rule is deprecated. Use %s instead.';
+
     private ContainerInterface $container;
 
     public function __construct()
@@ -17,9 +20,9 @@ class Application extends SymfonyApplication
         parent::__construct('Danger', '__VERSION__');
         $this->container = Container::getContainer();
 
-        foreach (array_keys($this->container->findTaggedServiceIds('console.command')) as $command) {
+        foreach (array_keys($this->container->findTaggedServiceIds('console.command')) as $taggedService) {
             /** @var Command $command */
-            $command = $this->container->get($command);
+            $command = $this->container->get($taggedService);
 
             $this->add($command);
         }

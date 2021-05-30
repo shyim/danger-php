@@ -1,10 +1,10 @@
 # Builtin rules
 
-## \Danger\Rule\CheckPhpCsFixerRule
+## \Danger\Rule\CheckPhpCsFixer
 
 Runs PHP-CS-Fixer in background and adds a failure if the command is failed
 
-## \Danger\Rule\CommitRegexRule
+## \Danger\Rule\CommitRegex
 
 Checks that the Commit message matches the regex
 
@@ -13,7 +13,7 @@ Checks that the Commit message matches the regex
 - regex (string)
 - (optional) message (string)
 
-## \Danger\Rule\DisallowRepeatedCommitsRule
+## \Danger\Rule\DisallowRepeatedCommits
 
 Checks that the commit messages are unique inside the pull request
 
@@ -21,7 +21,7 @@ Checks that the commit messages are unique inside the pull request
 
 - (optional) message (string)
 
-## \Danger\Rule\MaxCommitRule
+## \Danger\Rule\MaxCommit
 
 Checks the commit amount in the pull request
 
@@ -30,7 +30,7 @@ Checks the commit amount in the pull request
 - maxAmount (int) default: 1
 - (optional) message (string)
 
-## \Danger\Rule\ConditionRule
+## \Danger\Rule\Condition
 
 Allows running multiple rules when a condition is met
 
@@ -48,21 +48,21 @@ Allows running multiple rules when a condition is met
 use Danger\Context;
 use Danger\Config;
 use Danger\Platform\Github\Github;
-use Danger\Rule\CommitRegexRule;
-use Danger\Rule\ConditionRule;
-use Danger\Rule\MaxCommitRule;
+use Danger\Rule\CommitRegex;
+use Danger\Rule\Condition;
+use Danger\Rule\MaxCommit;
 
 /**
  * We check the commit amount and commit message only when the target platform is Github
  */
 return (new Config())
-    ->useRule(new ConditionRule(
+    ->useRule(new Condition(
             function (Context $context) {
                 return $context->platform instanceof Github;
             },
             [
-                new MaxCommitRule(1),
-                new CommitRegexRule('/^(feat|fix|docs|perf|refactor|compat|chore)(\(.+\))?\:\s(.{3,})/m')
+                new MaxCommit(1),
+                new CommitRegex('/^(feat|fix|docs|perf|refactor|compat|chore)(\(.+\))?\:\s(.{3,})/m')
             ]
         ));
 ```

@@ -6,13 +6,13 @@ namespace Danger\Tests\Rule;
 use Danger\Context;
 use Danger\Platform\Github\Github;
 use Danger\Platform\Gitlab\Gitlab;
-use Danger\Rule\ConditionRule;
+use Danger\Rule\Condition;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
-class ConditionRuleTest extends TestCase
+class ConditionTest extends TestCase
 {
     public function testConditionMet(): void
     {
@@ -20,7 +20,7 @@ class ConditionRuleTest extends TestCase
         $context = new Context($github);
         $innerRuleExecuted = false;
 
-        $rule = new ConditionRule(
+        $rule = new Condition(
             function (Context $context) {
                 return $context->platform instanceof Github;
             },
@@ -42,7 +42,7 @@ class ConditionRuleTest extends TestCase
         $context = new Context($github);
         $innerRuleExecuted = false;
 
-        $rule = new ConditionRule(
+        $rule = new Condition(
             function (Context $context) {
                 return $context->platform instanceof Gitlab;
             },

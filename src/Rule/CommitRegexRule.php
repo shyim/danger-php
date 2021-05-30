@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace Danger\Rule;
 
-use Danger\Context;
+use Danger\Application;
 
-class CommitRegexRule
+/**
+ * @codeCoverageIgnore
+ *
+ * @deprecated use \Danger\Rule\CommitRegex instead
+ */
+class CommitRegexRule extends CommitRegex
 {
-    public function __construct(private string $regex, private string $message = 'The commit message "###MESSAGE###" does not match the regex ###REGEX###')
+    public function __construct(string $regex, string $message = 'The commit message "###MESSAGE###" does not match the regex ###REGEX###')
     {
-    }
+        $deprecationMessage = sprintf(Application::RULE_DEPRECATION_MESSAGE, CommitRegex::class);
+        trigger_deprecation(Application::PACKAGE_NAME, '0.1.5', $deprecationMessage);
 
-    public function __invoke(Context $context): void
-    {
-        foreach ($context->platform->pullRequest->getCommits() as $commit) {
-            if (!preg_match($this->regex, $commit->message)) {
-                $context->failure(str_replace(['###MESSAGE###', '###REGEX###'], [$commit->message, $this->regex], $this->message));
-            }
-        }
+        parent::__construct($regex, $message);
     }
 }

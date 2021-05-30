@@ -3,33 +3,23 @@ declare(strict_types=1);
 
 namespace Danger\Rule;
 
-use Danger\Context;
+use Danger\Application;
 
-class ConditionRule
+/**
+ * @codeCoverageIgnore
+ *
+ * @deprecated use \Danger\Rule\Condition instead
+ */
+class ConditionRule extends Condition
 {
     /**
-     * @var callable
+     * {@inheritDoc}
      */
-    private $condition;
-
-    /**
-     * @param callable[] $rules
-     */
-    public function __construct(callable $condition, private array $rules)
+    public function __construct(callable $condition, array $rules)
     {
-        $this->condition = $condition;
-    }
+        $deprecationMessage = sprintf(Application::RULE_DEPRECATION_MESSAGE, Condition::class);
+        trigger_deprecation(Application::PACKAGE_NAME, '0.1.5', $deprecationMessage);
 
-    public function __invoke(Context $context): void
-    {
-        $condition = $this->condition;
-
-        if (!$condition($context)) {
-            return;
-        }
-
-        foreach ($this->rules as $rule) {
-            $rule($context);
-        }
+        parent::__construct($condition, $rules);
     }
 }
