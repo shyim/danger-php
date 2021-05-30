@@ -8,10 +8,10 @@ namespace Danger\Struct;
  * @extends Collection<File>
  *
  * @method void add(File $entity)
- * @method void set(string $key, File $entity)
- * @method File[] getIterator()
+ * @method void set(string|int $key, File $entity)
+ * @method \Generator<File> getIterator()
  * @method File[] getElements()
- * @method File|null get(string $key)
+ * @method File|null get(string|int $key)
  * @method File|null first()
  * @method File|null last()
  */

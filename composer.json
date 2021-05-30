@@ -17,6 +17,9 @@
     },
     "require": {
         "php": "^8.0",
+        "ext-mbstring": "*",
+        "ext-ctype": "*",
+        "ext-intl": "*",
         "symfony/console": "^5.2",
         "symfony/dependency-injection": "^5.2",
         "knplabs/github-api": "^3.3",
@@ -25,6 +28,15 @@
         "nyholm/psr7": "^1.4",
         "symfony/finder": "^5.2",
         "m4tthumphrey/php-gitlab-api": "^11.4"
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-intl-grapheme": "*",
+        "symfony/polyfill-intl-normalizer": "*",
+        "symfony/polyfill-mbstring": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php80": "*"
     },
     "license": "mit",
     "authors": [

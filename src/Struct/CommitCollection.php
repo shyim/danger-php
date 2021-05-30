@@ -8,10 +8,10 @@ namespace Danger\Struct;
  * @extends Collection<Commit>
  *
  * @method void add(Commit $entity)
- * @method void set(string $key, Commit $entity)
- * @method Commit[] getIterator()
+ * @method void set(string|int $key, Commit $entity)
+ * @method \Generator<Commit> getIterator()
  * @method Commit[] getElements()
- * @method Commit|null get(string $key)
+ * @method Commit|null get(string|int $key)
  * @method Commit|null first()
  * @method Commit|null last()
  */
