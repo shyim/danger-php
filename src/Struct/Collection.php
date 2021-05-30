@@ -17,7 +17,7 @@ abstract class Collection implements \IteratorAggregate, \Countable
     /**
      * @param iterable<string|int, T> $elements
      */
-    public function __construct(iterable $elements = [])
+    final public function __construct(iterable $elements = [])
     {
         foreach ($elements as $key => $element) {
             $this->set($key, $element);
