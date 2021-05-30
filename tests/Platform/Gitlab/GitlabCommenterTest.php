@@ -19,7 +19,7 @@ class GitlabCommenterTest extends TestCase
     public function testPostNoteNew(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/list_notes.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/list_notes.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{"id": 1}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
@@ -32,7 +32,7 @@ class GitlabCommenterTest extends TestCase
     public function testPostNoteUpdatesFirstDeletesOther(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/list_notes_multiple_notes.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/list_notes_multiple_notes.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{"id": 1}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
@@ -46,7 +46,7 @@ class GitlabCommenterTest extends TestCase
     public function testPostReplace(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/list_notes_multiple_notes.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/list_notes_multiple_notes.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{"id": 1}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
@@ -61,7 +61,7 @@ class GitlabCommenterTest extends TestCase
     public function testRemovePost(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/list_notes_multiple_notes.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/list_notes_multiple_notes.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
@@ -77,7 +77,7 @@ class GitlabCommenterTest extends TestCase
     public function testCreateNewThread(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/list_threads.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/list_threads.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{"notes": [{"id": "1"}]}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
@@ -92,7 +92,7 @@ class GitlabCommenterTest extends TestCase
     public function testCreateNewThreadAndDeleteOther(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/list_threads_multiple.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/list_threads_multiple.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{"notes": [{"id": "1"}]}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
@@ -108,7 +108,7 @@ class GitlabCommenterTest extends TestCase
     public function testReplaceThread(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/list_threads_multiple.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/list_threads_multiple.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{"notes": [{"id": "1"}]}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
@@ -125,7 +125,7 @@ class GitlabCommenterTest extends TestCase
     public function testRemoveThread(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/list_threads_multiple.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/list_threads_multiple.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);

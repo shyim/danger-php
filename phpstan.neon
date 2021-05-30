@@ -5,5 +5,7 @@ parameters:
 
     paths:
         - %currentWorkingDirectory%/src
-    excludes_analyse:
-        - %currentWorkingDirectory%/src/Struct/Collection.php
+        - %currentWorkingDirectory%/tests
+
+    ignoreErrors:
+        - '#Unsafe usage of new static\(\)#'

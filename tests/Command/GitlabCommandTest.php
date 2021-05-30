@@ -43,7 +43,7 @@ class GitlabCommandTest extends TestCase
         $input->bind($cmd->getDefinition());
         $input->setArgument('projectIdentifier', 'test');
         $input->setArgument('mrID', 'test');
-        $input->setOption('config', 1);
+        $input->setOption('config', []);
 
         $cmd->execute($input, new NullOutput());
 

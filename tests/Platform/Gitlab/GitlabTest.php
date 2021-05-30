@@ -6,6 +6,8 @@ namespace Danger\Tests\Platform\Gitlab;
 use Danger\Config;
 use Danger\Platform\Gitlab\Gitlab;
 use Danger\Platform\Gitlab\GitlabCommenter;
+use Danger\Struct\Comment;
+use Danger\Struct\Commit;
 use Danger\Struct\File;
 use Gitlab\Client;
 use PHPUnit\Framework\TestCase;
@@ -21,9 +23,9 @@ class GitlabTest extends TestCase
     public function testLoad(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/commits.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/list_notes.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/commits.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/list_notes.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
@@ -31,7 +33,7 @@ class GitlabTest extends TestCase
         $gitlab = new Gitlab($client, new GitlabCommenter($client));
         $gitlab->load('test', '1');
 
-        static::assertSame(json_decode(file_get_contents(__DIR__ . '/payloads/mr.json'), true), $gitlab->raw);
+        static::assertSame(json_decode((string) file_get_contents(__DIR__ . '/payloads/mr.json'), true), $gitlab->raw);
         static::assertSame('1', $gitlab->pullRequest->id);
         static::assertSame('test', $gitlab->pullRequest->projectIdentifier);
         static::assertSame('Update Test', $gitlab->pullRequest->title);
@@ -47,6 +49,7 @@ class GitlabTest extends TestCase
         static::assertCount(5, $commits);
 
         $commit = $commits->first();
+        static::assertInstanceOf(Commit::class, $commit);
         static::assertSame('Add new file', $commit->message);
         static::assertSame('Shyim', $commit->author);
         static::assertSame('s.sayakci@gmail.com', $commit->authorEmail);
@@ -59,6 +62,7 @@ class GitlabTest extends TestCase
 
         $comment = $comments->first();
 
+        static::assertInstanceOf(Comment::class, $comment);
         static::assertCount(1, $comments);
         static::assertSame('shyim', $comment->author);
         static::assertStringContainsString('<table>', $comment->body);
@@ -69,8 +73,8 @@ class GitlabTest extends TestCase
     public function testFiles(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/files.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/files.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{"content": "VGVzdA=="}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{"content2": "VGVzdA=="}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
@@ -86,6 +90,7 @@ class GitlabTest extends TestCase
         static::assertCount(3, $files);
 
         $file = $files->first();
+        static::assertInstanceOf(File::class, $file);
         static::assertSame('.danger.php', $file->name);
         static::assertSame(File::STATUS_ADDED, $file->status);
         static::assertSame(0, $file->additions);
@@ -95,13 +100,16 @@ class GitlabTest extends TestCase
 
         static::expectException(\RuntimeException::class);
 
-        $files->last()->getContent();
+        $lastFile = $files->last();
+        static::assertInstanceOf(File::class, $lastFile);
+
+        $lastFile->getContent();
     }
 
     public function testPost(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
@@ -120,7 +128,7 @@ class GitlabTest extends TestCase
     public function testRemove(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
@@ -138,7 +146,7 @@ class GitlabTest extends TestCase
     public function testLabels(): void
     {
         $mockHttpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);

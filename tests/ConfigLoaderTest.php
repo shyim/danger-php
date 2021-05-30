@@ -39,6 +39,7 @@ class ConfigLoaderTest extends TestCase
     public function testLoadingWithoutFile(): void
     {
         $currentDir = getcwd();
+        static::assertIsString($currentDir);
         chdir('/tmp');
 
         $loader = new ConfigLoader();

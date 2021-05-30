@@ -7,14 +7,27 @@ use Danger\Struct\Comment;
 use Danger\Struct\CommentCollection;
 use Danger\Struct\Commit;
 use Danger\Struct\CommitCollection;
+use Danger\Struct\File;
 use Danger\Struct\FileCollection;
+use Danger\Struct\Gitlab\File as GitlabFile;
 use Gitlab\Client;
 use Gitlab\ResultPager;
 
 class PullRequest extends \Danger\Struct\PullRequest
 {
+    /**
+     * @var CommitCollection<Commit>|null
+     */
     private ?CommitCollection $commits = null;
+
+    /**
+     * @var FileCollection<File>|null
+     */
     private ?FileCollection $files = null;
+
+    /**
+     * @var CommentCollection<Comment>|null
+     */
     private ?CommentCollection $comments = null;
 
     public function __construct(private Client $client, private string $latestSha)
@@ -57,7 +70,7 @@ class PullRequest extends \Danger\Struct\PullRequest
         $collection = new FileCollection();
 
         foreach ($this->rawFiles['changes'] as $rawGitlabFile) {
-            $file = new File($this->client, $this->projectIdentifier, $rawGitlabFile['new_path'], $this->latestSha);
+            $file = new GitlabFile($this->client, $this->projectIdentifier, $rawGitlabFile['new_path'], $this->latestSha);
             $file->name = $rawGitlabFile['new_path'];
             $file->status = $rawGitlabFile['new_file'] ? File::STATUS_ADDED : ($rawGitlabFile['deleted_file'] ? File::STATUS_REMOVED : File::STATUS_MODIFIED);
             $file->additions = 0;

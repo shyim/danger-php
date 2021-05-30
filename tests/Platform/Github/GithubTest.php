@@ -6,6 +6,8 @@ namespace Danger\Tests\Platform\Github;
 use Danger\Config;
 use Danger\Platform\Github\Github;
 use Danger\Platform\Github\GithubCommenter;
+use Danger\Struct\Comment;
+use Danger\Struct\Commit;
 use Danger\Struct\File;
 use Github\Client;
 use PHPUnit\Framework\TestCase;
@@ -20,13 +22,13 @@ class GithubTest extends TestCase
 {
     public function testLoad(): void
     {
-        $prBody = file_get_contents(__DIR__ . '/payloads/pr.json');
+        $prBody = (string) file_get_contents(__DIR__ . '/payloads/pr.json');
         $httpClient = new MockHttpClient([
             new MockResponse($prBody, ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/commits.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/files.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/comments_containg_danger.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/commits.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/files.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/comments_containg_danger.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($httpClient));
@@ -50,6 +52,7 @@ class GithubTest extends TestCase
         static::assertCount(1, $commits);
 
         $commit = $commits->first();
+        static::assertInstanceOf(Commit::class, $commit);
         static::assertSame('fix(ci): Fix commit linting for external', $commit->message);
         static::assertSame('Soner Sayakci', $commit->author);
         static::assertSame('s.sayakci@shopware.com', $commit->authorEmail);
@@ -63,17 +66,20 @@ class GithubTest extends TestCase
         static::assertCount(4, $files);
 
         $file = $files->first();
+        static::assertInstanceOf(File::class, $file);
         static::assertSame('.github/checks.php', $file->name);
         static::assertSame(File::STATUS_ADDED, $file->status);
         static::assertSame(10, $file->additions);
         static::assertSame(0, $file->deletions);
         static::assertSame(10, $file->changes);
+        static::assertNotEmpty($file->patch);
         static::assertStringContainsString('Verify commit', $file->getContent());
 
         $comments = $github->pullRequest->getComments();
         static::assertSame($comments, $github->pullRequest->getComments());
 
         $comment = $comments->first();
+        static::assertInstanceOf(Comment::class, $comment);
 
         static::assertCount(2, $comments);
         static::assertSame('codecov[bot]', $comment->author);
@@ -88,8 +94,8 @@ class GithubTest extends TestCase
         $commenter->expects(static::once())->method('comment')->willReturn('http://github.com');
 
         $httpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($httpClient));
@@ -107,8 +113,8 @@ class GithubTest extends TestCase
         $commenter->expects(static::once())->method('remove');
 
         $httpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($httpClient));
@@ -125,8 +131,8 @@ class GithubTest extends TestCase
         $commenter = $this->createMock(GithubCommenter::class);
 
         $httpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
@@ -149,8 +155,8 @@ class GithubTest extends TestCase
         $commenter = $this->createMock(GithubCommenter::class);
 
         $httpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{"message": "Resource not accessible by integration"}', ['http_code' => 500, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{"message": "Resource not accessible by integration"}', ['http_code' => 500, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
@@ -172,8 +178,8 @@ class GithubTest extends TestCase
         $commenter = $this->createMock(GithubCommenter::class);
 
         $httpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{"message": "Permission Denied"}', ['http_code' => 500, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
@@ -194,8 +200,8 @@ class GithubTest extends TestCase
         $commenter = $this->createMock(GithubCommenter::class);
 
         $httpClient = new MockHttpClient([
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse(file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{"message": "Permission Denied"}', ['http_code' => 500, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 

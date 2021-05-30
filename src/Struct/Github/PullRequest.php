@@ -7,14 +7,27 @@ use Danger\Struct\Comment;
 use Danger\Struct\CommentCollection;
 use Danger\Struct\Commit;
 use Danger\Struct\CommitCollection;
+use Danger\Struct\File;
 use Danger\Struct\FileCollection;
+use Danger\Struct\Github\File as GithubFile;
 use Github\Client as GithubClient;
 use Github\ResultPager;
 
 class PullRequest extends \Danger\Struct\PullRequest
 {
+    /**
+     * @var CommitCollection<Commit>|null
+     */
     private ?CommitCollection $commits = null;
+
+    /**
+     * @var FileCollection<File>|null
+     */
     private ?FileCollection $files = null;
+
+    /**
+     * @var CommentCollection<Comment>|null
+     */
     private ?CommentCollection $comments = null;
 
     public function __construct(private GithubClient $client, private string $owner, private string $repo)
@@ -57,7 +70,7 @@ class PullRequest extends \Danger\Struct\PullRequest
         $collection = new FileCollection();
 
         foreach ($this->rawFiles as $rawGithubFile) {
-            $file = new File($rawGithubFile['raw_url']);
+            $file = new GithubFile($rawGithubFile['raw_url']);
             $file->name = $rawGithubFile['filename'];
             $file->status = $rawGithubFile['status'];
             $file->additions = $rawGithubFile['additions'];

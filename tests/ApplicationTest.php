@@ -15,7 +15,6 @@ class ApplicationTest extends TestCase
     public function testCliAppStart(): void
     {
         $app = new Application();
-        static::assertTrue($app->getContainer()->isCompiled());
         static::assertInstanceOf(Command::class, $app->find('ci'));
     }
 }

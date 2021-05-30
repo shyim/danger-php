@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace Danger\Struct;
 
 /**
+ * @template T
+ * @extends Collection<Commit>
+ *
  * @method void add(Commit $entity)
  * @method void set(string $key, Commit $entity)
  * @method Commit[] getIterator()
@@ -14,11 +17,6 @@ namespace Danger\Struct;
  */
 class CommitCollection extends Collection
 {
-    protected function getExpectedClass(): string
-    {
-        return Commit::class;
-    }
-
     /**
      * @return string[]
      */

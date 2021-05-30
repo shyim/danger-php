@@ -35,7 +35,7 @@ class GithubCommandTest extends TestCase
 
         $input = new ArgvInput(['danger', 'https://github.com']);
         $input->bind($cmd->getDefinition());
-        $input->setOption('config', 1);
+        $input->setOption('config', []);
 
         $cmd->execute($input, new NullOutput());
     }
@@ -49,7 +49,7 @@ class GithubCommandTest extends TestCase
 
         $input = new ArgvInput(['danger', 'https://github.com']);
         $input->bind($cmd->getDefinition());
-        $input->setArgument('pr', 1);
+        $input->setArgument('pr', []);
 
         $cmd->execute($input, new NullOutput());
     }

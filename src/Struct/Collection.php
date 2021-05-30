@@ -3,10 +3,20 @@ declare(strict_types=1);
 
 namespace Danger\Struct;
 
+/**
+ * @template T
+ * @implements \IteratorAggregate<T>
+ */
 abstract class Collection implements \IteratorAggregate, \Countable
 {
+    /**
+     * @var T[]
+     */
     protected array $elements = [];
 
+    /**
+     * @param iterable<string|int, T> $elements
+     */
     public function __construct(iterable $elements = [])
     {
         foreach ($elements as $key => $element) {
@@ -14,26 +24,26 @@ abstract class Collection implements \IteratorAggregate, \Countable
         }
     }
 
+    /**
+     * @param T $element
+     */
     public function add($element): void
     {
-        $this->validateType($element);
-
         $this->elements[] = $element;
     }
 
-    public function set($key, $element): void
+    /**
+     * @param T $element
+     */
+    public function set(string | int $key, $element): void
     {
-        $this->validateType($element);
-
         $this->elements[$key] = $element;
     }
 
     /**
-     * @param mixed|null $key
-     *
-     * @return mixed|null
+     * @return T|null
      */
-    public function get($key)
+    public function get(string | int $key)
     {
         if ($this->has($key)) {
             return $this->elements[$key];
@@ -52,26 +62,35 @@ abstract class Collection implements \IteratorAggregate, \Countable
         return \count($this->elements);
     }
 
+    /**
+     * @return string[]|int[]
+     */
     public function getKeys(): array
     {
         return array_keys($this->elements);
     }
 
-    public function has($key): bool
+    public function has(string | int $key): bool
     {
         return \array_key_exists($key, $this->elements);
     }
 
+    /**
+     * @return T[]
+     */
     public function map(\Closure $closure): array
     {
         return array_map($closure, $this->elements);
     }
 
-    public function reduce(\Closure $closure, $initial = null)
+    public function reduce(\Closure $closure, mixed $initial = null): mixed
     {
         return array_reduce($this->elements, $closure, $initial);
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function fmap(\Closure $closure): array
     {
         return array_filter($this->map($closure));
@@ -82,64 +101,66 @@ abstract class Collection implements \IteratorAggregate, \Countable
         uasort($this->elements, $closure);
     }
 
+    /**
+     * @return static(Collection<T>)
+     */
     public function filter(\Closure $closure): static
     {
         return $this->createNew(array_filter($this->elements, $closure));
     }
 
+    /**
+     * @return static(Collection<T>)
+     */
     public function slice(int $offset, ?int $length = null): static
     {
         return $this->createNew(\array_slice($this->elements, $offset, $length, true));
     }
 
+    /**
+     * @return T[]
+     */
     public function getElements(): array
     {
         return $this->elements;
     }
 
+    /**
+     * @return T|null
+     */
     public function first()
     {
         return array_values($this->elements)[0] ?? null;
     }
 
+    /**
+     * @return T|null
+     */
     public function last()
     {
         return array_values($this->elements)[\count($this->elements) - 1] ?? null;
     }
 
-    /**
-     * @param int|string $key
-     */
-    public function remove($key): void
+    public function remove(string $key): void
     {
         unset($this->elements[$key]);
     }
 
+    /**
+     * @return \Generator<T>
+     */
     public function getIterator(): \Generator
     {
         yield from $this->elements;
     }
 
-    abstract protected function getExpectedClass(): string;
-
     /**
-     * @return static
+     * @param T[] $elements
+     *
+     * @return static(Collection<T>)
      */
-    protected function createNew(iterable $elements = [])
+    protected function createNew(iterable $elements = []): static
     {
         return new static($elements);
-    }
-
-    private function validateType($element): void
-    {
-        $expectedClass = $this->getExpectedClass();
-
-        if (!$element instanceof $expectedClass) {
-            $elementClass = \get_class($element);
-
-            throw new \InvalidArgumentException(
-                sprintf('Expected collection element of type %s got %s', $expectedClass, $elementClass)
-            );
-        }
     }
 }

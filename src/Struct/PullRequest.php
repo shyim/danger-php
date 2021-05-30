@@ -42,9 +42,18 @@ abstract class PullRequest
      */
     public array $rawFiles = [];
 
+    /**
+     * @return CommitCollection<Commit>
+     */
     abstract public function getCommits(): CommitCollection;
 
+    /**
+     * @return FileCollection<File>
+     */
     abstract public function getFiles(): FileCollection;
 
+    /**
+     * @return CommentCollection<Comment>
+     */
     abstract public function getComments(): CommentCollection;
 }

@@ -17,6 +17,7 @@ class InitCommandTest extends TestCase
     public function testCreatesFile(): void
     {
         $currentDir = getcwd();
+        static::assertIsString($currentDir);
         chdir('/tmp');
 
         if (file_exists('/tmp/.danger.php')) {
@@ -36,6 +37,7 @@ class InitCommandTest extends TestCase
     public function testOverwriteFile(): void
     {
         $currentDir = getcwd();
+        static::assertIsString($currentDir);
         chdir('/tmp');
         touch('/tmp/.danger.php');
 
@@ -53,6 +55,7 @@ class InitCommandTest extends TestCase
     public function testNotOverwriteFile(): void
     {
         $currentDir = getcwd();
+        static::assertIsString($currentDir);
         chdir('/tmp');
         touch('/tmp/.danger.php');
 

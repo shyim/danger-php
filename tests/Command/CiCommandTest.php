@@ -82,7 +82,7 @@ class CiCommandTest extends TestCase
 
         $input = new ArgvInput([]);
         $input->bind($cmd->getDefinition());
-        $input->setOption('config', 1);
+        $input->setOption('config', []);
 
         $cmd->execute($input, new NullOutput());
     }

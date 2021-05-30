@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Danger\Tests\Struct;
 
-use Danger\Struct\Commit;
 use Danger\Struct\FileCollection;
 use Danger\Struct\Github\File;
 use PHPUnit\Framework\TestCase;
@@ -40,16 +39,9 @@ class FileCollectionTest extends TestCase
 
         $c = new FileCollection([$f]);
 
-        static::assertSame(1, $c->count());
+        static::assertCount(1, $c);
         $c->clear();
-        static::assertSame(0, $c->count());
-    }
-
-    public function testAddWrongClass(): void
-    {
-        static::expectException(\InvalidArgumentException::class);
-
-        new FileCollection([new Commit()]);
+        static::assertCount(0, $c);
     }
 
     public function testGet(): void
@@ -60,7 +52,7 @@ class FileCollectionTest extends TestCase
         static::assertNull($c->get('1'));
         static::assertCount(1, $c->getKeys());
         static::assertCount(1, $c->getElements());
-        $c->remove(0);
+        $c->remove('0');
         static::assertCount(0, $c->getElements());
     }
 
@@ -99,7 +91,10 @@ class FileCollectionTest extends TestCase
             return $a->name <=> $b->name;
         });
 
-        static::assertSame('A', $c->first()->name);
+        $file = $c->first();
+        static::assertInstanceOf(File::class, $file);
+
+        static::assertSame('A', $file->name);
     }
 
     public function testFilesMatching(): void
@@ -118,6 +113,8 @@ class FileCollectionTest extends TestCase
         $newCollection = $c->matches('changelogs/**/*.md');
 
         static::assertCount(1, $newCollection);
-        static::assertSame('changelogs/_unreleased/some-file.md', $newCollection->first()->name);
+        $item = $newCollection->first();
+        static::assertInstanceOf(File::class, $item);
+        static::assertSame('changelogs/_unreleased/some-file.md', $item->name);
     }
 }
