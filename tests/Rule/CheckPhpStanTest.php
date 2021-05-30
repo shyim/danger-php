@@ -5,35 +5,35 @@ namespace Danger\Tests\Rule;
 
 use Danger\Context;
 use Danger\Platform\Github\Github;
-use Danger\Rule\CheckPhpCsFixerRule;
+use Danger\Rule\CheckPhpStan;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
-class CheckPhpCsFixerRuleTest extends TestCase
+class CheckPhpStanTest extends TestCase
 {
-    public function testRuleRunsWithoutIssues(): void
+    public function testValid(): void
     {
         $github = $this->createMock(Github::class);
         $context = new Context($github);
 
-        $rule = new CheckPhpCsFixerRule();
+        $rule = new CheckPhpStan();
         $rule($context);
 
         static::assertFalse($context->hasFailures());
     }
 
-    public function testRuleFailures(): void
+    public function testInvalid(): void
     {
         $github = $this->createMock(Github::class);
         $context = new Context($github);
 
         $path = dirname(__DIR__, 2) . '/src/Test.php';
 
-        file_put_contents($path, '<?php var_dump(\'foo\');;;');
+        file_put_contents($path, '<?php str_contains(new ArrayObject());');
 
-        $rule = new CheckPhpCsFixerRule();
+        $rule = new CheckPhpStan();
         $rule($context);
 
         static::assertTrue($context->hasFailures());

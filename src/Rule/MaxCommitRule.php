@@ -3,23 +3,20 @@ declare(strict_types=1);
 
 namespace Danger\Rule;
 
-use Danger\Context;
+use Danger\Application;
 
-class MaxCommitRule
+/**
+ * @codeCoverageIgnore
+ *
+ * @deprecated use \Danger\Rule\MaxCommit instead
+ */
+class MaxCommitRule extends MaxCommit
 {
-    public function __construct(private int $maxCommits = 1, private string $message = 'Please squash your commits to ###AMOUNT### only')
+    public function __construct(int $maxCommits = 1, string $message = 'Please squash your commits to ###AMOUNT### only')
     {
-    }
+        $deprecationMessage = sprintf(Application::RULE_DEPRECATION_MESSAGE, MaxCommit::class);
+        trigger_deprecation(Application::PACKAGE_NAME, '0.1.5', $deprecationMessage);
 
-    public function __invoke(Context $context): void
-    {
-        if (count($context->platform->pullRequest->getCommits()) > $this->maxCommits) {
-            $message = $this->maxCommits . ' commits';
-            if ($this->maxCommits === 1) {
-                $message = 'one commit';
-            }
-
-            $context->failure(str_replace(['###AMOUNT###'], [$message], $this->message));
-        }
+        parent::__construct($maxCommits, $message);
     }
 }

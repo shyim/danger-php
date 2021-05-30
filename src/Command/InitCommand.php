@@ -32,10 +32,10 @@ class InitCommand extends Command
         file_put_contents($path, '<?php declare(strict_types=1);
 
 use Danger\Config;
-use Danger\Rule\DisallowRepeatedCommitsRule;
+use Danger\Rule\DisallowRepeatedCommits;
 
 return (new Config())
-    ->useRule(new DisallowRepeatedCommitsRule) // Disallows multiple commits with the same message
+    ->useRule(new DisallowRepeatedCommits) // Disallows multiple commits with the same message
 ;
 ');
         $io->success(sprintf('Created %s', $path));

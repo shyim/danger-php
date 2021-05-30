@@ -45,10 +45,10 @@ Use the [prebuilt Docker image](https://github.com/users/shyim/packages/containe
 <?php declare(strict_types=1);
 
 use Danger\Config;
-use Danger\Rule\DisallowRepeatedCommitsRule;
+use Danger\Rule\DisallowRepeatedCommits;
 
 return (new Config())
-    ->useRule(new DisallowRepeatedCommitsRule) // Disallows multiple commits with the same message
+    ->useRule(new DisallowRepeatedCommits) // Disallows multiple commits with the same message
 ;
 ```
 
@@ -58,10 +58,10 @@ return (new Config())
 <?php declare(strict_types=1);
 
 use Danger\Config;
-use Danger\Rule\MaxCommitRule;
+use Danger\Rule\MaxCommit;
 
 return (new Config())
-    ->useRule(new MaxCommitRule(1))
+    ->useRule(new MaxCommit(1))
 ;
 
 
