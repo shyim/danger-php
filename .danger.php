@@ -13,7 +13,7 @@ return (new Config())
     ->useRule(new MaxCommit(1))
     ->useRule(new CheckPhpCsFixer())
     ->useRule(new CheckPhpStan())
-    ->useRule(function (Context $context) {
+    ->useRule(static function (Context $context): void {
         $prFiles = $context
             ->platform
             ->pullRequest
@@ -27,9 +27,13 @@ return (new Config())
             $context->failure('You have added a new rule. Please change the docs too.');
         }
     })
-    ->after(function (Context $context) {
+    ->after(static function (Context $context): void {
         if ($context->hasFailures()) {
             $context->platform->addLabels('Incomplete');
+
+            return;
         }
+
+        $context->platform->removeLabels('Incomplete');
     })
 ;
