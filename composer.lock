@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "34c73db17e4c7960b3b49ac0b29538e6",
+    "content-hash": "b468fb33a942cd67a52087efbedb0e2f",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -1315,27 +1315,28 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v5.2.9",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "2761ca2f7e2f41af3a45951e1ce8c01f121245eb"
+                "reference": "94d973cb742d8c5c5dcf9534220e6b73b09af1d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/2761ca2f7e2f41af3a45951e1ce8c01f121245eb",
-                "reference": "2761ca2f7e2f41af3a45951e1ce8c01f121245eb",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/94d973cb742d8c5c5dcf9534220e6b73b09af1d4",
+                "reference": "94d973cb742d8c5c5dcf9534220e6b73b09af1d4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.5",
-                "psr/container": "^1.0",
+                "psr/container": "^1.1.1",
                 "symfony/deprecation-contracts": "^2.1",
                 "symfony/polyfill-php80": "^1.15",
                 "symfony/service-contracts": "^1.1.6|^2"
             },
             "conflict": {
-                "symfony/config": "<5.1",
+                "ext-psr": "<1.1|>=2",
+                "symfony/config": "<5.3",
                 "symfony/finder": "<4.4",
                 "symfony/proxy-manager-bridge": "<4.4",
                 "symfony/yaml": "<4.4"
@@ -1345,7 +1346,7 @@
                 "symfony/service-implementation": "1.0|2.0"
             },
             "require-dev": {
-                "symfony/config": "^5.1",
+                "symfony/config": "^5.3",
                 "symfony/expression-language": "^4.4|^5.0",
                 "symfony/yaml": "^4.4|^5.0"
             },
@@ -1382,7 +1383,7 @@
             "description": "Allows you to standardize and centralize the way objects are constructed in your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dependency-injection/tree/v5.2.9"
+                "source": "https://github.com/symfony/dependency-injection/tree/v5.3.0"
             },
             "funding": [
                 {
@@ -1398,7 +1399,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-16T13:07:46+00:00"
+            "time": "2021-05-26T17:57:12+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",

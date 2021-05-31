@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Danger\Rule;
 
 use Danger\Context;
+use Danger\Struct\File;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Runs PhpCsFixer and adds a failure to danger if failing
@@ -19,7 +21,26 @@ class CheckPhpCsFixer
 
     public function __invoke(Context $context): void
     {
-        exec($this->command, $cmdOutput, $resultCode);
+        $fs = new Filesystem();
+        $tempFolder = sys_get_temp_dir() . '/' . uniqid('danger', true);
+
+        $fs->mkdir($tempFolder);
+
+        $files = $context
+            ->platform
+            ->pullRequest
+            ->getFiles()
+            ->matches('*.php')
+        ;
+
+        /** @var File $file */
+        foreach ($files as $file) {
+            $fs->dumpFile($tempFolder . '/' . $file->name, $file->getContent());
+        }
+
+        exec($this->command . ' ' . $tempFolder, $cmdOutput, $resultCode);
+
+        $fs->remove($tempFolder);
 
         // @codeCoverageIgnoreStart
         if (!isset($cmdOutput[0])) {
