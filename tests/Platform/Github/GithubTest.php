@@ -74,6 +74,7 @@ class GithubTest extends TestCase
         static::assertSame(10, $file->changes);
         static::assertNotEmpty($file->patch);
         static::assertStringContainsString('Verify commit', $file->getContent());
+        static::assertStringContainsString('Verify commit', $file->getContent());
 
         $comments = $github->pullRequest->getComments();
         static::assertSame($comments, $github->pullRequest->getComments());

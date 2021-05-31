@@ -97,6 +97,7 @@ class GitlabTest extends TestCase
         static::assertSame(0, $file->deletions);
         static::assertSame(0, $file->changes);
         static::assertSame('Test', $file->getContent());
+        static::assertSame('Test', $file->getContent());
 
         static::expectException(\RuntimeException::class);
 

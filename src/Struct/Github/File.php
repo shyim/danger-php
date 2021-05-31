@@ -5,12 +5,18 @@ namespace Danger\Struct\Github;
 
 class File extends \Danger\Struct\File
 {
+    private ?string $content = null;
+
     public function __construct(private string $rawUrl)
     {
     }
 
     public function getContent(): string
     {
-        return (string) file_get_contents($this->rawUrl);
+        if ($this->content !== null) {
+            return $this->content;
+        }
+
+        return $this->content = (string) file_get_contents($this->rawUrl);
     }
 }
