@@ -92,7 +92,7 @@ class GitlabCommenter
     /**
      * @return int[]
      */
-    private function getRelevantNoteIds(string $projectIdentifier, int $prId): array
+    public function getRelevantNoteIds(string $projectIdentifier, int $prId): array
     {
         $pager = new ResultPager($this->client, 100);
         $notes = $pager->fetchAll($this->client->mergeRequests(), 'showNotes', [$projectIdentifier, $prId]);

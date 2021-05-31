@@ -125,4 +125,9 @@ class Github extends AbstractPlatform
 
         return array_unique(array_merge($requestedReviewers, $reviewers));
     }
+
+    public function hasDangerMessage(): bool
+    {
+        return count($this->commenter->getCommentIds($this->githubOwner, $this->githubRepository, $this->pullRequest->id)) > 0;
+    }
 }

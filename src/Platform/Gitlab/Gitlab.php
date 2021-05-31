@@ -88,4 +88,9 @@ class Gitlab extends AbstractPlatform
             'labels' => implode(',', $this->pullRequest->labels),
         ]);
     }
+
+    public function hasDangerMessage(): bool
+    {
+        return count($this->commenter->getRelevantNoteIds($this->projectIdentifier, (int) $this->pullRequest->id)) > 0;
+    }
 }

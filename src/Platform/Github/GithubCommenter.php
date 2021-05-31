@@ -90,7 +90,7 @@ class GithubCommenter
     /**
      * @return int[]
      */
-    private function getCommentIds(string $owner, string $repo, string $id): array
+    public function getCommentIds(string $owner, string $repo, string $id): array
     {
         $ids = [];
 

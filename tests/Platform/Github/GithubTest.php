@@ -217,4 +217,23 @@ class GithubTest extends TestCase
 
         $github->removeLabels('Test');
     }
+
+    public function testHasDangerComment(): void
+    {
+        $commenter = $this->createMock(GithubCommenter::class);
+        $commenter->method('getCommentIds')->willReturn([1]);
+
+        $httpClient = new MockHttpClient([
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+        ]);
+
+        $client = Client::createWithHttpClient(new Psr18Client($httpClient));
+
+        $github = new Github($client, $commenter);
+
+        $github->load('FriendsOfShopware/FroshPluginUploader', '144');
+
+        static::assertTrue($github->hasDangerMessage());
+    }
 }

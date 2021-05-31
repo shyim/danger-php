@@ -51,4 +51,9 @@ abstract class AbstractPlatform
 
         $this->pullRequest->labels = array_flip($prLabels);
     }
+
+    /**
+     * Can be used to determine has the pull request a danger comment
+     */
+    abstract public function hasDangerMessage(): bool;
 }

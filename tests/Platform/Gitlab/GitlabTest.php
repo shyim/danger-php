@@ -165,4 +165,20 @@ class GitlabTest extends TestCase
 
         static::assertSame(3, $mockHttpClient->getRequestsCount());
     }
+
+    public function testHasDangerComment(): void
+    {
+        $mockHttpClient = new MockHttpClient([
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+        ]);
+
+        $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
+        $commenter = $this->createMock(GitlabCommenter::class);
+        $commenter->method('getRelevantNoteIds')->willReturn([1, 2, 3]);
+
+        $gitlab = new Gitlab($client, $commenter);
+        $gitlab->load('test', '1');
+
+        static::assertTrue($gitlab->hasDangerMessage());
+    }
 }
