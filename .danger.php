@@ -17,11 +17,13 @@ return (new Config())
         $prFiles = $context
             ->platform
             ->pullRequest
-            ->getFiles();
+            ->getFiles()
+        ;
 
         $files = $prFiles
             ->matches('src/Rule/*')
-            ->filterStatus(File::STATUS_ADDED);
+            ->filterStatus(File::STATUS_ADDED)
+        ;
 
         if ($files->count() && !$prFiles->has('docs/builtin-rules.md')) {
             $context->failure('You have added a new rule. Please change the docs too.');
