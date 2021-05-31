@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2.3.4
         with:
-          depth: '0'
+          fetch-depth: '0'
 
       - name: Get the version
         id: get_version
