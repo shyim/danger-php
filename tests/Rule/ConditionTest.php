@@ -21,11 +21,11 @@ class ConditionTest extends TestCase
         $innerRuleExecuted = false;
 
         $rule = new Condition(
-            function (Context $context) {
+            static function (Context $context): bool {
                 return $context->platform instanceof Github;
             },
             [
-                function (Context $context) use (&$innerRuleExecuted): void {
+                static function (Context $context) use (&$innerRuleExecuted): void {
                     $innerRuleExecuted = true;
                 },
             ]
@@ -43,11 +43,11 @@ class ConditionTest extends TestCase
         $innerRuleExecuted = false;
 
         $rule = new Condition(
-            function (Context $context) {
+            static function (Context $context): bool {
                 return $context->platform instanceof Gitlab;
             },
             [
-                function (Context $context) use (&$innerRuleExecuted): void {
+                static function (Context $context) use (&$innerRuleExecuted): void {
                     $innerRuleExecuted = true;
                 },
             ]

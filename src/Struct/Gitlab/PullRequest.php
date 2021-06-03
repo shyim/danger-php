@@ -36,7 +36,7 @@ class PullRequest extends \Danger\Struct\PullRequest
 
     public function getCommits(): CommitCollection
     {
-        if ($this->commits) {
+        if (null !== $this->commits) {
             return $this->commits;
         }
 
@@ -61,7 +61,7 @@ class PullRequest extends \Danger\Struct\PullRequest
 
     public function getFiles(): FileCollection
     {
-        if ($this->files) {
+        if (null !== $this->files) {
             return $this->files;
         }
 

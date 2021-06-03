@@ -22,7 +22,7 @@ class CommitCollection extends Collection
      */
     public function getMessages(): array
     {
-        return $this->fmap(function (Commit $commit) {
+        return $this->fmap(static function (Commit $commit): string {
             return $commit->message;
         });
     }

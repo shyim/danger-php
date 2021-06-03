@@ -70,7 +70,7 @@ class FileCollectionTest extends TestCase
         $f = new File('');
         $c = new FileCollection([$f]);
 
-        $bool = $c->reduce(function () {
+        $bool = $c->reduce(static function (): bool {
             return true;
         });
 
@@ -87,7 +87,7 @@ class FileCollectionTest extends TestCase
 
         $c = new FileCollection([$f2, $f1]);
 
-        $c->sort(function (File $a, File $b) {
+        $c->sort(static function (File $a, File $b): int {
             return $a->name <=> $b->name;
         });
 

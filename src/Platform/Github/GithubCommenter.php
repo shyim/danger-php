@@ -17,7 +17,7 @@ class GithubCommenter
 
     public function comment(string $owner, string $repo, string $id, string $body, Config $config): string
     {
-        if ($config->getGithubCommentProxy()) {
+        if (null !== $config->getGithubCommentProxy()) {
             return $this->commentUsingProxy($owner, $repo, $id, $body, $config);
         }
 
@@ -108,7 +108,7 @@ class GithubCommenter
 
     public function remove(string $owner, string $repo, string $id, Config $config): void
     {
-        if ($config->getGithubCommentProxy()) {
+        if (null !== $config->getGithubCommentProxy()) {
             $url = sprintf('%s/repos/%s/%s/issues/%s/comments', $config->getGithubCommentProxy(), $owner, $repo, $id);
             $this->httpClient->request('POST', $url, [
                 'json' => ['body' => 'delete', 'mode' => $config->getUpdateCommentMode()],

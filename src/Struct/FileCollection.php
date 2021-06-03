@@ -22,7 +22,7 @@ class FileCollection extends Collection
      */
     public function matches(string $pattern): self
     {
-        return $this->filter(function (File $file) use ($pattern) {
+        return $this->filter(static function (File $file) use ($pattern): bool {
             return fnmatch($pattern, $file->name);
         });
     }
@@ -32,7 +32,7 @@ class FileCollection extends Collection
      */
     public function filterStatus(string $status): self
     {
-        return $this->filter(function (File $file) use ($status) {
+        return $this->filter(static function (File $file) use ($status): bool {
             return $file->status === $status;
         });
     }
