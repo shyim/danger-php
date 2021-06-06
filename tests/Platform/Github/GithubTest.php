@@ -41,8 +41,8 @@ class GithubTest extends TestCase
         static::assertSame('FriendsOfShopware/FroshPluginUploader', $github->pullRequest->projectIdentifier);
         static::assertSame('Test PR commenting', $github->pullRequest->title);
         static::assertSame('Body', $github->pullRequest->body);
-        static::assertSame([], $github->pullRequest->labels);
-        static::assertSame([], $github->pullRequest->assignees);
+        static::assertSame(['Dependencies'], $github->pullRequest->labels);
+        static::assertSame(['shyim'], $github->pullRequest->assignees);
         static::assertSame(['dangertestuser', 'dangertestuser2'], $github->pullRequest->reviewers);
         static::assertSame(1621542059, $github->pullRequest->createdAt->getTimestamp());
         static::assertSame(1621547349, $github->pullRequest->updatedAt->getTimestamp());
@@ -144,11 +144,11 @@ class GithubTest extends TestCase
 
         $github->load('FriendsOfShopware/FroshPluginUploader', '144');
 
-        static::assertSame([], $github->pullRequest->labels);
+        static::assertSame(['Dependencies'], $github->pullRequest->labels);
         $github->addLabels('Test');
-        static::assertSame(['Test'], $github->pullRequest->labels);
+        static::assertSame(['Dependencies', 'Test'], $github->pullRequest->labels);
         $github->removeLabels('Test');
-        static::assertSame([], $github->pullRequest->labels);
+        static::assertSame(['Dependencies'], $github->pullRequest->labels);
     }
 
     public function testLabelsWithoutPermission(): void
