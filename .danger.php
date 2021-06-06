@@ -10,7 +10,6 @@ use Danger\Struct\File;
 
 return (new Config())
     ->useRule(new CommitRegex('/^(feat|fix|docs|perf|refactor|compat|chore)(\(.+\))?\:\s(.{3,})/m'))
-    ->useRule(new MaxCommit(1))
     ->useRule(new CheckPhpCsFixer())
     ->useRule(new CheckPhpStan())
     ->useRule(static function (Context $context): void {
