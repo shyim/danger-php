@@ -58,7 +58,7 @@ class GitlabCommenter
             return $baseUrl . '#note_' . $thread['notes'][0]['id'];
         }
 
-        if (count($threadIds)) {
+        if (count($threadIds) > 0) {
             $foundThread = $threadIds[0];
 
             $this->client->mergeRequests()->updateDiscussionNote($projectIdentifier, $prId, $foundThread['threadId'], $foundThread['noteId'], ['body' => $body]);

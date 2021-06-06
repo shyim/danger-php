@@ -9,7 +9,7 @@ class ConfigLoader
 {
     public function loadByPath(?string $path): Config
     {
-        if (!$path) {
+        if (null === $path) {
             $path = '.danger.php';
         }
 

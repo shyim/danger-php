@@ -4,19 +4,29 @@ declare(strict_types=1);
 namespace Danger\Tests;
 
 use Danger\Application;
+use Danger\Command\CiCommand;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @internal
  */
 class ApplicationTest extends TestCase
 {
+    /**
+     * Tests also that the container can be built
+     */
     public function testCliAppStart(): void
     {
+        $_SERVER['CI_SERVER_URL'] = 'https://gitlab.com';
+        $_SERVER['DANGER_GITLAB_TOKEN'] = '1';
+        $_SERVER['GITHUB_TOKEN'] = '1';
+
         $app = new Application();
-        self::assertInstanceOf(ContainerInterface::class, $app->getContainer());
-        static::assertInstanceOf(Command::class, $app->find('ci'));
+
+        static::assertTrue($app->getContainer()->has(CiCommand::class));
+
+        unset($_SERVER['CI_SERVER_URL']);
+        unset($_SERVER['DANGER_GITLAB_TOKEN']);
+        unset($_SERVER['GITHUB_TOKEN']);
     }
 }

@@ -79,7 +79,9 @@ class GithubCommand extends Command
 
     private function assembleContextByUrl(string $url): Context
     {
-        if (!preg_match('/^https:\/\/github\.com\/(?<owner>[\w\-_]*)\/(?<repo>[\w\-_]*)\/pull\/(?<id>\d*)/', $url, $matches)) {
+        $pregMatch = preg_match('/^https:\/\/github\.com\/(?<owner>[\w\-_]*)\/(?<repo>[\w\-_]*)\/pull\/(?<id>\d*)/', $url, $matches);
+
+        if (0 === $pregMatch || false === $pregMatch) {
             throw new \InvalidArgumentException('The given url must be a valid Github URL');
         }
 

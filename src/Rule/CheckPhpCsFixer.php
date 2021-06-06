@@ -48,7 +48,7 @@ class CheckPhpCsFixer
         }
         // @codeCoverageIgnoreEnd
 
-        if (count(json_decode($cmdOutput[0], true)['files'])) {
+        if (count(json_decode($cmdOutput[0], true, 512, \JSON_THROW_ON_ERROR)['files']) > 0) {
             $context->failure($this->foundErrors);
         }
     }
