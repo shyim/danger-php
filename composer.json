@@ -21,7 +21,7 @@
         "ext-ctype": "*",
         "ext-intl": "*",
         "symfony/console": "^5.3",
-        "symfony/dependency-injection": "^5.2",
+        "symfony/dependency-injection": "^5.3",
         "symfony/filesystem": "^5.2",
         "knplabs/github-api": "^3.3",
         "symfony/config": "^5.3",
