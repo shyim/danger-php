@@ -54,5 +54,9 @@
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^0.12.6",
         "phpstan/phpstan-strict-rules": "^0.12.9"
+    },
+    "scripts": {
+        "phpstan": "phpstan analyse",
+        "fix-code-style": "php-cs-fixer fix"
     }
 }
