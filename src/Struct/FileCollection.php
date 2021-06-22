@@ -30,6 +30,19 @@ class FileCollection extends Collection
     /**
      * @return FileCollection<File>
      */
+    public function matchesContent(string $pattern): self
+    {
+        return $this->filter(static function (File $file) use ($pattern): bool {
+            if (($matches = preg_grep($pattern, [$file->getContent()])) === false || count($matches) === 0) {
+                return false;
+            }
+            return true;
+        });
+    }
+
+    /**
+     * @return FileCollection<File>
+     */
     public function filterStatus(string $status): self
     {
         return $this->filter(static function (File $file) use ($status): bool {

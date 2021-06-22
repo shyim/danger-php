@@ -117,4 +117,25 @@ class FileCollectionTest extends TestCase
         static::assertInstanceOf(File::class, $item);
         static::assertSame('changelogs/_unreleased/some-file.md', $item->name);
     }
+
+    public function testFilesMatchingContent(): void
+    {
+        $f1 = new File('./tests/fixtures/README.md');
+        $f1->name = 'tests/fixtures/README.md';
+
+        $f2 = new File('./tests/fixtures/SqlHeredocFixture.php');
+        $f2->name = 'tests/fixtures/SqlHeredocFixture.php';
+
+        $f3 = new File('./tests/fixtures/SqlNowdocFixture.php');
+        $f3->name = 'tests/fixtures/SqlNowdocFixture.php';
+
+        $c = new FileCollection([$f1, $f2, $f3]);
+
+        $newCollection = $c->matchesContent('/<<<SQL/');
+
+        static::assertCount(1, $newCollection);
+        $item = $newCollection->first();
+        static::assertInstanceOf(File::class, $item);
+        static::assertSame('tests/fixtures/SqlHeredocFixture.php', $item->name);
+    }
 }
