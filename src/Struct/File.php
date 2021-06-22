@@ -19,7 +19,7 @@ abstract class File
 
     public int $changes;
 
-    public string $patch;
+    public string $patch = '';
 
     abstract public function getContent(): string;
 }

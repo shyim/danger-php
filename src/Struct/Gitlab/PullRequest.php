@@ -76,7 +76,10 @@ class PullRequest extends \Danger\Struct\PullRequest
             $file->additions = 0;
             $file->deletions = 0;
             $file->changes = $file->additions + $file->deletions;
-            $file->patch = $rawGitlabFile['diff'];
+
+            if (isset($rawGitlabFile['diff'])) {
+                $file->patch = $rawGitlabFile['diff'];
+            }
 
             $collection->set($file->name, $file);
         }
