@@ -50,7 +50,7 @@
         "friendsofphp/php-cs-fixer": "^3.0",
         "phpunit/phpunit": "^9.5",
         "phpstan/phpstan": "^0.12.92",
-        "phpstan/phpstan-phpunit": "^0.12.20",
+        "phpstan/phpstan-phpunit": "^0.12.21",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^0.12.6",
         "phpstan/phpstan-strict-rules": "^0.12.10"
