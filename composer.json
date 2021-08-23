@@ -53,7 +53,7 @@
         "phpstan/phpstan-phpunit": "^0.12.22",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^0.12.6",
-        "phpstan/phpstan-strict-rules": "^0.12.10"
+        "phpstan/phpstan-strict-rules": "^0.12.11"
     },
     "scripts": {
         "phpstan": "phpstan analyse",
