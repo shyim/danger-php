@@ -14,7 +14,7 @@ class Github extends AbstractPlatform
     public PullRequest $pullRequest;
 
     /**
-     * @var array{'title': string, 'body': string, 'labels': string[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string}
+     * @var array{'title': string, 'body': ?string, 'labels': string[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string}
      */
     public array $raw;
 
@@ -40,7 +40,7 @@ class Github extends AbstractPlatform
         $this->pullRequest->id = $id;
         $this->pullRequest->projectIdentifier = $projectIdentifier;
         $this->pullRequest->title = $this->raw['title'];
-        $this->pullRequest->body = $this->raw['body'];
+        $this->pullRequest->body = $this->raw['body'] ?? '';
         $this->pullRequest->labels = array_map(static function (array $label): string {
             return $label['name'];
         }, $this->raw['labels']
