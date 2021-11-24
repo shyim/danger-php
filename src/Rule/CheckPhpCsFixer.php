@@ -38,7 +38,7 @@ class CheckPhpCsFixer
             $fs->dumpFile($tempFolder . '/' . $file->name, $file->getContent());
         }
 
-        exec($this->command . ' ' . $tempFolder, $cmdOutput, $resultCode);
+        exec($this->command . ' ' . $tempFolder . ' 2> /dev/null', $cmdOutput, $resultCode);
 
         $fs->remove($tempFolder);
 

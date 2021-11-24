@@ -55,7 +55,7 @@ class CiCommand extends Command
 
             $io->success('Looks good!');
 
-            return 0;
+            return self::SUCCESS;
         }
 
         $body = $this->renderer->convert($context);
@@ -64,6 +64,6 @@ class CiCommand extends Command
 
         $io->info('The comment has been created at ' . $commentLink);
 
-        return $context->hasFailures() ? -1 : 0;
+        return $context->hasFailures() ? self::FAILURE : self::SUCCESS;
     }
 }

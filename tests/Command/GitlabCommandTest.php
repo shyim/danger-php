@@ -8,9 +8,11 @@ use Danger\ConfigLoader;
 use Danger\Platform\Gitlab\Gitlab;
 use Danger\Runner;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @internal
@@ -87,15 +89,20 @@ class GitlabCommandTest extends TestCase
 
         $cmd = new GitlabCommand($gitlab, new ConfigLoader(), new Runner());
 
-        $output = new BufferedOutput();
-        $returnCode = $cmd->run(new ArgvInput(['danger', 'test', '1', '--config=' . dirname(__DIR__) . '/configs/all.php']), $output);
+        $tester = new CommandTester($cmd);
+        $exitCode = $tester->execute([
+            'mrID' => '1',
+            'projectIdentifier' => 'test',
+            '--config' => dirname(__DIR__) . '/configs/all.php',
+        ]);
 
-        $text = $output->fetch();
-
-        static::assertStringContainsString('Failures', $text);
-        static::assertStringContainsString('Warnings', $text);
-        static::assertStringContainsString('Notices', $text);
-        static::assertSame(-1, $returnCode);
+        static::assertSame(Command::FAILURE, $exitCode);
+        static::assertStringContainsString('Failures', $tester->getDisplay());
+        static::assertStringContainsString('Warnings', $tester->getDisplay());
+        static::assertStringContainsString('Notices', $tester->getDisplay());
+        static::assertStringContainsString('A Failure', $tester->getDisplay());
+        static::assertStringContainsString('A Warning', $tester->getDisplay());
+        static::assertStringContainsString('A Notice', $tester->getDisplay());
 
         unset($_SERVER['DANGER_GITLAB_TOKEN']);
     }

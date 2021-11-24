@@ -5,8 +5,8 @@ use Danger\Config;
 return
     (new Config())
         ->useRule(function (Danger\Context $context): void {
-            $context->failure('Test');
-            $context->warning('Test');
-            $context->notice('Test');
+            $context->failure('A Failure');
+            $context->warning('A Warning');
+            $context->notice('A Notice');
         })
     ;

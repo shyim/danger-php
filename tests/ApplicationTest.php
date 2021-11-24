@@ -24,6 +24,7 @@ class ApplicationTest extends TestCase
         $app = new Application();
 
         static::assertTrue($app->getContainer()->has(CiCommand::class));
+        static::assertTrue($app->getContainer()->getDefinition(CiCommand::class)->hasTag('console.command'));
 
         unset($_SERVER['CI_SERVER_URL']);
         unset($_SERVER['DANGER_GITLAB_TOKEN']);

@@ -6,14 +6,14 @@ namespace Danger;
 use Danger\DependencyInjection\Container;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class Application extends SymfonyApplication
 {
     public const PACKAGE_NAME = 'shyim/danger-php';
     public const RULE_DEPRECATION_MESSAGE = 'This rule is deprecated. Use %s instead.';
 
-    private ContainerInterface $container;
+    private ContainerBuilder $container;
 
     public function __construct()
     {
@@ -28,7 +28,7 @@ class Application extends SymfonyApplication
         }
     }
 
-    public function getContainer(): ContainerInterface
+    public function getContainer(): ContainerBuilder
     {
         return $this->container;
     }

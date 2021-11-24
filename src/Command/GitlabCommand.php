@@ -23,7 +23,7 @@ class GitlabCommand extends Command
         parent::__construct();
     }
 
-    public function configure(): void
+    protected function configure(): void
     {
         $this
             ->setDescription('Run local danger against an Gitlab PR without Commenting')
@@ -40,7 +40,7 @@ class GitlabCommand extends Command
         if (!isset($_SERVER['DANGER_GITLAB_TOKEN'])) {
             $io->error('You need the environment variable DANGER_GITLAB_TOKEN with an Gitlab API Token to use this command');
 
-            return -1;
+            return self::FAILURE;
         }
 
         $projectIdentifier = $input->getArgument('projectIdentifier');
@@ -65,7 +65,7 @@ class GitlabCommand extends Command
         if (!$context->hasReports()) {
             $io->success('PR looks good!');
 
-            return 0;
+            return self::SUCCESS;
         }
 
         $failed = false;
@@ -83,6 +83,6 @@ class GitlabCommand extends Command
             $io->table(['Notices'], array_map(fn (string $msg) => [$msg], $context->getNotices()));
         }
 
-        return $failed ? -1 : 0;
+        return $failed ? self::FAILURE : self::SUCCESS;
     }
 }

@@ -35,7 +35,7 @@ abstract class Collection implements \IteratorAggregate, \Countable
     /**
      * @param T $element
      */
-    public function set(string | int $key, $element): void
+    public function set(string|int $key, $element): void
     {
         $this->elements[$key] = $element;
     }
@@ -43,7 +43,7 @@ abstract class Collection implements \IteratorAggregate, \Countable
     /**
      * @return T|null
      */
-    public function get(string | int $key)
+    public function get(string|int $key)
     {
         if ($this->has($key)) {
             return $this->elements[$key];
@@ -70,7 +70,7 @@ abstract class Collection implements \IteratorAggregate, \Countable
         return array_keys($this->elements);
     }
 
-    public function has(string | int $key): bool
+    public function has(string|int $key): bool
     {
         return \array_key_exists($key, $this->elements);
     }

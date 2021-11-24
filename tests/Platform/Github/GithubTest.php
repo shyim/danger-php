@@ -136,6 +136,7 @@ class GithubTest extends TestCase
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{}', ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($httpClient));
@@ -145,6 +146,8 @@ class GithubTest extends TestCase
         $github->load('FriendsOfShopware/FroshPluginUploader', '144');
 
         static::assertSame(['Dependencies'], $github->pullRequest->labels);
+        $github->addLabels('Test');
+
         $github->addLabels('Test');
         static::assertSame(['Dependencies', 'Test'], $github->pullRequest->labels);
         $github->removeLabels('Test');

@@ -23,7 +23,7 @@ class GithubCommand extends Command
         parent::__construct();
     }
 
-    public function configure(): void
+    protected function configure(): void
     {
         $this
             ->setDescription('Run local danger against an Github PR without Commenting')
@@ -74,14 +74,14 @@ class GithubCommand extends Command
             $io->table(['Notices'], array_map(fn (string $msg) => [$msg], $context->getNotices()));
         }
 
-        return $failed ? -1 : 0;
+        return $failed ? self::FAILURE : self::SUCCESS;
     }
 
     private function assembleContextByUrl(string $url): Context
     {
         $pregMatch = preg_match('/^https:\/\/github\.com\/(?<owner>[\w\-_]*)\/(?<repo>[\w\-_]*)\/pull\/(?<id>\d*)/', $url, $matches);
 
-        if (0 === $pregMatch || false === $pregMatch) {
+        if (0 === $pregMatch) {
             throw new \InvalidArgumentException('The given url must be a valid Github URL');
         }
 

@@ -17,13 +17,13 @@ class InitCommand extends Command
         $this->setDescription('Initializes a new danger.php');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $path = getcwd() . '/.danger.php';
 
         $io = new SymfonyStyle($input, $output);
 
-        if (file_exists($path)) {
+        if (is_file($path)) {
             if (!$io->confirm('A .danger.php file does already exist. Do you want to override it?')) {
                 return 0;
             }
@@ -37,7 +37,7 @@ use Danger\Rule\DisallowRepeatedCommits;
 return (new Config())
     ->useRule(new DisallowRepeatedCommits) // Disallows multiple commits with the same message
 ;
-');
+', \LOCK_EX);
         $io->success(sprintf('Created %s', $path));
 
         return 0;

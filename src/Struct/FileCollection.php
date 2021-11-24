@@ -36,6 +36,7 @@ class FileCollection extends Collection
             if (($matches = preg_grep($pattern, [$file->getContent()])) === false || count($matches) === 0) {
                 return false;
             }
+
             return true;
         });
     }

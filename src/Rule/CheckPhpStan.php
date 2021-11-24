@@ -8,7 +8,7 @@ use Danger\Context;
 class CheckPhpStan
 {
     public function __construct(
-        private string $command = './vendor/bin/phpstan --error-format=json --no-progress',
+        private string $command = './vendor/bin/phpstan --error-format=json --no-progress 2> /dev/null',
         private string $message = 'PHPStan check failed. Run locally <code>./vendor/bin/phpstan --error-format=json --no-progress</code> to see the errors.'
     ) {
     }
