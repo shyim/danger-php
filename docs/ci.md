@@ -17,13 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone
-        uses: actions/checkout@v1
-
-      - name: Download latest Danger
-        run: wget https://github.com/shyim/danger-php/releases/latest/download/danger.phar
+        uses: actions/checkout@v2.4.0
 
       - name: Danger
-        run: php danger.phar ci
+        uses: docker://ghcr.io/shyim/danger-php:latest
+        with:
+          args: ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_PULL_REQUEST_ID: ${{ github.event.pull_request.number }}
@@ -46,17 +45,16 @@ jobs:
       - name: Clone
         uses: actions/checkout@v1
 
-      - name: Download latest Danger
-        run: wget https://github.com/shyim/danger-php/releases/latest/download/danger.phar
-
       - name: Danger
-        run: php danger.phar ci
+        uses: docker://ghcr.io/shyim/danger-php:latest
+        with:
+          args: ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_PULL_REQUEST_ID: ${{ github.event.pull_request.number }}
 ```
 
-## Gitlab CI
+## GitLab CI
 
 ```yaml
 Danger:
