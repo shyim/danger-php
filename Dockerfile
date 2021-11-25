@@ -9,4 +9,4 @@ RUN apk add --no-cache git zip unzip && \
     composer install --no-dev -d /app && \
     ln -s /app/bin/danger /usr/local/bin/danger
 
-ENTRYPOINT [ "/app/bin/danger", "ci" ]
+ENTRYPOINT [ "/app/bin/danger" ]
