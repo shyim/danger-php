@@ -22,7 +22,7 @@
         "ext-intl": "*",
         "symfony/console": "^5.3",
         "symfony/dependency-injection": "^5.4",
-        "symfony/filesystem": "^5.3",
+        "symfony/filesystem": "^5.4",
         "knplabs/github-api": "^3.3",
         "symfony/config": "^5.3",
         "symfony/http-client": "^5.4",
