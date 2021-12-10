@@ -20,7 +20,7 @@
         "ext-mbstring": "*",
         "ext-ctype": "*",
         "ext-intl": "*",
-        "symfony/console": "^5.3",
+        "symfony/console": "^5.4",
         "symfony/dependency-injection": "^5.4",
         "symfony/filesystem": "^5.4",
         "knplabs/github-api": "^3.3",
