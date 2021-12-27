@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "07375e33258d40fa4506e133a15be6d8",
+    "content-hash": "cd12865f5dcca2b8476f595a7c07de19",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -162,32 +162,32 @@
         },
         {
             "name": "m4tthumphrey/php-gitlab-api",
-            "version": "11.4.0",
+            "version": "11.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GitLabPHP/Client.git",
-                "reference": "4aa7d2af5614bca3f3473dae59fe930dbe73b496"
+                "reference": "607986a9ab42ba50377f616d4dd1bf0fe6cdc877"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GitLabPHP/Client/zipball/4aa7d2af5614bca3f3473dae59fe930dbe73b496",
-                "reference": "4aa7d2af5614bca3f3473dae59fe930dbe73b496",
+                "url": "https://api.github.com/repos/GitLabPHP/Client/zipball/607986a9ab42ba50377f616d4dd1bf0fe6cdc877",
+                "reference": "607986a9ab42ba50377f616d4dd1bf0fe6cdc877",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-xml": "*",
                 "php": "^7.2.5 || ^8.0",
-                "php-http/cache-plugin": "^1.7.1",
+                "php-http/cache-plugin": "^1.7.2",
                 "php-http/client-common": "^2.3",
                 "php-http/discovery": "^1.12",
                 "php-http/httplug": "^2.2",
                 "php-http/multipart-stream-builder": "^1.1.2",
-                "psr/cache": "^1.0",
+                "psr/cache": "^1.0 || ^2.0",
                 "psr/http-client-implementation": "^1.0",
                 "psr/http-factory-implementation": "^1.0",
                 "psr/http-message": "^1.0",
-                "symfony/options-resolver": "^3.4 || ^4.0 || ^5.0",
+                "symfony/options-resolver": "^3.4 || ^4.0 || ^5.0 || ^6.0",
                 "symfony/polyfill-php80": "^1.17"
             },
             "require-dev": {
@@ -208,19 +208,23 @@
             "authors": [
                 {
                     "name": "Fabien Bourigault",
-                    "email": "bourigaultfabien@gmail.com"
+                    "email": "bourigaultfabien@gmail.com",
+                    "homepage": "https://github.com/fbourigault"
                 },
                 {
                     "name": "Graham Campbell",
-                    "email": "graham@alt-three.com"
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
                 },
                 {
                     "name": "Matt Humphrey",
-                    "email": "matth@windsor-telecom.co.uk"
+                    "email": "matth@windsor-telecom.co.uk",
+                    "homepage": "https://github.com/m4tthumphrey"
                 },
                 {
                     "name": "Miguel Piedrafita",
-                    "email": "github@miguelpiedrafita.com"
+                    "email": "github@miguelpiedrafita.com",
+                    "homepage": "https://github.com/m1guelpf"
                 }
             ],
             "description": "GitLab API v4 client for PHP",
@@ -230,7 +234,7 @@
             ],
             "support": {
                 "issues": "https://github.com/GitLabPHP/Client/issues",
-                "source": "https://github.com/GitLabPHP/Client/tree/11.4.0"
+                "source": "https://github.com/GitLabPHP/Client/tree/11.5.0"
             },
             "funding": [
                 {
@@ -238,7 +242,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-27T23:40:20+00:00"
+            "time": "2021-12-26T23:41:14+00:00"
         },
         {
             "name": "nyholm/psr7",
