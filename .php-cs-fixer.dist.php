@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This document has been generated with
  * https://mlocati.github.io/php-cs-fixer-configurator/#version:3.0.0-rc.1|configurator
@@ -21,9 +21,9 @@ return (new PhpCsFixer\Config())
         // Calling `unset` on multiple items should be done in one call.
         'combine_consecutive_unsets' => false,
         // Concatenation should be spaced according configuration.
-        'concat_space' => ['spacing'=>'one'],
+        'concat_space' => ['spacing' => 'one'],
         // Pre- or post-increment and decrement operators should be used if possible.
-        'increment_style' => ['style'=>'post'],
+        'increment_style' => ['style' => 'post'],
         // Ensure there is no code on the same line as the PHP open tag.
         'linebreak_after_opening_tag' => false,
         // Replace non multibyte-safe functions with corresponding mb function.
@@ -33,7 +33,7 @@ return (new PhpCsFixer\Config())
         // Adds or removes `?` before type declarations for parameters with a default `null` value.
         'nullable_type_declaration_for_default_null_value' => true,
         // All items of the given phpdoc tags must be either left-aligned or (by default) aligned vertically.
-        'phpdoc_align' => ['align'=>'left'],
+        'phpdoc_align' => ['align' => 'left'],
         // PHPDoc summary should end in either a full stop, exclamation mark, or question mark.
         'phpdoc_summary' => false,
         // Throwing exception must be done in single line.
@@ -48,11 +48,11 @@ return (new PhpCsFixer\Config())
         'yoda_style' => false,
         // Currently waiting for https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/5572 to be implemented to ignore @var (needed for LSP)
         'phpdoc_to_comment' => false,
-        'php_unit_test_class_requires_covers' => false
+        'php_unit_test_class_requires_covers' => false,
     ])
     ->setFinder(PhpCsFixer\Finder::create()
-        ->exclude('vendor')
-        ->exclude('tests/fixtures')
-        ->in(__DIR__)
+    ->exclude('vendor')
+    ->exclude('tests/fixtures')
+    ->in(__DIR__)
     )
     ;
