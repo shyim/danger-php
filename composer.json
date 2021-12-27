@@ -23,7 +23,7 @@
         "symfony/console": "^5.4",
         "symfony/dependency-injection": "^5.4",
         "symfony/filesystem": "^5.4",
-        "knplabs/github-api": "^3.3",
+        "knplabs/github-api": "^3.4",
         "symfony/config": "^5.4",
         "symfony/http-client": "^5.4",
         "nyholm/psr7": "^1.4",
