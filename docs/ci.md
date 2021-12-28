@@ -30,7 +30,7 @@ jobs:
 
 ### pull_request
 
-**Warning**: This will only function on pull requests in the same repository. Checkout [this](./getting_started.md#useGithubCommentProxy) for an entire setup.
+**Warning**: This will only function on pull requests in the same repository. Checkout [this](./getting_started.md) for an entire setup.
 Label functions will not work on pull requests coming from forks.
 
 ```yaml

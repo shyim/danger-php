@@ -47,6 +47,7 @@
         }
     ],
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "friendsofphp/php-cs-fixer": "^3.4",
         "phpunit/phpunit": "^9.5",
         "phpstan/phpstan": "^1.2.0",

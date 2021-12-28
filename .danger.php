@@ -5,7 +5,6 @@ use Danger\Context;
 use Danger\Rule\CheckPhpCsFixer;
 use Danger\Rule\CheckPhpStan;
 use Danger\Rule\CommitRegex;
-use Danger\Rule\MaxCommit;
 use Danger\Struct\File;
 
 return (new Config())

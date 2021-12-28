@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php
+
+use Danger\Application;
+
 error_reporting(-1);
 ini_set('display_errors', 1);
 
@@ -18,5 +21,5 @@ foreach ($includables as $file) {
     }
 }
 
-$app = new \Danger\Application();
+$app = new Application();
 $app->run();

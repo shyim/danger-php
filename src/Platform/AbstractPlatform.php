@@ -30,7 +30,7 @@ abstract class AbstractPlatform
      */
     abstract public function removePost(Config $config): void;
 
-    protected function addLabels(string ...$labels): void
+    public function addLabels(string ...$labels): void
     {
         foreach ($labels as $label) {
             $this->pullRequest->labels[] = $label;
