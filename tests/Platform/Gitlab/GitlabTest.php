@@ -11,6 +11,7 @@ use Danger\Struct\Commit;
 use Danger\Struct\File;
 use Gitlab\Client;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -33,7 +34,7 @@ class GitlabTest extends TestCase
         $gitlab = new Gitlab($client, new GitlabCommenter($client));
         $gitlab->load('test', '1');
 
-        static::assertSame(json_decode((string) file_get_contents(__DIR__ . '/payloads/mr.json'), true), $gitlab->raw);
+        static::assertSame(json_decode((string) file_get_contents(__DIR__ . '/payloads/mr.json'), true, 512, \JSON_THROW_ON_ERROR), $gitlab->raw);
         static::assertSame('1', $gitlab->pullRequest->id);
         static::assertSame('test', $gitlab->pullRequest->projectIdentifier);
         static::assertSame('Update Test', $gitlab->pullRequest->title);
@@ -99,7 +100,7 @@ class GitlabTest extends TestCase
         static::assertSame('Test', $file->getContent());
         static::assertSame('Test', $file->getContent());
 
-        static::expectException(\RuntimeException::class);
+        static::expectException(RuntimeException::class);
 
         $lastFile = $files->last();
         static::assertInstanceOf(File::class, $lastFile);

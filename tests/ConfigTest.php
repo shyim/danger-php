@@ -15,7 +15,7 @@ class ConfigTest extends TestCase
     {
         $config = new Config();
 
-        $config->useRule(function (): void {});
+        $config->useRule(static function (): void {});
         static::assertCount(1, $config->getRules());
 
         static::assertFalse($config->isThreadEnabled());
@@ -30,7 +30,7 @@ class ConfigTest extends TestCase
         $config->useCommentMode(Config::UPDATE_COMMENT_MODE_REPLACE);
         static::assertSame(Config::UPDATE_COMMENT_MODE_REPLACE, $config->getUpdateCommentMode());
 
-        $config->after(function (): void {});
+        $config->after(static function (): void {});
         static::assertCount(1, $config->getAfterHooks());
     }
 }

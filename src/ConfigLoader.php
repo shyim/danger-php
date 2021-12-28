@@ -8,6 +8,7 @@ use Danger\Exception\InvalidConfigurationException;
 
 class ConfigLoader
 {
+    /** @noinspection UsingInclusionReturnValueInspection */
     public function loadByPath(?string $path): Config
     {
         if ($path === null) {

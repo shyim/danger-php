@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Danger\Tests\Struct;
 
+use Danger\Struct\File as FileAlias;
 use Danger\Struct\FileCollection;
 use Danger\Struct\Github\File;
 use PHPUnit\Framework\TestCase;
@@ -16,26 +17,26 @@ class FileCollectionTest extends TestCase
     {
         $f = new File('');
         $f->name = 'CHANGELOG.md';
-        $f->status = File::STATUS_ADDED;
+        $f->status = FileAlias::STATUS_ADDED;
 
         $c = new FileCollection([$f]);
 
-        static::assertCount(1, $c->filterStatus(File::STATUS_ADDED));
+        static::assertCount(1, $c->filterStatus(FileAlias::STATUS_ADDED));
 
-        $f->status = File::STATUS_MODIFIED;
+        $f->status = FileAlias::STATUS_MODIFIED;
 
-        static::assertCount(1, $c->filterStatus(File::STATUS_MODIFIED));
+        static::assertCount(1, $c->filterStatus(FileAlias::STATUS_MODIFIED));
 
-        $f->status = File::STATUS_REMOVED;
+        $f->status = FileAlias::STATUS_REMOVED;
 
-        static::assertCount(1, $c->filterStatus(File::STATUS_REMOVED));
+        static::assertCount(1, $c->filterStatus(FileAlias::STATUS_REMOVED));
     }
 
     public function testClear(): void
     {
         $f = new File('');
         $f->name = 'CHANGELOG.md';
-        $f->status = File::STATUS_ADDED;
+        $f->status = FileAlias::STATUS_ADDED;
 
         $c = new FileCollection([$f]);
 

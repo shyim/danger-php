@@ -25,7 +25,7 @@ class ConditionTest extends TestCase
                 return $context->platform instanceof Github;
             },
             [
-                static function (Context $context) use (&$innerRuleExecuted): void {
+                static function () use (&$innerRuleExecuted): void {
                     $innerRuleExecuted = true;
                 },
             ]
@@ -47,7 +47,7 @@ class ConditionTest extends TestCase
                 return $context->platform instanceof Gitlab;
             },
             [
-                static function (Context $context) use (&$innerRuleExecuted): void {
+                static function () use (&$innerRuleExecuted): void {
                     $innerRuleExecuted = true;
                 },
             ]

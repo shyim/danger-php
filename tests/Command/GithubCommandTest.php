@@ -7,7 +7,10 @@ use Danger\Command\GithubCommand;
 use Danger\ConfigLoader;
 use Danger\Platform\Github\Github;
 use Danger\Runner;
+use function dirname;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\NullOutput;
@@ -38,7 +41,7 @@ class GithubCommandTest extends TestCase
     {
         $cmd = new GithubCommand($this->createMock(Github::class), new ConfigLoader(), new Runner());
 
-        static::expectException(\InvalidArgumentException::class);
+        static::expectException(InvalidArgumentException::class);
         static::expectExceptionMessage('The given url must be a valid Github URL');
 
         $cmd->run(new ArgvInput(['danger', $url]), new NullOutput());
@@ -48,7 +51,7 @@ class GithubCommandTest extends TestCase
     {
         $cmd = new GithubCommand($this->createMock(Github::class), new ConfigLoader(), new Runner());
 
-        static::expectException(\RuntimeException::class);
+        static::expectException(RuntimeException::class);
         static::expectExceptionMessage('Invalid config option given');
 
         $input = new ArgvInput(['danger', 'https://github.com']);
@@ -62,7 +65,7 @@ class GithubCommandTest extends TestCase
     {
         $cmd = new GithubCommand($this->createMock(Github::class), new ConfigLoader(), new Runner());
 
-        static::expectException(\RuntimeException::class);
+        static::expectException(RuntimeException::class);
         static::expectExceptionMessage('The PR links needs to be a string');
 
         $tester = new CommandTester($cmd);

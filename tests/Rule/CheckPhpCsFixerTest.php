@@ -9,6 +9,7 @@ use Danger\Rule\CheckPhpCsFixer;
 use Danger\Struct\FileCollection;
 use Danger\Struct\Github\PullRequest;
 use Danger\Tests\Struct\TestFile;
+use const PHP_VERSION_ID;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,7 +19,7 @@ class CheckPhpCsFixerTest extends TestCase
 {
     protected function setUp(): void
     {
-        if (\PHP_VERSION_ID >= 80100) {
+        if (PHP_VERSION_ID >= 80100) {
             static::markTestSkipped('cs fixer doesnt work on 8.1 currently');
         }
     }

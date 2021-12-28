@@ -7,6 +7,7 @@ use Danger\Config;
 use Danger\Platform\Github\GithubCommenter;
 use Github\Client;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -32,7 +33,7 @@ class GithubCommenterTest extends TestCase
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
-        static::expectException(\RuntimeException::class);
+        static::expectException(RuntimeException::class);
 
         $commenter = new GithubCommenter($this->createMock(Client::class), $client);
         $commenter->comment(

@@ -34,9 +34,7 @@ class PlatformDetectorTest extends TestCase
         $detector = new PlatformDetector($github, $this->createMock(Gitlab::class));
         static::assertSame($github, $detector->detect());
 
-        unset($_SERVER['GITHUB_REPOSITORY']);
-        unset($_SERVER['GITHUB_PULL_REQUEST_ID']);
-        unset($_SERVER['GITHUB_TOKEN']);
+        unset($_SERVER['GITHUB_REPOSITORY'], $_SERVER['GITHUB_PULL_REQUEST_ID'], $_SERVER['GITHUB_TOKEN']);
     }
 
     public function testGitlab(): void
@@ -52,9 +50,6 @@ class PlatformDetectorTest extends TestCase
         $detector = new PlatformDetector($this->createMock(Github::class), $gitlab);
         static::assertSame($gitlab, $detector->detect());
 
-        unset($_SERVER['GITLAB_CI']);
-        unset($_SERVER['CI_PROJECT_ID']);
-        unset($_SERVER['CI_MERGE_REQUEST_IID']);
-        unset($_SERVER['DANGER_GITLAB_TOKEN']);
+        unset($_SERVER['GITLAB_CI'], $_SERVER['CI_PROJECT_ID'], $_SERVER['CI_MERGE_REQUEST_IID'], $_SERVER['DANGER_GITLAB_TOKEN']);
     }
 }
