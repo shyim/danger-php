@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Danger;
 
+use function count;
+
 class Runner
 {
     public function run(Config $config, Context $context): void

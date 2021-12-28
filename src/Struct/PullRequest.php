@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Danger\Struct;
 
+use DateTime;
+
 abstract class PullRequest
 {
     public string $id;
@@ -13,9 +15,9 @@ abstract class PullRequest
 
     public string $body;
 
-    public \DateTime $createdAt;
+    public DateTime $createdAt;
 
-    public \DateTime $updatedAt;
+    public DateTime $updatedAt;
 
     /**
      * @var string[]

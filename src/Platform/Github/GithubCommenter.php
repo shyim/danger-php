@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace Danger\Platform\Github;
 
+use function count;
 use Danger\Config;
 use Danger\Renderer\HTMLRenderer;
 use Github\Client;
 use Github\ResultPager;
+use RuntimeException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GithubCommenter
@@ -17,7 +19,7 @@ class GithubCommenter
 
     public function comment(string $owner, string $repo, string $id, string $body, Config $config): string
     {
-        if (null !== $config->getGithubCommentProxy()) {
+        if ($config->getGithubCommentProxy() !== null) {
             return $this->commentUsingProxy($owner, $repo, $id, $body, $config);
         }
 
@@ -36,7 +38,7 @@ class GithubCommenter
         ])->toArray();
 
         if (!isset($response['html_url'])) {
-            throw new \RuntimeException(sprintf('Expected html_url in the response. But got %s', json_encode($response)));
+            throw new RuntimeException(sprintf('Expected html_url in the response. But got %s', json_encode($response, \JSON_THROW_ON_ERROR)));
         }
 
         return $response['html_url'];
@@ -108,7 +110,7 @@ class GithubCommenter
 
     public function remove(string $owner, string $repo, string $id, Config $config): void
     {
-        if (null !== $config->getGithubCommentProxy()) {
+        if ($config->getGithubCommentProxy() !== null) {
             $url = sprintf('%s/repos/%s/%s/issues/%s/comments', $config->getGithubCommentProxy(), $owner, $repo, $id);
             $this->httpClient->request('POST', $url, [
                 'json' => ['body' => 'delete', 'mode' => $config->getUpdateCommentMode()],

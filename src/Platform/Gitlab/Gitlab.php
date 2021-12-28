@@ -3,19 +3,19 @@ declare(strict_types=1);
 
 namespace Danger\Platform\Gitlab;
 
+use function count;
 use Danger\Config;
 use Danger\Platform\AbstractPlatform;
 use Danger\Struct\Gitlab\PullRequest;
+use DateTime;
 use Gitlab\Client;
 
+/**
+ * @property array{'web_url': string} $raw
+ */
 class Gitlab extends AbstractPlatform
 {
     private string $projectIdentifier;
-
-    /**
-     * @var array{'web_url': string}
-     */
-    public array $raw;
 
     public function __construct(public Client $client, private GitlabCommenter $commenter)
     {
@@ -33,10 +33,10 @@ class Gitlab extends AbstractPlatform
         $this->pullRequest->title = $this->raw['title'];
         $this->pullRequest->body = (string) $this->raw['description'];
         $this->pullRequest->labels = $this->raw['labels'];
-        $this->pullRequest->assignees = array_map(function (array $assignee) { return $assignee['username']; }, $this->raw['assignees']);
-        $this->pullRequest->reviewers = array_map(function (array $reviewer) { return $reviewer['username']; }, $this->raw['reviewers']);
-        $this->pullRequest->createdAt = new \DateTime($this->raw['created_at']);
-        $this->pullRequest->updatedAt = new \DateTime($this->raw['updated_at']);
+        $this->pullRequest->assignees = array_map(static function (array $assignee) { return $assignee['username']; }, $this->raw['assignees']);
+        $this->pullRequest->reviewers = array_map(static function (array $reviewer) { return $reviewer['username']; }, $this->raw['reviewers']);
+        $this->pullRequest->createdAt = new DateTime($this->raw['created_at']);
+        $this->pullRequest->updatedAt = new DateTime($this->raw['updated_at']);
     }
 
     public function post(string $body, Config $config): string

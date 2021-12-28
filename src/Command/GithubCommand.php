@@ -7,6 +7,9 @@ use Danger\ConfigLoader;
 use Danger\Context;
 use Danger\Platform\Github\Github;
 use Danger\Runner;
+use InvalidArgumentException;
+use function is_string;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,13 +40,13 @@ class GithubCommand extends Command
         $configPath = $input->getOption('config');
 
         if ($configPath !== null && !is_string($configPath)) {
-            throw new \RuntimeException('Invalid config option given');
+            throw new RuntimeException('Invalid config option given');
         }
 
         $prLink = $input->getArgument('pr');
 
         if (!is_string($prLink)) {
-            throw new \RuntimeException('The PR links needs to be a string');
+            throw new RuntimeException('The PR links needs to be a string');
         }
 
         $context = $this->assembleContextByUrl($prLink);
@@ -62,16 +65,16 @@ class GithubCommand extends Command
         $failed = false;
 
         if ($context->hasFailures()) {
-            $io->table(['Failures'], array_map(fn (string $msg) => [$msg], $context->getFailures()));
+            $io->table(['Failures'], array_map(static fn (string $msg) => [$msg], $context->getFailures()));
             $failed = true;
         }
 
         if ($context->hasWarnings()) {
-            $io->table(['Warnings'], array_map(fn (string $msg) => [$msg], $context->getWarnings()));
+            $io->table(['Warnings'], array_map(static fn (string $msg) => [$msg], $context->getWarnings()));
         }
 
         if ($context->hasNotices()) {
-            $io->table(['Notices'], array_map(fn (string $msg) => [$msg], $context->getNotices()));
+            $io->table(['Notices'], array_map(static fn (string $msg) => [$msg], $context->getNotices()));
         }
 
         return $failed ? self::FAILURE : self::SUCCESS;
@@ -81,8 +84,8 @@ class GithubCommand extends Command
     {
         $pregMatch = preg_match('/^https:\/\/github\.com\/(?<owner>[\w\-_]*)\/(?<repo>[\w\-_]*)\/pull\/(?<id>\d*)/', $url, $matches);
 
-        if (0 === $pregMatch) {
-            throw new \InvalidArgumentException('The given url must be a valid Github URL');
+        if ($pregMatch === 0) {
+            throw new InvalidArgumentException('The given url must be a valid Github URL');
         }
 
         $this->github->load($matches['owner'] . '/' . $matches['repo'], $matches['id']);

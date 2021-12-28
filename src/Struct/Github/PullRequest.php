@@ -10,6 +10,7 @@ use Danger\Struct\CommitCollection;
 use Danger\Struct\File;
 use Danger\Struct\FileCollection;
 use Danger\Struct\Github\File as GithubFile;
+use DateTime;
 use Github\Client as GithubClient;
 use Github\ResultPager;
 
@@ -36,7 +37,7 @@ class PullRequest extends \Danger\Struct\PullRequest
 
     public function getCommits(): CommitCollection
     {
-        if (null !== $this->commits) {
+        if ($this->commits !== null) {
             return $this->commits;
         }
 
@@ -47,7 +48,7 @@ class PullRequest extends \Danger\Struct\PullRequest
         foreach ($this->rawCommits as $rawGithubCommit) {
             $commit = new Commit();
             $commit->sha = $rawGithubCommit['sha'];
-            $commit->createdAt = new \DateTime($rawGithubCommit['commit']['committer']['date']);
+            $commit->createdAt = new DateTime($rawGithubCommit['commit']['committer']['date']);
             $commit->message = $rawGithubCommit['commit']['message'];
             $commit->author = $rawGithubCommit['commit']['committer']['name'];
             $commit->authorEmail = $rawGithubCommit['commit']['committer']['email'];
@@ -61,7 +62,7 @@ class PullRequest extends \Danger\Struct\PullRequest
 
     public function getFiles(): FileCollection
     {
-        if (null !== $this->files) {
+        if ($this->files !== null) {
             return $this->files;
         }
 
@@ -101,8 +102,8 @@ class PullRequest extends \Danger\Struct\PullRequest
             $comment = new Comment();
             $comment->author = $commentArray['user']['login'];
             $comment->body = $commentArray['body'];
-            $comment->createdAt = new \DateTime($commentArray['created_at']);
-            $comment->updatedAt = new \DateTime($commentArray['updated_at']);
+            $comment->createdAt = new DateTime($commentArray['created_at']);
+            $comment->updatedAt = new DateTime($commentArray['updated_at']);
 
             $this->comments->add($comment);
         }

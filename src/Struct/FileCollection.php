@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Danger\Struct;
 
+use function count;
+
 /**
  * @template T
  * @extends Collection<File>
@@ -33,11 +35,7 @@ class FileCollection extends Collection
     public function matchesContent(string $pattern): self
     {
         return $this->filter(static function (File $file) use ($pattern): bool {
-            if (($matches = preg_grep($pattern, [$file->getContent()])) === false || count($matches) === 0) {
-                return false;
-            }
-
-            return true;
+            return !(($matches = preg_grep($pattern, [$file->getContent()])) === false || count($matches) === 0);
         });
     }
 

@@ -13,10 +13,6 @@ class File extends \Danger\Struct\File
 
     public function getContent(): string
     {
-        if ($this->content !== null) {
-            return $this->content;
-        }
-
-        return $this->content = (string) file_get_contents($this->rawUrl);
+        return $this->content ?? ($this->content = (string) file_get_contents($this->rawUrl));
     }
 }

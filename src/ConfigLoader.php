@@ -3,14 +3,15 @@ declare(strict_types=1);
 
 namespace Danger;
 
+use function assert;
 use Danger\Exception\InvalidConfigurationException;
 
 class ConfigLoader
 {
     public function loadByPath(?string $path): Config
     {
-        if (null === $path) {
-            $path = '.danger.php';
+        if ($path === null) {
+            $path = getcwd() . '/.danger.php';
         }
 
         if (!file_exists($path)) {

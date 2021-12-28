@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Danger\Renderer;
 
+use function count;
 use Danger\Context;
+use function str_replace;
 
 class HTMLRenderer
 {
@@ -13,8 +15,8 @@ class HTMLRenderer
         <table>
           <thead>
             <tr>
-              <th width="50"></th>
-              <th width="100%">##NAME##</th>
+              <th></th>
+              <th>##NAME##</th>
             </tr>
           </thead>
           <tbody>
@@ -46,16 +48,16 @@ class HTMLRenderer
      */
     private function render(string $name, string $emoji, array $entries): string
     {
-        if (\count($entries) === 0) {
+        if (count($entries) === 0) {
             return '';
         }
 
         $items = '';
 
         foreach ($entries as $entry) {
-            $items .= \str_replace(['##EMOJI##', '##MSG##'], [$emoji, $entry], self::ITEM_TPL);
+            $items .= str_replace(['##EMOJI##', '##MSG##'], [$emoji, $entry], self::ITEM_TPL);
         }
 
-        return \str_replace(['##NAME##', '##CONTENT##'], [$name, $items], self::TABLE_TPL);
+        return str_replace(['##NAME##', '##CONTENT##'], [$name, $items], self::TABLE_TPL);
     }
 }

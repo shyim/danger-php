@@ -3,10 +3,13 @@ declare(strict_types=1);
 
 namespace Danger\Command;
 
+use function assert;
 use Danger\ConfigLoader;
 use Danger\Context;
 use Danger\Platform\Gitlab\Gitlab;
 use Danger\Runner;
+use function is_string;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -52,7 +55,7 @@ class GitlabCommand extends Command
         $configPath = $input->getOption('config');
 
         if ($configPath !== null && !is_string($configPath)) {
-            throw new \RuntimeException('Invalid config option given');
+            throw new RuntimeException('Invalid config option given');
         }
 
         $this->gitlab->load($projectIdentifier, $mrID);
@@ -71,16 +74,16 @@ class GitlabCommand extends Command
         $failed = false;
 
         if ($context->hasFailures()) {
-            $io->table(['Failures'], array_map(fn (string $msg) => [$msg], $context->getFailures()));
+            $io->table(['Failures'], array_map(static fn (string $msg) => [$msg], $context->getFailures()));
             $failed = true;
         }
 
         if ($context->hasWarnings()) {
-            $io->table(['Warnings'], array_map(fn (string $msg) => [$msg], $context->getWarnings()));
+            $io->table(['Warnings'], array_map(static fn (string $msg) => [$msg], $context->getWarnings()));
         }
 
         if ($context->hasNotices()) {
-            $io->table(['Notices'], array_map(fn (string $msg) => [$msg], $context->getNotices()));
+            $io->table(['Notices'], array_map(static fn (string $msg) => [$msg], $context->getNotices()));
         }
 
         return $failed ? self::FAILURE : self::SUCCESS;

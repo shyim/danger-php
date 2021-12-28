@@ -3,21 +3,19 @@ declare(strict_types=1);
 
 namespace Danger\Platform\Github;
 
+use function count;
 use Danger\Config;
 use Danger\Platform\AbstractPlatform;
 use Danger\Struct\Github\PullRequest as GithubPullRequest;
-use Danger\Struct\PullRequest;
+use DateTime;
 use Github\Client;
+use Throwable;
 
+/**
+ * @property array{'title': string, 'body': ?string, 'labels': string[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string} $raw
+ */
 class Github extends AbstractPlatform
 {
-    public PullRequest $pullRequest;
-
-    /**
-     * @var array{'title': string, 'body': ?string, 'labels': string[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string}
-     */
-    public array $raw;
-
     private string $githubOwner;
     private string $githubRepository;
 
@@ -50,8 +48,8 @@ class Github extends AbstractPlatform
         }, $this->raw['assignees']
         );
         $this->pullRequest->reviewers = $this->getReviews($owner, $repository, $id);
-        $this->pullRequest->createdAt = new \DateTime($this->raw['created_at']);
-        $this->pullRequest->updatedAt = new \DateTime($this->raw['updated_at']);
+        $this->pullRequest->createdAt = new DateTime($this->raw['created_at']);
+        $this->pullRequest->updatedAt = new DateTime($this->raw['updated_at']);
     }
 
     public function post(string $body, Config $config): string
@@ -88,7 +86,7 @@ class Github extends AbstractPlatform
                     'labels' => $this->pullRequest->labels,
                 ]
             );
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             if (str_contains($e->getMessage(), 'Resource not accessible by integration')) {
                 return;
             }
@@ -110,7 +108,7 @@ class Github extends AbstractPlatform
                     'labels' => $this->pullRequest->labels,
                 ]
             );
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             if (str_contains($e->getMessage(), 'Resource not accessible by integration')) {
                 return;
             }
@@ -129,7 +127,7 @@ class Github extends AbstractPlatform
         }, $this->raw['requested_reviewers']);
 
         $reviewersRequest = $this->client->pullRequest()->reviews()->all($owner, $repository, (int) $id);
-        $reviewers = array_map(function (array $reviewer) {
+        $reviewers = array_map(static function (array $reviewer) {
             return $reviewer['user']['login'];
         }, $reviewersRequest);
 

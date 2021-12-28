@@ -16,13 +16,12 @@ use PHPUnit\Framework\TestCase;
  */
 class CheckPhpCsFixerTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         if (\PHP_VERSION_ID >= 80100) {
             static::markTestSkipped('cs fixer doesnt work on 8.1 currently');
         }
     }
-
 
     public function testRuleRunsWithoutIssues(): void
     {

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Danger\Exception;
 
-class InvalidConfigurationException extends \RuntimeException
+use RuntimeException;
+
+class InvalidConfigurationException extends RuntimeException
 {
 }

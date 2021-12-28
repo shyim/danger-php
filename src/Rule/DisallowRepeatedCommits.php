@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Danger\Rule;
 
+use function count;
 use Danger\Context;
 
 class DisallowRepeatedCommits

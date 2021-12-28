@@ -10,6 +10,7 @@ use Danger\Struct\CommitCollection;
 use Danger\Struct\File;
 use Danger\Struct\FileCollection;
 use Danger\Struct\Gitlab\File as GitlabFile;
+use DateTime;
 use Gitlab\Client;
 use Gitlab\ResultPager;
 
@@ -36,7 +37,7 @@ class PullRequest extends \Danger\Struct\PullRequest
 
     public function getCommits(): CommitCollection
     {
-        if (null !== $this->commits) {
+        if ($this->commits !== null) {
             return $this->commits;
         }
 
@@ -47,7 +48,7 @@ class PullRequest extends \Danger\Struct\PullRequest
         foreach ($this->rawCommits as $rawGithubCommit) {
             $commit = new Commit();
             $commit->sha = $rawGithubCommit['id'];
-            $commit->createdAt = new \DateTime($rawGithubCommit['committed_date']);
+            $commit->createdAt = new DateTime($rawGithubCommit['committed_date']);
             $commit->message = $rawGithubCommit['message'];
             $commit->author = $rawGithubCommit['author_name'];
             $commit->authorEmail = $rawGithubCommit['author_email'];
@@ -61,7 +62,7 @@ class PullRequest extends \Danger\Struct\PullRequest
 
     public function getFiles(): FileCollection
     {
-        if (null !== $this->files) {
+        if ($this->files !== null) {
             return $this->files;
         }
 
@@ -72,7 +73,7 @@ class PullRequest extends \Danger\Struct\PullRequest
         foreach ($this->rawFiles['changes'] as $rawGitlabFile) {
             $file = new GitlabFile($this->client, $this->projectIdentifier, $rawGitlabFile['new_path'], $this->latestSha);
             $file->name = $rawGitlabFile['new_path'];
-            $file->status = $rawGitlabFile['new_file'] ? File::STATUS_ADDED : ($rawGitlabFile['deleted_file'] ? File::STATUS_REMOVED : File::STATUS_MODIFIED);
+            $file->status = $this->getState($rawGitlabFile);
             $file->additions = 0;
             $file->deletions = 0;
             $file->changes = $file->additions + $file->deletions;
@@ -106,12 +107,29 @@ class PullRequest extends \Danger\Struct\PullRequest
             $comment = new Comment();
             $comment->author = $commentArray['author']['username'];
             $comment->body = $commentArray['body'];
-            $comment->createdAt = new \DateTime($commentArray['created_at']);
-            $comment->updatedAt = new \DateTime($commentArray['updated_at']);
+            $comment->createdAt = new DateTime($commentArray['created_at']);
+            $comment->updatedAt = new DateTime($commentArray['updated_at']);
 
             $this->comments->add($comment);
         }
 
         return $this->comments;
+    }
+
+    /**
+     * @param array{'new_file': bool, 'deleted_file': bool} $rawGitlabFile
+     * @return string
+     */
+    private function getState(array $rawGitlabFile): string
+    {
+        if ($rawGitlabFile['new_file']) {
+            return File::STATUS_ADDED;
+        }
+
+        if ($rawGitlabFile['deleted_file']) {
+            return File::STATUS_REMOVED;
+        }
+
+        return File::STATUS_MODIFIED;
     }
 }

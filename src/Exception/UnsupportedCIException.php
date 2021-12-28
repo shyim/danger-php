@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Danger\Exception;
 
-class UnsupportedCIException extends \RuntimeException
+use RuntimeException;
+
+class UnsupportedCIException extends RuntimeException
 {
     public function __construct()
     {

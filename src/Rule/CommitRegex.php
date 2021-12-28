@@ -16,7 +16,7 @@ class CommitRegex
         foreach ($context->platform->pullRequest->getCommits() as $commit) {
             $pregMatch = preg_match($this->regex, $commit->message);
 
-            if (0 === $pregMatch || false === $pregMatch) {
+            if ($pregMatch === 0 || $pregMatch === false) {
                 $context->failure(str_replace(['###MESSAGE###', '###REGEX###'], [$commit->message, $this->regex], $this->message));
             }
         }
