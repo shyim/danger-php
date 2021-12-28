@@ -138,4 +138,17 @@ class FileCollectionTest extends TestCase
         static::assertInstanceOf(File::class, $item);
         static::assertSame('tests/fixtures/SqlHeredocFixture.php', $item->name);
     }
+
+    public function testMap(): void
+    {
+        $f1 = new File('');
+        $f1->name = 'A';
+
+        $c = new FileCollection([$f1]);
+        $list = $c->fmap(function (File $file) {
+            return $file->name;
+        });
+
+        static::assertSame(['A'], $list);
+    }
 }

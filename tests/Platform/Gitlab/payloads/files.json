@@ -171,6 +171,16 @@
       "renamed_file": false,
       "deleted_file": false,
       "diff": "@@ -1,2 +1 @@\n-\n-Test\n+Test2\n"
+    },
+    {
+      "old_path": "Deleted",
+      "new_path": "Deleted",
+      "a_mode": "100644",
+      "b_mode": "100644",
+      "new_file": false,
+      "renamed_file": false,
+      "deleted_file": true,
+      "diff": "@@ -1,2 +1 @@\n-\n-Test\n+Test2\n"
     }
   ],
   "overflow": false

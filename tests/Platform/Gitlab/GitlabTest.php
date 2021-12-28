@@ -87,7 +87,7 @@ class GitlabTest extends TestCase
         $files = $gitlab->pullRequest->getFiles();
         static::assertSame($files, $gitlab->pullRequest->getFiles());
 
-        static::assertCount(3, $files);
+        static::assertCount(4, $files);
 
         $file = $files->first();
         static::assertInstanceOf(File::class, $file);
@@ -103,6 +103,7 @@ class GitlabTest extends TestCase
 
         $lastFile = $files->last();
         static::assertInstanceOf(File::class, $lastFile);
+        static::assertSame(File::STATUS_REMOVED, $lastFile->status);
 
         $lastFile->getContent();
     }
