@@ -6,6 +6,7 @@ namespace Danger\Rule;
 use Danger\Application;
 
 /**
+ * @noinspection PhpUnused
  * @codeCoverageIgnore
  *
  * @deprecated use \Danger\Rule\MaxCommit instead

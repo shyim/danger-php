@@ -10,14 +10,13 @@ use Danger\Platform\Gitlab\Gitlab;
 use Danger\Runner;
 use function is_string;
 use RuntimeException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class GitlabCommand extends Command
+class GitlabCommand extends AbstractPlatformCommand
 {
     public static $defaultName = 'gitlab-local';
 
@@ -65,27 +64,6 @@ class GitlabCommand extends Command
 
         $this->runner->run($config, $context);
 
-        if (!$context->hasReports()) {
-            $io->success('PR looks good!');
-
-            return self::SUCCESS;
-        }
-
-        $failed = false;
-
-        if ($context->hasFailures()) {
-            $io->table(['Failures'], array_map(static fn (string $msg) => [$msg], $context->getFailures()));
-            $failed = true;
-        }
-
-        if ($context->hasWarnings()) {
-            $io->table(['Warnings'], array_map(static fn (string $msg) => [$msg], $context->getWarnings()));
-        }
-
-        if ($context->hasNotices()) {
-            $io->table(['Notices'], array_map(static fn (string $msg) => [$msg], $context->getNotices()));
-        }
-
-        return $failed ? self::FAILURE : self::SUCCESS;
+        return $this->handleReport($input, $output, $context);
     }
 }

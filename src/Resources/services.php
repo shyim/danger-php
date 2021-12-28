@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpUnused */
 declare(strict_types=1);
 
 use Danger\DependencyInjection\Factory\GithubClientFactory;
