@@ -20,7 +20,9 @@ class File extends \Danger\Struct\File
             return $this->content;
         }
 
-        $file = $this->client->repositoryFiles()->getFile($this->projectIdentifier, $this->path, $this->sha);
+        /** @var array{'content'?: string} $response */
+        $response = $this->client->repositoryFiles()->getFile($this->projectIdentifier, $this->path, $this->sha);
+        $file = $response;
 
         if (isset($file['content'])) {
             return $this->content = (string) base64_decode($file['content'], true);

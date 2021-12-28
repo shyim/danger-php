@@ -41,7 +41,9 @@ class PullRequest extends \Danger\Struct\PullRequest
             return $this->commits;
         }
 
-        $this->rawCommits = $this->client->mergeRequests()->commits($this->projectIdentifier, (int) $this->id);
+        /** @var array{'id': string, 'committed_date': string, 'message': 'string', 'author_name': string, 'author_email': string}[] $commits */
+        $commits = $this->client->mergeRequests()->commits($this->projectIdentifier, (int) $this->id);
+        $this->rawCommits = $commits;
 
         $collection = new CommitCollection();
 
@@ -66,7 +68,9 @@ class PullRequest extends \Danger\Struct\PullRequest
             return $this->files;
         }
 
-        $this->rawFiles = $this->client->mergeRequests()->changes($this->projectIdentifier, (int) $this->id);
+        /** @var array{'changes': array{'new_path': string, 'diff'?: string, 'new_file': bool, 'deleted_file': bool}[]} $files */
+        $files = $this->client->mergeRequests()->changes($this->projectIdentifier, (int) $this->id);
+        $this->rawFiles = $files;
 
         $collection = new FileCollection();
 
@@ -118,7 +122,6 @@ class PullRequest extends \Danger\Struct\PullRequest
 
     /**
      * @param array{'new_file': bool, 'deleted_file': bool} $rawGitlabFile
-     * @return string
      */
     private function getState(array $rawGitlabFile): string
     {

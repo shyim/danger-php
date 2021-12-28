@@ -22,8 +22,8 @@ class CommitCollection extends Collection
      */
     public function getMessages(): array
     {
-        return $this->fmap(static function (Commit $commit): string {
+        return array_map(static function (Commit $commit): string {
             return $commit->message;
-        });
+        }, $this->elements);
     }
 }

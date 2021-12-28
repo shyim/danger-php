@@ -24,12 +24,14 @@ class GitlabCommenter
                 $this->client->mergeRequests()->removeNote($projectIdentifier, $prId, $relevantNoteId);
             }
 
+            /** @var array{'id': string} $note */
             $note = $this->client->mergeRequests()->addNote($projectIdentifier, $prId, $body);
 
             return $baseUrl . '#note_' . $note['id'];
         }
 
         if (count($noteIds) === 0) {
+            /** @var array{'id': string} $note */
             $note = $this->client->mergeRequests()->addNote($projectIdentifier, $prId, $body);
 
             return $baseUrl . '#note_' . $note['id'];
@@ -54,6 +56,7 @@ class GitlabCommenter
                 $this->client->mergeRequests()->removeDiscussionNote($projectIdentifier, $prId, $threadId['threadId'], $threadId['noteId']);
             }
 
+            /** @var array{'notes': array{'id': string}[]} $thread */
             $thread = $this->client->mergeRequests()->addDiscussion($projectIdentifier, $prId, ['body' => $body]);
 
             return $baseUrl . '#note_' . $thread['notes'][0]['id'];
@@ -71,6 +74,7 @@ class GitlabCommenter
             return $baseUrl . '#note_' . $foundThread['noteId'];
         }
 
+        /** @var array{'notes': array{'id': string}[]} $thread */
         $thread = $this->client->mergeRequests()->addDiscussion($projectIdentifier, $prId, ['body' => $body]);
 
         return $baseUrl . '#note_' . $thread['notes'][0]['id'];

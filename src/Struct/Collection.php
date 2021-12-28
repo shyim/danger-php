@@ -84,7 +84,7 @@ abstract class Collection implements IteratorAggregate, Countable
     }
 
     /**
-     * @return T[]
+     * @return mixed[]
      */
     public function map(Closure $closure): array
     {
@@ -97,7 +97,7 @@ abstract class Collection implements IteratorAggregate, Countable
     }
 
     /**
-     * @return array<string, string>
+     * @return array<mixed>
      */
     public function fmap(Closure $closure): array
     {

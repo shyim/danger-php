@@ -35,14 +35,14 @@ abstract class PullRequest
     public array $reviewers;
 
     /**
-     * @var array<string, array|string>
+     * @var array<string, array{'id': string, 'committed_date': string, 'message': 'string', 'author_name': string, 'author_email': string}|string>
      */
-    public array $rawCommits = [];
+    public array $rawCommits;
 
     /**
-     * @var array<string, array|string>
+     * @var array{'changes': array{'new_path': string, 'diff'?: string, 'new_file': bool, 'deleted_file': bool}[]}
      */
-    public array $rawFiles = [];
+    public array $rawFiles;
 
     /**
      * @return CommitCollection<Commit>

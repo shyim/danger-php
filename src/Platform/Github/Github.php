@@ -12,7 +12,7 @@ use Github\Client;
 use Throwable;
 
 /**
- * @property array{'title': string, 'body': ?string, 'labels': string[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string} $raw
+ * @property array{'title': string, 'body': ?string, 'labels': array{'name': string}[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string} $raw
  */
 class Github extends AbstractPlatform
 {
@@ -30,7 +30,7 @@ class Github extends AbstractPlatform
         $this->githubOwner = $owner;
         $this->githubRepository = $repository;
 
-        /** @var array{'title': string, 'body': string, 'labels': string[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string} $raw */
+        /** @var array{'title': string, 'body': ?string, 'labels': array{'name': string}[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string} $raw */
         $raw = $this->client->pullRequest()->show($owner, $repository, (int) $id);
         $this->raw = $raw;
 

@@ -11,7 +11,7 @@ use DateTime;
 use Gitlab\Client;
 
 /**
- * @property array{'web_url': string} $raw
+ * @property array{'sha': string, 'title': string, 'web_url': string, 'description': string|null, 'labels': string[], 'assignees': array{'username': string}[], 'reviewers': array{'username': string}[], 'created_at': string, 'updated_at': string} $raw
  */
 class Gitlab extends AbstractPlatform
 {
@@ -25,7 +25,9 @@ class Gitlab extends AbstractPlatform
     {
         $this->projectIdentifier = $projectIdentifier;
 
-        $this->raw = $this->client->mergeRequests()->show($projectIdentifier, (int) $id);
+        /** @var array{'sha': string, 'title': string, 'web_url': string, 'description': string|null, 'labels': string[], 'assignees': array{'username': string}[], 'reviewers': array{'username': string}[], 'created_at': string, 'updated_at': string} $res */
+        $res = $this->client->mergeRequests()->show($projectIdentifier, (int) $id);
+        $this->raw = $res;
 
         $this->pullRequest = new PullRequest($this->client, $this->raw['sha']);
         $this->pullRequest->id = $id;
