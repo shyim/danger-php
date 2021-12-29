@@ -24,7 +24,7 @@
         "symfony/dependency-injection": "^6.0",
         "symfony/filesystem": "^6.0",
         "knplabs/github-api": "^3.3",
-        "symfony/config": "^5.4",
+        "symfony/config": "^6.0",
         "symfony/http-client": "^6.0",
         "nyholm/psr7": "^1.4",
         "symfony/finder": "^6.0",
