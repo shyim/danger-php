@@ -1,0 +1,7 @@
+profile:
+    path: .qodana-profile.xml
+exclude:
+  - name: All
+    paths:
+      - var
+      - vendor
