@@ -43,6 +43,7 @@ class PullRequest extends \Danger\Struct\PullRequest
 
         $this->rawCommits = $this->client->pullRequest()->commits($this->owner, $this->repo, $this->id);
 
+        /** @var CommitCollection<Commit> $collection */
         $collection = new CommitCollection();
 
         foreach ($this->rawCommits as $rawGithubCommit) {
@@ -68,6 +69,7 @@ class PullRequest extends \Danger\Struct\PullRequest
 
         $this->rawFiles = $this->client->pullRequest()->files($this->owner, $this->repo, $this->id);
 
+        /** @var FileCollection<File> $collection */
         $collection = new FileCollection();
 
         foreach ($this->rawFiles as $rawGithubFile) {
@@ -96,7 +98,9 @@ class PullRequest extends \Danger\Struct\PullRequest
 
         $pager = new ResultPager($this->client);
         $comments = $pager->fetchAll($this->client->pullRequest()->comments(), 'all', [$this->owner, $this->repo, $this->id]);
-        $this->comments = new CommentCollection();
+
+        /** @var CommentCollection<Comment> $collection */
+        $collection = new CommentCollection();
 
         foreach ($comments as $commentArray) {
             $comment = new Comment();
@@ -105,9 +109,9 @@ class PullRequest extends \Danger\Struct\PullRequest
             $comment->createdAt = new DateTime($commentArray['created_at']);
             $comment->updatedAt = new DateTime($commentArray['updated_at']);
 
-            $this->comments->add($comment);
+            $collection->add($comment);
         }
 
-        return $this->comments;
+        return $this->comments = $collection;
     }
 }

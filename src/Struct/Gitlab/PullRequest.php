@@ -45,6 +45,7 @@ class PullRequest extends \Danger\Struct\PullRequest
         $commits = $this->client->mergeRequests()->commits($this->projectIdentifier, (int) $this->id);
         $this->rawCommits = $commits;
 
+        /** @var CommitCollection<Commit> $collection */
         $collection = new CommitCollection();
 
         foreach ($this->rawCommits as $rawGithubCommit) {
@@ -72,6 +73,7 @@ class PullRequest extends \Danger\Struct\PullRequest
         $files = $this->client->mergeRequests()->changes($this->projectIdentifier, (int) $this->id);
         $this->rawFiles = $files;
 
+        /** @var FileCollection<File> $collection */
         $collection = new FileCollection();
 
         foreach ($this->rawFiles['changes'] as $rawGitlabFile) {
@@ -98,7 +100,8 @@ class PullRequest extends \Danger\Struct\PullRequest
             return $this->comments;
         }
 
-        $this->comments = new CommentCollection();
+        /** @var CommentCollection<Comment> $collection */
+        $collection = new CommentCollection();
 
         $pager = new ResultPager($this->client);
         $comments = $pager->fetchAll($this->client->mergeRequests(), 'showNotes', [$this->projectIdentifier, (int) $this->id]);
@@ -114,10 +117,10 @@ class PullRequest extends \Danger\Struct\PullRequest
             $comment->createdAt = new DateTime($commentArray['created_at']);
             $comment->updatedAt = new DateTime($commentArray['updated_at']);
 
-            $this->comments->add($comment);
+            $collection->add($comment);
         }
 
-        return $this->comments;
+        return $this->comments = $collection;
     }
 
     /**
