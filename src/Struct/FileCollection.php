@@ -6,16 +6,7 @@ namespace Danger\Struct;
 use function count;
 
 /**
- * @template T
  * @extends Collection<File>
- *
- * @method void add(File $entity)
- * @method void set(string|int $key, File $entity)
- * @method \Generator<File> getIterator()
- * @method File[] getElements()
- * @method File|null get(string|int $key)
- * @method File|null first()
- * @method File|null last()
  */
 class FileCollection extends Collection
 {
