@@ -119,14 +119,14 @@ class GitlabTest extends TestCase
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
 
         $commenter = $this->createMock(GitlabCommenter::class);
-        $commenter->expects(static::once())->method('postThread')->willReturn('http://gitlab.com');
-        $commenter->expects(static::once())->method('postNote')->willReturn('http://gitlab.com');
+        $commenter->expects(static::once())->method('postThread')->willReturn('https://gitlab.com');
+        $commenter->expects(static::once())->method('postNote')->willReturn('https://gitlab.com');
 
         $gitlab = new Gitlab($client, $commenter);
         $gitlab->load('test', '1');
 
-        static::assertSame('http://gitlab.com', $gitlab->post('Test', new Config()));
-        static::assertSame('http://gitlab.com', $gitlab->post('Test', (new Config())->useThreadOnFails()));
+        static::assertSame('https://gitlab.com', $gitlab->post('Test', new Config()));
+        static::assertSame('https://gitlab.com', $gitlab->post('Test', (new Config())->useThreadOnFails()));
     }
 
     public function testRemove(): void

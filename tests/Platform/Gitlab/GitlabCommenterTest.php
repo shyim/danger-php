@@ -26,7 +26,7 @@ class GitlabCommenterTest extends TestCase
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
 
         $commenter = new GitlabCommenter($client);
-        static::assertSame('http://gitlab.com#note_1', $commenter->postNote('test', 1, 'Test', new Config(), 'http://gitlab.com'));
+        static::assertSame('https://gitlab.com#note_1', $commenter->postNote('test', 1, 'Test', new Config(), 'https://gitlab.com'));
     }
 
     public function testPostNoteUpdatesFirstDeletesOther(): void
@@ -40,7 +40,7 @@ class GitlabCommenterTest extends TestCase
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
 
         $commenter = new GitlabCommenter($client);
-        static::assertSame('http://gitlab.com#note_582463689', $commenter->postNote('test', 1, 'Test', new Config(), 'http://gitlab.com'));
+        static::assertSame('https://gitlab.com#note_582463689', $commenter->postNote('test', 1, 'Test', new Config(), 'https://gitlab.com'));
     }
 
     public function testPostReplace(): void
@@ -55,7 +55,7 @@ class GitlabCommenterTest extends TestCase
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
 
         $commenter = new GitlabCommenter($client);
-        static::assertSame('http://gitlab.com#note_1', $commenter->postNote('test', 1, 'Test', (new Config())->useCommentMode(Config::UPDATE_COMMENT_MODE_REPLACE), 'http://gitlab.com'));
+        static::assertSame('https://gitlab.com#note_1', $commenter->postNote('test', 1, 'Test', (new Config())->useCommentMode(Config::UPDATE_COMMENT_MODE_REPLACE), 'https://gitlab.com'));
     }
 
     public function testRemovePost(): void
@@ -85,8 +85,8 @@ class GitlabCommenterTest extends TestCase
         $config = (new Config())->useThreadOnFails();
 
         $commenter = new GitlabCommenter($client);
-        $url = $commenter->postThread('test', 1, 'test', $config, 'http://gitlab.com');
-        static::assertSame('http://gitlab.com#note_1', $url);
+        $url = $commenter->postThread('test', 1, 'test', $config, 'https://gitlab.com');
+        static::assertSame('https://gitlab.com#note_1', $url);
     }
 
     public function testCreateNewThreadAndDeleteOther(): void
@@ -101,8 +101,8 @@ class GitlabCommenterTest extends TestCase
         $config = (new Config())->useThreadOnFails();
 
         $commenter = new GitlabCommenter($client);
-        $url = $commenter->postThread('test', 1, 'test', $config, 'http://gitlab.com');
-        static::assertSame('http://gitlab.com#note_582463689', $url);
+        $url = $commenter->postThread('test', 1, 'test', $config, 'https://gitlab.com');
+        static::assertSame('https://gitlab.com#note_582463689', $url);
     }
 
     public function testReplaceThread(): void
@@ -118,8 +118,8 @@ class GitlabCommenterTest extends TestCase
         $config = (new Config())->useThreadOnFails()->useCommentMode(Config::UPDATE_COMMENT_MODE_REPLACE);
 
         $commenter = new GitlabCommenter($client);
-        $url = $commenter->postThread('test', 1, 'test', $config, 'http://gitlab.com');
-        static::assertSame('http://gitlab.com#note_1', $url);
+        $url = $commenter->postThread('test', 1, 'test', $config, 'https://gitlab.com');
+        static::assertSame('https://gitlab.com#note_1', $url);
     }
 
     public function testRemoveThread(): void

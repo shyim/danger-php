@@ -42,7 +42,7 @@ class CiCommandTest extends TestCase
     public function testNotValid(): void
     {
         $platform = $this->createMock(Github::class);
-        $platform->method('post')->willReturn('http://danger.local/test');
+        $platform->method('post')->willReturn('https://danger.local/test');
 
         $detector = $this->createMock(PlatformDetector::class);
         $detector->method('detect')->willReturn($platform);
@@ -52,13 +52,13 @@ class CiCommandTest extends TestCase
         $returnCode = $cmd->run(new ArgvInput(['danger', '--config=' . dirname(__DIR__) . '/configs/all.php']), $output);
 
         static::assertSame(Command::FAILURE, $returnCode);
-        static::assertStringContainsString('The comment has been created at http://danger.local/test', $output->fetch());
+        static::assertStringContainsString('The comment has been created at https://danger.local/test', $output->fetch());
     }
 
     public function testNotValidWarning(): void
     {
         $platform = $this->createMock(Github::class);
-        $platform->method('post')->willReturn('http://danger.local/test');
+        $platform->method('post')->willReturn('https://danger.local/test');
 
         $detector = $this->createMock(PlatformDetector::class);
         $detector->method('detect')->willReturn($platform);
@@ -68,13 +68,13 @@ class CiCommandTest extends TestCase
         $returnCode = $cmd->run(new ArgvInput(['danger', '--config=' . dirname(__DIR__) . '/configs/warning.php']), $output);
 
         static::assertSame(0, $returnCode);
-        static::assertStringContainsString('The comment has been created at http://danger.local/test', $output->fetch());
+        static::assertStringContainsString('The comment has been created at https://danger.local/test', $output->fetch());
     }
 
     public function testInvalidConfig(): void
     {
         $platform = $this->createMock(Github::class);
-        $platform->method('post')->willReturn('http://danger.local/test');
+        $platform->method('post')->willReturn('https://danger.local/test');
 
         $detector = $this->createMock(PlatformDetector::class);
         $detector->method('detect')->willReturn($platform);

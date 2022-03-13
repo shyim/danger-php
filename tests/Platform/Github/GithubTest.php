@@ -94,7 +94,7 @@ class GithubTest extends TestCase
     public function testPost(): void
     {
         $commenter = $this->createMock(GithubCommenter::class);
-        $commenter->expects(static::once())->method('comment')->willReturn('http://github.com');
+        $commenter->expects(static::once())->method('comment')->willReturn('https://github.com');
 
         $httpClient = new MockHttpClient([
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
@@ -107,7 +107,7 @@ class GithubTest extends TestCase
 
         $github->load('FriendsOfShopware/FroshPluginUploader', '144');
 
-        static::assertSame('http://github.com', $github->post('test', new Config()));
+        static::assertSame('https://github.com', $github->post('test', new Config()));
     }
 
     public function testRemovePost(): void

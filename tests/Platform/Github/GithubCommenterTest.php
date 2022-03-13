@@ -48,11 +48,11 @@ class GithubCommenterTest extends TestCase
     public function testCommentUsingProxy(): void
     {
         $client = new MockHttpClient([
-            new MockResponse('{"html_url": "http://test.de"}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{"html_url": "https://test.de"}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $commenter = new GithubCommenter($this->createMock(Client::class), $client);
-        static::assertSame('http://test.de', $commenter->comment(
+        static::assertSame('https://test.de', $commenter->comment(
             'test',
             'test',
             'test',
@@ -82,11 +82,11 @@ class GithubCommenterTest extends TestCase
     {
         $client = new MockHttpClient([
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/comments.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse('{"html_url": "http://test.de"}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{"html_url": "https://test.de"}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $commenter = new GithubCommenter(Client::createWithHttpClient(new Psr18Client($client)), $client);
-        static::assertSame('http://test.de', $commenter->comment(
+        static::assertSame('https://test.de', $commenter->comment(
             'test',
             'test',
             'test',
@@ -99,12 +99,12 @@ class GithubCommenterTest extends TestCase
     {
         $client = new MockHttpClient([
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/comments_containg_danger.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse('{"html_url": "http://test.de"}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{"html_url": "https://test.de"}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $commenter = new GithubCommenter(Client::createWithHttpClient(new Psr18Client($client)), $client);
-        static::assertSame('http://test.de', $commenter->comment(
+        static::assertSame('https://test.de', $commenter->comment(
             'test',
             'test',
             'test',
@@ -119,11 +119,11 @@ class GithubCommenterTest extends TestCase
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/comments_containg_danger.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
-            new MockResponse('{"html_url": "http://test.de"}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{"html_url": "https://test.de"}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
         $commenter = new GithubCommenter(Client::createWithHttpClient(new Psr18Client($client)), $client);
-        static::assertSame('http://test.de', $commenter->comment(
+        static::assertSame('https://test.de', $commenter->comment(
             'test',
             'test',
             'test',
