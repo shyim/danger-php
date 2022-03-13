@@ -95,10 +95,10 @@ class PullRequest extends \Danger\Struct\PullRequest
         }
 
         $pager = new ResultPager($this->client);
-        $comments = $pager->fetchAll($this->client->pullRequest()->comments(), 'all', [$this->owner, $this->repo, $this->id]);
+        $list = $pager->fetchAll($this->client->pullRequest()->comments(), 'all', [$this->owner, $this->repo, $this->id]);
         $this->comments = new CommentCollection();
 
-        foreach ($comments as $commentArray) {
+        foreach ($list as $commentArray) {
             $comment = new Comment();
             $comment->author = $commentArray['user']['login'];
             $comment->body = $commentArray['body'];

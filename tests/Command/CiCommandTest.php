@@ -10,8 +10,8 @@ use Danger\Platform\PlatformDetector;
 use Danger\Renderer\HTMLRenderer;
 use Danger\Runner;
 use function dirname;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -81,7 +81,7 @@ class CiCommandTest extends TestCase
 
         $cmd = new CiCommand($detector, new ConfigLoader(), new Runner(), new HTMLRenderer());
 
-        static::expectException(RuntimeException::class);
+        static::expectException(InvalidArgumentException::class);
         static::expectExceptionMessage('Invalid config option given');
 
         $input = new ArgvInput([]);

@@ -11,6 +11,8 @@ use Gitlab\ResultPager;
 
 class GitlabCommenter
 {
+    public const NOTE_ANCHOR = '#note_';
+
     public function __construct(private Client $client)
     {
     }
@@ -27,14 +29,14 @@ class GitlabCommenter
             /** @var array{'id': string} $note */
             $note = $this->client->mergeRequests()->addNote($projectIdentifier, $prId, $body);
 
-            return $baseUrl . '#note_' . $note['id'];
+            return $baseUrl . self::NOTE_ANCHOR . $note['id'];
         }
 
         if (count($noteIds) === 0) {
             /** @var array{'id': string} $note */
             $note = $this->client->mergeRequests()->addNote($projectIdentifier, $prId, $body);
 
-            return $baseUrl . '#note_' . $note['id'];
+            return $baseUrl . self::NOTE_ANCHOR . $note['id'];
         }
 
         $noteId = array_pop($noteIds);
@@ -44,7 +46,7 @@ class GitlabCommenter
             $this->client->mergeRequests()->removeNote($projectIdentifier, $prId, $relevantNoteId);
         }
 
-        return $baseUrl . '#note_' . $noteId;
+        return $baseUrl . self::NOTE_ANCHOR . $noteId;
     }
 
     public function postThread(string $projectIdentifier, int $prId, string $body, Config $config, string $baseUrl): string
@@ -59,10 +61,10 @@ class GitlabCommenter
             /** @var array{'notes': array{'id': string}[]} $thread */
             $thread = $this->client->mergeRequests()->addDiscussion($projectIdentifier, $prId, ['body' => $body]);
 
-            return $baseUrl . '#note_' . $thread['notes'][0]['id'];
+            return $baseUrl . self::NOTE_ANCHOR . $thread['notes'][0]['id'];
         }
 
-        if (count($threadIds) > 0) {
+        if ($threadIds !== []) {
             $foundThread = $threadIds[0];
 
             $this->client->mergeRequests()->updateDiscussionNote($projectIdentifier, $prId, $foundThread['threadId'], $foundThread['noteId'], ['body' => $body]);
@@ -71,13 +73,13 @@ class GitlabCommenter
                 $this->client->mergeRequests()->updateDiscussionNote($projectIdentifier, $prId, $foundThread['threadId'], $foundThread['noteId'], ['resolved' => false]);
             }
 
-            return $baseUrl . '#note_' . $foundThread['noteId'];
+            return $baseUrl . self::NOTE_ANCHOR . $foundThread['noteId'];
         }
 
         /** @var array{'notes': array{'id': string}[]} $thread */
         $thread = $this->client->mergeRequests()->addDiscussion($projectIdentifier, $prId, ['body' => $body]);
 
-        return $baseUrl . '#note_' . $thread['notes'][0]['id'];
+        return $baseUrl . self::NOTE_ANCHOR . $thread['notes'][0]['id'];
     }
 
     public function removeNote(string $projectIdentifier, int $prId): void

@@ -22,9 +22,9 @@ class Condition
 
     public function __invoke(Context $context): void
     {
-        $condition = $this->condition;
+        $cond = $this->condition;
 
-        if (!$condition($context)) {
+        if (!$cond($context)) {
             return;
         }
 

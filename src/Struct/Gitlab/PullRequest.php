@@ -41,9 +41,9 @@ class PullRequest extends \Danger\Struct\PullRequest
             return $this->commits;
         }
 
-        /** @var array{'id': string, 'committed_date': string, 'message': 'string', 'author_name': string, 'author_email': string}[] $commits */
-        $commits = $this->client->mergeRequests()->commits($this->projectIdentifier, (int) $this->id);
-        $this->rawCommits = $commits;
+        /** @var array{'id': string, 'committed_date': string, 'message': 'string', 'author_name': string, 'author_email': string}[] $list */
+        $list = $this->client->mergeRequests()->commits($this->projectIdentifier, (int) $this->id);
+        $this->rawCommits = $list;
 
         $collection = new CommitCollection();
 
@@ -68,9 +68,9 @@ class PullRequest extends \Danger\Struct\PullRequest
             return $this->files;
         }
 
-        /** @var array{'changes': array{'new_path': string, 'diff'?: string, 'new_file': bool, 'deleted_file': bool}[]} $files */
-        $files = $this->client->mergeRequests()->changes($this->projectIdentifier, (int) $this->id);
-        $this->rawFiles = $files;
+        /** @var array{'changes': array{'new_path': string, 'diff'?: string, 'new_file': bool, 'deleted_file': bool}[]} $list */
+        $list = $this->client->mergeRequests()->changes($this->projectIdentifier, (int) $this->id);
+        $this->rawFiles = $list;
 
         $collection = new FileCollection();
 
@@ -101,9 +101,9 @@ class PullRequest extends \Danger\Struct\PullRequest
         $this->comments = new CommentCollection();
 
         $pager = new ResultPager($this->client);
-        $comments = $pager->fetchAll($this->client->mergeRequests(), 'showNotes', [$this->projectIdentifier, (int) $this->id]);
+        $list = $pager->fetchAll($this->client->mergeRequests(), 'showNotes', [$this->projectIdentifier, (int) $this->id]);
 
-        foreach ($comments as $commentArray) {
+        foreach ($list as $commentArray) {
             if ($commentArray['system']) {
                 continue;
             }

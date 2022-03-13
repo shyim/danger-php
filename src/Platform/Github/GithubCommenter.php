@@ -9,8 +9,8 @@ use Danger\Renderer\HTMLRenderer;
 use Github\Client;
 use Github\ResultPager;
 use const JSON_THROW_ON_ERROR;
-use RuntimeException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use UnexpectedValueException;
 
 class GithubCommenter
 {
@@ -39,7 +39,7 @@ class GithubCommenter
         ])->toArray();
 
         if (!isset($response['html_url'])) {
-            throw new RuntimeException(sprintf('Expected html_url in the response. But got %s', json_encode($response, JSON_THROW_ON_ERROR)));
+            throw new UnexpectedValueException(sprintf('Expected html_url in the response. But got %s', json_encode($response, JSON_THROW_ON_ERROR)));
         }
 
         return $response['html_url'];

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Danger\Renderer;
 
-use function count;
 use Danger\Context;
 use function str_replace;
 
@@ -48,7 +47,7 @@ class HTMLRenderer
      */
     private function render(string $name, string $emoji, array $entries): string
     {
-        if (count($entries) === 0) {
+        if ($entries === []) {
             return '';
         }
 

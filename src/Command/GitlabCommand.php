@@ -8,8 +8,8 @@ use Danger\ConfigLoader;
 use Danger\Context;
 use Danger\Platform\Gitlab\Gitlab;
 use Danger\Runner;
+use InvalidArgumentException;
 use function is_string;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -54,7 +54,7 @@ class GitlabCommand extends AbstractPlatformCommand
         $configPath = $input->getOption('config');
 
         if ($configPath !== null && !is_string($configPath)) {
-            throw new RuntimeException('Invalid config option given');
+            throw new InvalidArgumentException('Invalid config option given');
         }
 
         $this->gitlab->load($projectIdentifier, $mrID);

@@ -9,7 +9,6 @@ use Danger\Platform\Github\Github;
 use Danger\Runner;
 use InvalidArgumentException;
 use function is_string;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -38,13 +37,13 @@ class GithubCommand extends AbstractPlatformCommand
         $configPath = $input->getOption('config');
 
         if ($configPath !== null && !is_string($configPath)) {
-            throw new RuntimeException('Invalid config option given');
+            throw new InvalidArgumentException('Invalid config option given');
         }
 
         $prLink = $input->getArgument('pr');
 
         if (!is_string($prLink)) {
-            throw new RuntimeException('The PR links needs to be a string');
+            throw new InvalidArgumentException('The PR links needs to be a string');
         }
 
         $context = $this->assembleContextByUrl($prLink);
@@ -57,7 +56,7 @@ class GithubCommand extends AbstractPlatformCommand
 
     private function assembleContextByUrl(string $url): Context
     {
-        $pregMatch = preg_match('/^https:\/\/github\.com\/(?<owner>[\w\-_]*)\/(?<repo>[\w\-_]*)\/pull\/(?<id>\d*)/', $url, $matches);
+        $pregMatch = preg_match('/^https:\/\/github\.com\/(?<owner>[\w\-]*)\/(?<repo>[\w\-]*)\/pull\/(?<id>\d*)/', $url, $matches);
 
         if ($pregMatch === 0) {
             throw new InvalidArgumentException('The given url must be a valid Github URL');

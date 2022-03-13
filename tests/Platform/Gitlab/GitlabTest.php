@@ -10,12 +10,12 @@ use Danger\Struct\Comment;
 use Danger\Struct\Commit;
 use Danger\Struct\File;
 use Gitlab\Client;
+use InvalidArgumentException;
+use const JSON_THROW_ON_ERROR;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\HttpClient\Response\MockResponse;
-use const JSON_THROW_ON_ERROR;
 
 /**
  * @internal
@@ -101,7 +101,7 @@ class GitlabTest extends TestCase
         static::assertSame('Test', $file->getContent());
         static::assertSame('Test', $file->getContent());
 
-        static::expectException(RuntimeException::class);
+        static::expectException(InvalidArgumentException::class);
 
         $lastFile = $files->last();
         static::assertInstanceOf(File::class, $lastFile);

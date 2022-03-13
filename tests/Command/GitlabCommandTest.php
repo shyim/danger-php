@@ -8,8 +8,8 @@ use Danger\ConfigLoader;
 use Danger\Platform\Gitlab\Gitlab;
 use Danger\Runner;
 use function dirname;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -40,7 +40,7 @@ class GitlabCommandTest extends TestCase
 
         $cmd = new GitlabCommand($this->createMock(Gitlab::class), new ConfigLoader(), new Runner());
 
-        static::expectException(RuntimeException::class);
+        static::expectException(InvalidArgumentException::class);
         static::expectExceptionMessage('Invalid config option given');
 
         $input = new ArgvInput(['danger', 'https://github.com']);
