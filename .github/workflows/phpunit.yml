@@ -32,6 +32,6 @@ jobs:
       - name: Run test suite
         run: php vendor/bin/phpunit
 
-      - uses: codecov/codecov-action@v2.1.0
+      - uses: codecov/codecov-action@v3
         with:
           file: ./clover.xml
