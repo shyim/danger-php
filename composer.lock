@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f21495c1aa7c97c23024a3dd3eb335f",
+    "content-hash": "4a87abe9f137b921e8f0867cb6f63478",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -2777,16 +2777,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.26.7",
+            "version": "0.26.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "658c4567b78fc786ec63863715d711edcc67ccd7"
+                "reference": "27727f929420a405e74530115aa98f17a6083717"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/658c4567b78fc786ec63863715d711edcc67ccd7",
-                "reference": "658c4567b78fc786ec63863715d711edcc67ccd7",
+                "url": "https://api.github.com/repos/infection/infection/zipball/27727f929420a405e74530115aa98f17a6083717",
+                "reference": "27727f929420a405e74530115aa98f17a6083717",
                 "shasum": ""
             },
             "require": {
@@ -2887,7 +2887,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.26.7"
+                "source": "https://github.com/infection/infection/tree/0.26.8"
             },
             "funding": [
                 {
@@ -2899,7 +2899,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-04-20T19:25:53+00:00"
+            "time": "2022-04-21T10:28:00+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
