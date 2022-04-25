@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a87abe9f137b921e8f0867cb6f63478",
+    "content-hash": "5ecbd34dc951f789769d400cd72de2b9",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -162,16 +162,16 @@
         },
         {
             "name": "m4tthumphrey/php-gitlab-api",
-            "version": "11.7.0",
+            "version": "11.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GitLabPHP/Client.git",
-                "reference": "999b98f14a90efb621dcad1aa9c4b6eb3fc9a3e7"
+                "reference": "38380c933ada8fd2099bc611f0de23c339cdb04a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GitLabPHP/Client/zipball/999b98f14a90efb621dcad1aa9c4b6eb3fc9a3e7",
-                "reference": "999b98f14a90efb621dcad1aa9c4b6eb3fc9a3e7",
+                "url": "https://api.github.com/repos/GitLabPHP/Client/zipball/38380c933ada8fd2099bc611f0de23c339cdb04a",
+                "reference": "38380c933ada8fd2099bc611f0de23c339cdb04a",
                 "shasum": ""
             },
             "require": {
@@ -234,7 +234,7 @@
             ],
             "support": {
                 "issues": "https://github.com/GitLabPHP/Client/issues",
-                "source": "https://github.com/GitLabPHP/Client/tree/11.7.0"
+                "source": "https://github.com/GitLabPHP/Client/tree/11.8.0"
             },
             "funding": [
                 {
@@ -242,7 +242,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-24T02:54:41+00:00"
+            "time": "2022-04-24T19:04:02+00:00"
         },
         {
             "name": "nyholm/psr7",
