@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd9b1d1c35786bbcb87370a754e26203",
+    "content-hash": "6d11bde95d4fb20bdfefb4942a405347",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -2777,16 +2777,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.26.9",
+            "version": "0.26.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "e5aa8de5c1b4fa8ecf8b8904d534e69b0a2558ab"
+                "reference": "134853ce500c4669db7d6f9fe03ea5c8771a4540"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/e5aa8de5c1b4fa8ecf8b8904d534e69b0a2558ab",
-                "reference": "e5aa8de5c1b4fa8ecf8b8904d534e69b0a2558ab",
+                "url": "https://api.github.com/repos/infection/infection/zipball/134853ce500c4669db7d6f9fe03ea5c8771a4540",
+                "reference": "134853ce500c4669db7d6f9fe03ea5c8771a4540",
                 "shasum": ""
             },
             "require": {
@@ -2828,7 +2828,7 @@
                 "phpstan/phpstan-phpunit": "^1.0.0",
                 "phpstan/phpstan-strict-rules": "^1.1.0",
                 "phpstan/phpstan-webmozart-assert": "^1.0.2",
-                "phpunit/phpunit": "^9.3.11",
+                "phpunit/phpunit": "^9.5.5",
                 "symfony/phpunit-bridge": "^4.4.18 || ^5.1.10",
                 "symfony/yaml": "^5.0",
                 "thecodingmachine/phpstan-safe-rule": "^1.2.0"
@@ -2887,7 +2887,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.26.9"
+                "source": "https://github.com/infection/infection/tree/0.26.10"
             },
             "funding": [
                 {
@@ -2899,7 +2899,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-05-06T08:37:38+00:00"
+            "time": "2022-05-11T20:58:00+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
