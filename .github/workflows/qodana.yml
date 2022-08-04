@@ -19,7 +19,7 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-suggest -n
 
       - name: Run Qodana
-        uses: jetbrains/qodana-action@v2022.1.1
+        uses: jetbrains/qodana-action@v2022.2.1
         with:
           linter: ghcr.io/shyim/qodana-php:latest
           upload-result: true
