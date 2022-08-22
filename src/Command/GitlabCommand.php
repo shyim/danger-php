@@ -4,12 +4,15 @@ declare(strict_types=1);
 namespace Danger\Command;
 
 use function assert;
+
 use Danger\ConfigLoader;
 use Danger\Context;
 use Danger\Platform\Gitlab\Gitlab;
 use Danger\Runner;
 use InvalidArgumentException;
+
 use function is_string;
+
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

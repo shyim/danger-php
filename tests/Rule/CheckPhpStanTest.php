@@ -6,8 +6,11 @@ namespace Danger\Tests\Rule;
 use Danger\Context;
 use Danger\Platform\Github\Github;
 use Danger\Rule\CheckPhpStan;
+
 use function dirname;
+
 use PHPUnit\Framework\TestCase;
+
 use function unlink;
 
 /**

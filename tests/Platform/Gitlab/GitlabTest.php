@@ -11,7 +11,9 @@ use Danger\Struct\Commit;
 use Danger\Struct\File;
 use Gitlab\Client;
 use InvalidArgumentException;
+
 use const JSON_THROW_ON_ERROR;
+
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Psr18Client;
@@ -126,7 +128,7 @@ class GitlabTest extends TestCase
         $gitlab->load('test', '1');
 
         static::assertSame('https://gitlab.com', $gitlab->post('Test', new Config()));
-        static::assertSame('https://gitlab.com', $gitlab->post('Test', (new Config())->useThreadOnFails()));
+        static::assertSame('https://gitlab.com', $gitlab->post('Test', (new Config())->useThreadOn(Config::REPORT_LEVEL_FAILURE)));
     }
 
     public function testRemove(): void
@@ -144,7 +146,7 @@ class GitlabTest extends TestCase
         $gitlab = new Gitlab($client, $commenter);
         $gitlab->load('test', '1');
         $gitlab->removePost(new Config());
-        $gitlab->removePost((new Config())->useThreadOnFails());
+        $gitlab->removePost((new Config())->useThreadOn(Config::REPORT_LEVEL_FAILURE));
     }
 
     public function testLabels(): void

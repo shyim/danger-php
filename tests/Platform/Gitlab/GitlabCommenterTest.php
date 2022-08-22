@@ -82,7 +82,7 @@ class GitlabCommenterTest extends TestCase
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
-        $config = (new Config())->useThreadOnFails();
+        $config = (new Config())->useThreadOn(Config::REPORT_LEVEL_FAILURE);
 
         $commenter = new GitlabCommenter($client);
         $url = $commenter->postThread('test', 1, 'test', $config, 'https://gitlab.com');
@@ -98,7 +98,7 @@ class GitlabCommenterTest extends TestCase
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
-        $config = (new Config())->useThreadOnFails();
+        $config = (new Config())->useThreadOn(Config::REPORT_LEVEL_FAILURE);
 
         $commenter = new GitlabCommenter($client);
         $url = $commenter->postThread('test', 1, 'test', $config, 'https://gitlab.com');
@@ -115,7 +115,7 @@ class GitlabCommenterTest extends TestCase
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
-        $config = (new Config())->useThreadOnFails()->useCommentMode(Config::UPDATE_COMMENT_MODE_REPLACE);
+        $config = (new Config())->useThreadOn(Config::REPORT_LEVEL_FAILURE)->useCommentMode(Config::UPDATE_COMMENT_MODE_REPLACE);
 
         $commenter = new GitlabCommenter($client);
         $url = $commenter->postThread('test', 1, 'test', $config, 'https://gitlab.com');

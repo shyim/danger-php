@@ -80,17 +80,40 @@ return (new Config())
 **Currently only supported on GitLab**
 
 This option allows using a thread instead of a comment in the Pull Request.
+You can declare for which level of report you want to use a thread.
 
+Use thread if reports has at least one failure:
 ```php
 <?php declare(strict_types=1);
 
 use Danger\Config;
 
 return (new Config())
-    ->useThreadOnFails()
+    ->useThreadOn(Config::REPORT_LEVEL_FAILURE)
 ;
 ```
 
+Use thread if reports has at least one warning:
+```php
+<?php declare(strict_types=1);
+
+use Danger\Config;
+
+return (new Config())
+    ->useThreadOn(Config::REPORT_LEVEL_WARNING)
+;
+```
+
+Use thread if reports has at least one notice:
+```php
+<?php declare(strict_types=1);
+
+use Danger\Config;
+
+return (new Config())
+    ->useThreadOn(Config::REPORT_LEVEL_NOTICE)
+;
+```
 ## useGithubCommentProxy
 
 **Currently only supported on Github**

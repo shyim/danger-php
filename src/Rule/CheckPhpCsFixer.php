@@ -4,9 +4,12 @@ declare(strict_types=1);
 namespace Danger\Rule;
 
 use function count;
+
 use Danger\Context;
 use Danger\Struct\File;
+
 use const JSON_THROW_ON_ERROR;
+
 use Symfony\Component\Filesystem\Filesystem;
 
 /**

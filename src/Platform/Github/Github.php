@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Danger\Platform\Github;
 
 use function count;
+
 use Danger\Config;
 use Danger\Platform\AbstractPlatform;
 use Danger\Struct\Github\PullRequest as GithubPullRequest;

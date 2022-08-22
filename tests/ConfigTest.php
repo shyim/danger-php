@@ -19,8 +19,21 @@ class ConfigTest extends TestCase
         static::assertCount(1, $config->getRules());
 
         static::assertFalse($config->isThreadEnabled());
-        $config->useThreadOnFails();
+        $config->useThreadOnFails(); /** @phpstan-ignore-line */
         static::assertTrue($config->isThreadEnabled());
+
+        $config->useThreadOnFails(false); /** @phpstan-ignore-line */
+        $config->useThreadOn(Config::REPORT_LEVEL_WARNING);
+        static::assertEquals(Config::REPORT_LEVEL_WARNING, $config->getUseThreadOn());
+
+        $config->useThreadOn(Config::REPORT_LEVEL_WARNING);
+        static::assertEquals(Config::REPORT_LEVEL_WARNING, $config->getUseThreadOn());
+
+        $config->useThreadOn(Config::REPORT_LEVEL_NOTICE);
+        static::assertEquals(Config::REPORT_LEVEL_NOTICE, $config->getUseThreadOn());
+
+        $config->useThreadOn(Config::REPORT_LEVEL_NONE);
+        static::assertEquals(Config::REPORT_LEVEL_NONE, $config->getUseThreadOn());
 
         static::assertNull($config->getGithubCommentProxy());
         $config->useGithubCommentProxy('http://localhost');

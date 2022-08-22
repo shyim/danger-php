@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Danger;
 
 use function count;
+
 use Danger\Platform\AbstractPlatform;
 
 class Context

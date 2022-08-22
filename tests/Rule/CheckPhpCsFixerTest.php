@@ -9,7 +9,9 @@ use Danger\Rule\CheckPhpCsFixer;
 use Danger\Struct\FileCollection;
 use Danger\Struct\Github\PullRequest;
 use Danger\Tests\Struct\TestFile;
+
 use const PHP_VERSION_ID;
+
 use PHPUnit\Framework\TestCase;
 
 /**

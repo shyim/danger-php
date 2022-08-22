@@ -5,8 +5,11 @@ namespace Danger\Struct;
 
 use function array_key_exists;
 use function array_slice;
+
 use Closure;
+
 use function count;
+
 use Countable;
 use Generator;
 use IteratorAggregate;

@@ -9,7 +9,9 @@ use Danger\Platform\PlatformDetector;
 use Danger\Renderer\HTMLRenderer;
 use Danger\Runner;
 use InvalidArgumentException;
+
 use function is_string;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
