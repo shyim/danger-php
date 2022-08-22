@@ -8,6 +8,11 @@ class Config
     public const UPDATE_COMMENT_MODE_REPLACE = 'replace';
     public const UPDATE_COMMENT_MODE_UPDATE = 'update';
 
+    public const REPORT_LEVEL_FAILURE = 32;
+    public const REPORT_LEVEL_WARNING = 16;
+    public const REPORT_LEVEL_NOTICE = 8;
+    public const REPORT_LEVEL_NONE = 0;
+
     /**
      * @var callable[]
      */
@@ -22,7 +27,7 @@ class Config
 
     private ?string $githubCommentProxyUrl = null;
 
-    private bool $useThread = false;
+    private int $useThreadOn = 0;
 
     public function useRule(callable $closure): static
     {
@@ -78,15 +83,54 @@ class Config
         return $this->githubCommentProxyUrl;
     }
 
+    /**
+     * @deprecated will be removed - use useThreadOn instead
+     */
     public function useThreadOnFails(bool $enable = true): static
     {
-        $this->useThread = $enable;
+        $this->useThreadOn = $enable ? self::REPORT_LEVEL_FAILURE : self::REPORT_LEVEL_NONE;
+
+        return $this;
+    }
+
+    public function useThreadOn(int $useTreadOn): static
+    {
+        $this->useThreadOn = $useTreadOn;
 
         return $this;
     }
 
     public function isThreadEnabled(): bool
     {
-        return $this->useThread;
+        return $this->useThreadOn > 0;
+    }
+
+    public function getUseThreadOn(): int
+    {
+        return $this->useThreadOn;
+    }
+
+    /**
+     * Get the highest report level of the given context
+     */
+    public function getReportLevel(Context $context): int
+    {
+        if (!$context->hasReports()) {
+            return self::REPORT_LEVEL_NONE;
+        }
+
+        if ($context->hasFailures()) {
+            return self::REPORT_LEVEL_FAILURE;
+        }
+
+        if ($context->hasWarnings()) {
+            return self::REPORT_LEVEL_WARNING;
+        }
+
+        if ($context->hasNotices()) {
+            return self::REPORT_LEVEL_NOTICE;
+        }
+
+        return self::REPORT_LEVEL_NONE;
     }
 }

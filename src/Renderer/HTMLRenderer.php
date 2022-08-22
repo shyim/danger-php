@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Danger\Renderer;
 
 use Danger\Context;
+
 use function str_replace;
 
 class HTMLRenderer

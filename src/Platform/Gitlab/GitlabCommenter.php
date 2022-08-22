@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Danger\Platform\Gitlab;
 
 use function count;
+
 use Danger\Config;
 use Danger\Renderer\HTMLRenderer;
 use Gitlab\Client;

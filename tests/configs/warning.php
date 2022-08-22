@@ -7,4 +7,4 @@ return
         ->useRule(function (Danger\Context $context): void {
             $context->warning('Test');
         })
-    ;
+;

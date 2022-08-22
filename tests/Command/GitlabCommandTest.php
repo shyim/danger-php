@@ -7,7 +7,9 @@ use Danger\Command\GitlabCommand;
 use Danger\ConfigLoader;
 use Danger\Platform\Gitlab\Gitlab;
 use Danger\Runner;
+
 use function dirname;
+
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;

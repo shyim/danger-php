@@ -4,11 +4,14 @@ declare(strict_types=1);
 namespace Danger\Platform\Github;
 
 use function count;
+
 use Danger\Config;
 use Danger\Renderer\HTMLRenderer;
 use Github\Client;
 use Github\ResultPager;
+
 use const JSON_THROW_ON_ERROR;
+
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use UnexpectedValueException;
 

@@ -7,7 +7,9 @@ use Danger\Command\GithubCommand;
 use Danger\ConfigLoader;
 use Danger\Platform\Github\Github;
 use Danger\Runner;
+
 use function dirname;
+
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;

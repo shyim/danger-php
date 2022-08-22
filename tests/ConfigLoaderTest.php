@@ -5,7 +5,9 @@ namespace Danger\Tests;
 
 use Danger\ConfigLoader;
 use Danger\Exception\InvalidConfigurationException;
+
 use function dirname;
+
 use PHPUnit\Framework\TestCase;
 
 /**

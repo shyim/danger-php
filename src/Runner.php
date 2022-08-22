@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Danger;
 
-use function count;
-
 class Runner
 {
     public function run(Config $config, Context $context): void
@@ -20,11 +18,8 @@ class Runner
             $afterHook($context);
         }
 
-        /**
-         * When useThreadOnFails is enabled but no failures enabled deactivate it
-         */
-        if ($config->isThreadEnabled() && count($context->getFailures()) === 0) {
-            $config->useThreadOnFails(false);
+        if ($config->getReportLevel($context) <= $config->getUseThreadOn()) {
+            $config->useThreadOn(Config::REPORT_LEVEL_NONE);
         }
     }
 }

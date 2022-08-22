@@ -9,7 +9,9 @@ use Danger\Platform\Github\Github;
 use Danger\Platform\PlatformDetector;
 use Danger\Renderer\HTMLRenderer;
 use Danger\Runner;
+
 use function dirname;
+
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;

@@ -23,7 +23,7 @@ class RunnerTest extends TestCase
 
         $config = new Config();
         $config->useRule(function () use (&$ruleExecuted, &$afterExecuted): void {
-            static::assertFalse($afterExecuted);
+            static::assertFalse($afterExecuted); /** @phpstan-ignore-line */
             $ruleExecuted = true;
         });
 
@@ -32,7 +32,7 @@ class RunnerTest extends TestCase
             $afterExecuted = true;
         });
 
-        $config->useThreadOnFails();
+        $config->useThreadOn(Config::REPORT_LEVEL_FAILURE);
         $runner->run($config, new Context($this->createMock(Github::class)));
 
         static::assertTrue($ruleExecuted);

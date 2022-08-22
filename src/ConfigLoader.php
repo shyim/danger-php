@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Danger;
 
 use function assert;
+
 use Danger\Exception\InvalidConfigurationException;
 
 class ConfigLoader

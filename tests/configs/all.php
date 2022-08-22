@@ -9,4 +9,4 @@ return
             $context->warning('A Warning');
             $context->notice('A Notice');
         })
-    ;
+;
