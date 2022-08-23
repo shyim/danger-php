@@ -18,7 +18,7 @@ class Runner
             $afterHook($context);
         }
 
-        if ($config->getReportLevel($context) <= $config->getUseThreadOn()) {
+        if ($config->getReportLevel($context) < $config->getUseThreadOn()) {
             $config->useThreadOn(Config::REPORT_LEVEL_NONE);
         }
     }
