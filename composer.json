@@ -52,7 +52,7 @@
         "phpunit/phpunit": "^9.5",
         "phpstan/phpstan": "^1.8.10",
         "phpstan/phpstan-phpunit": "^1.1.1",
-        "phpstan/extension-installer": "^1.1.0",
+        "phpstan/extension-installer": "^1.2.0",
         "phpstan/phpstan-deprecation-rules": "^1.0.0",
         "phpstan/phpstan-strict-rules": "^1.4.4",
         "infection/infection": "^0.26.15"
