@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace Danger\Struct;
 
-use IteratorAggregate;
-
 /**
  * @template T
  *
- * @implements IteratorAggregate<T>
+ * @implements \IteratorAggregate<array-key, T>
  */
 abstract class Collection implements \IteratorAggregate, \Countable
 {
