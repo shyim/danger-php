@@ -10,7 +10,6 @@ use Danger\Struct\CommitCollection;
 use Danger\Struct\File;
 use Danger\Struct\FileCollection;
 use Danger\Struct\Gitlab\File as GitlabFile;
-use DateTime;
 use Gitlab\Client;
 use Gitlab\ResultPager;
 
@@ -50,7 +49,7 @@ class PullRequest extends \Danger\Struct\PullRequest
         foreach ($this->rawCommits as $rawGithubCommit) {
             $commit = new Commit();
             $commit->sha = $rawGithubCommit['id'];
-            $commit->createdAt = new DateTime($rawGithubCommit['committed_date']);
+            $commit->createdAt = new \DateTime($rawGithubCommit['committed_date']);
             $commit->message = $rawGithubCommit['message'];
             $commit->author = $rawGithubCommit['author_name'];
             $commit->authorEmail = $rawGithubCommit['author_email'];
@@ -111,8 +110,8 @@ class PullRequest extends \Danger\Struct\PullRequest
             $comment = new Comment();
             $comment->author = $commentArray['author']['username'];
             $comment->body = $commentArray['body'];
-            $comment->createdAt = new DateTime($commentArray['created_at']);
-            $comment->updatedAt = new DateTime($commentArray['updated_at']);
+            $comment->createdAt = new \DateTime($commentArray['created_at']);
+            $comment->updatedAt = new \DateTime($commentArray['updated_at']);
 
             $this->comments->add($comment);
         }

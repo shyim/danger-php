@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Danger;
 
-use function assert;
-
 use Danger\Exception\InvalidConfigurationException;
 
 class ConfigLoader
@@ -22,7 +20,7 @@ class ConfigLoader
 
         $c = require $path;
 
-        assert($c instanceof Config);
+        \assert($c instanceof Config);
 
         return $c;
     }

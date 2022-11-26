@@ -5,9 +5,6 @@ namespace Danger\Tests;
 
 use Danger\ConfigLoader;
 use Danger\Exception\InvalidConfigurationException;
-
-use function dirname;
-
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,7 +18,7 @@ class ConfigLoaderTest extends TestCase
 
         $this->expectException(InvalidConfigurationException::class);
 
-        $loader->loadByPath(dirname(__DIR__) . '/danger.php');
+        $loader->loadByPath(\dirname(__DIR__) . '/danger.php');
     }
 
     public function testLoadingWithoutFile(): void

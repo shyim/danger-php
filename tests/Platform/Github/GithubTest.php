@@ -10,11 +10,7 @@ use Danger\Struct\Comment;
 use Danger\Struct\Commit;
 use Danger\Struct\File;
 use Github\Client;
-
-use const JSON_THROW_ON_ERROR;
-
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -40,7 +36,7 @@ class GithubTest extends TestCase
         $github = new Github($client, new GithubCommenter($client, new MockHttpClient()));
         $github->load('FriendsOfShopware/FroshPluginUploader', '144');
 
-        static::assertSame(json_decode($prBody, true, 512, JSON_THROW_ON_ERROR), $github->raw);
+        static::assertSame(json_decode($prBody, true, 512, \JSON_THROW_ON_ERROR), $github->raw);
         static::assertSame('144', $github->pullRequest->id);
         static::assertSame('FriendsOfShopware/FroshPluginUploader', $github->pullRequest->projectIdentifier);
         static::assertSame('Test PR commenting', $github->pullRequest->title);
@@ -197,7 +193,7 @@ class GithubTest extends TestCase
 
         $github->load('FriendsOfShopware/FroshPluginUploader', '144');
 
-        static::expectException(RuntimeException::class);
+        static::expectException(\RuntimeException::class);
         static::expectExceptionMessage('Permission Denied');
 
         $github->addLabels('Test');
@@ -219,7 +215,7 @@ class GithubTest extends TestCase
 
         $github->load('FriendsOfShopware/FroshPluginUploader', '144');
 
-        static::expectException(RuntimeException::class);
+        static::expectException(\RuntimeException::class);
         static::expectExceptionMessage('Permission Denied');
 
         $github->removeLabels('Test');

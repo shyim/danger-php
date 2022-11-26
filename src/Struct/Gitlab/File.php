@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Danger\Struct\Gitlab;
 
 use Gitlab\Client;
-use InvalidArgumentException;
 
 class File extends \Danger\Struct\File
 {
@@ -28,6 +27,6 @@ class File extends \Danger\Struct\File
             return $this->content = (string) base64_decode($file['content'], true);
         }
 
-        throw new InvalidArgumentException(sprintf('Invalid file %s at sha %s', $this->path, $this->sha));
+        throw new \InvalidArgumentException(sprintf('Invalid file %s at sha %s', $this->path, $this->sha));
     }
 }

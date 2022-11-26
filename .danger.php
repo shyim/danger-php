@@ -2,8 +2,6 @@
 
 use Danger\Config;
 use Danger\Context;
-use Danger\Rule\CheckPhpCsFixer;
-use Danger\Rule\CheckPhpStan;
 use Danger\Rule\CommitRegex;
 use Danger\Struct\File;
 

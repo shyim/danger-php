@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Danger\Command;
 
-use const LOCK_EX;
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,7 +35,7 @@ use Danger\Rule\DisallowRepeatedCommits;
 return (new Config())
     ->useRule(new DisallowRepeatedCommits) // Disallows multiple commits with the same message
 ;
-', LOCK_EX);
+', \LOCK_EX);
         $io->success(sprintf('Created %s', $path));
 
         return 0;

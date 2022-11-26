@@ -3,16 +3,10 @@ declare(strict_types=1);
 
 namespace Danger\Command;
 
-use function assert;
-
 use Danger\ConfigLoader;
 use Danger\Context;
 use Danger\Platform\Gitlab\Gitlab;
 use Danger\Runner;
-use InvalidArgumentException;
-
-use function is_string;
-
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -51,13 +45,13 @@ class GitlabCommand extends AbstractPlatformCommand
         $projectIdentifier = $input->getArgument('projectIdentifier');
         $mrID = $input->getArgument('mrID');
 
-        assert(is_string($projectIdentifier));
-        assert(is_string($mrID));
+        \assert(\is_string($projectIdentifier));
+        \assert(\is_string($mrID));
 
         $configPath = $input->getOption('config');
 
-        if ($configPath !== null && !is_string($configPath)) {
-            throw new InvalidArgumentException('Invalid config option given');
+        if ($configPath !== null && !\is_string($configPath)) {
+            throw new \InvalidArgumentException('Invalid config option given');
         }
 
         $this->gitlab->load($projectIdentifier, $mrID);
