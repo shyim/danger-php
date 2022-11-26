@@ -10,6 +10,9 @@ class Runner
         foreach ($config->getRules() as $rule) {
             $rule($context);
         }
+        
+        
+        
 
         /**
          * Run after hooks. Can be used to set labels after all rules has been run
