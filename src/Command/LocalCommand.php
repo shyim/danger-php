@@ -45,12 +45,12 @@ class LocalCommand extends AbstractPlatformCommand
         }
 
         if ($headBranch === null) {
-            $process = new Process(['git', 'symbolic-ref', '--short', 'refs/remotes/origin/HEAD']);
+            $process = new Process(['git', 'symbolic-ref', '--short', 'refs/remotes/origin/HEAD'], $root);
             $process->mustRun();
             $headBranch = trim(basename($process->getOutput()));
         }
 
-        $process = new Process(['git', 'rev-parse', '--abbrev-ref', 'HEAD']);
+        $process = new Process(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], $root);
         $process->mustRun();
         $localBranch = trim(basename($process->getOutput()));
 
