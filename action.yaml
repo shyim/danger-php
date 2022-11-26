@@ -1,5 +1,7 @@
 name: 'Danger PHP'
 description: 'Danger PHP runs during your CI process, and gives teams the chance to automate common code review chores.'
+icon: 'alert-circle'
+color: 'purple'
 runs:
   using: 'docker'
   image: 'ghcr.io/shyim/danger-php:latest'
