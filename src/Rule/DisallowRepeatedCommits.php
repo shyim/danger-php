@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Danger\Rule;
 
-use function count;
-
 use Danger\Context;
 
 class DisallowRepeatedCommits
@@ -17,7 +15,7 @@ class DisallowRepeatedCommits
     {
         $messages = $context->platform->pullRequest->getCommits()->getMessages();
 
-        if (count($messages) !== count(array_unique($messages))) {
+        if (\count($messages) !== \count(array_unique($messages))) {
             $context->failure($this->message);
         }
     }

@@ -3,17 +3,11 @@ declare(strict_types=1);
 
 namespace Danger\Platform\Github;
 
-use function count;
-
 use Danger\Config;
 use Danger\Renderer\HTMLRenderer;
 use Github\Client;
 use Github\ResultPager;
-
-use const JSON_THROW_ON_ERROR;
-
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use UnexpectedValueException;
 
 class GithubCommenter
 {
@@ -42,7 +36,7 @@ class GithubCommenter
         ])->toArray();
 
         if (!isset($response['html_url'])) {
-            throw new UnexpectedValueException(sprintf('Expected html_url in the response. But got %s', json_encode($response, JSON_THROW_ON_ERROR)));
+            throw new \UnexpectedValueException(sprintf('Expected html_url in the response. But got %s', json_encode($response, \JSON_THROW_ON_ERROR)));
         }
 
         return $response['html_url'];
@@ -68,7 +62,7 @@ class GithubCommenter
         /**
          * Could not find any comment. Lets create a new one
          */
-        if (count($ids) === 0) {
+        if (\count($ids) === 0) {
             $comment = $this->client->issues()->comments()->create($owner, $repo, (int) $id, ['body' => $body]);
 
             return $comment['html_url'];

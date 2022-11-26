@@ -7,10 +7,6 @@ use Danger\Command\GitlabCommand;
 use Danger\ConfigLoader;
 use Danger\Platform\Gitlab\Gitlab;
 use Danger\Runner;
-
-use function dirname;
-
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -42,7 +38,7 @@ class GitlabCommandTest extends TestCase
 
         $cmd = new GitlabCommand($this->createMock(Gitlab::class), new ConfigLoader(), new Runner());
 
-        static::expectException(InvalidArgumentException::class);
+        static::expectException(\InvalidArgumentException::class);
         static::expectExceptionMessage('Invalid config option given');
 
         $input = new ArgvInput(['danger', 'https://github.com']);
@@ -70,7 +66,7 @@ class GitlabCommandTest extends TestCase
         $cmd = new GitlabCommand($gitlab, new ConfigLoader(), new Runner());
 
         $output = new BufferedOutput();
-        $returnCode = $cmd->run(new ArgvInput(['danger', 'test', '1', '--config=' . dirname(__DIR__) . '/configs/empty.php']), $output);
+        $returnCode = $cmd->run(new ArgvInput(['danger', 'test', '1', '--config=' . \dirname(__DIR__) . '/configs/empty.php']), $output);
 
         $text = $output->fetch();
 
@@ -97,7 +93,7 @@ class GitlabCommandTest extends TestCase
         $exitCode = $tester->execute([
             'mrID' => '1',
             'projectIdentifier' => 'test',
-            '--config' => dirname(__DIR__) . '/configs/all.php',
+            '--config' => \dirname(__DIR__) . '/configs/all.php',
         ]);
 
         static::assertSame(Command::FAILURE, $exitCode);

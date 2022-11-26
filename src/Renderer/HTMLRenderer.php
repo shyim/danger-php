@@ -5,8 +5,6 @@ namespace Danger\Renderer;
 
 use Danger\Context;
 
-use function str_replace;
-
 class HTMLRenderer
 {
     public const MARKER = '<!--- Danger-PHP-Marker -->';
@@ -55,9 +53,9 @@ class HTMLRenderer
         $items = '';
 
         foreach ($entries as $entry) {
-            $items .= str_replace(['##EMOJI##', '##MSG##'], [$emoji, $entry], self::ITEM_TPL);
+            $items .= \str_replace(['##EMOJI##', '##MSG##'], [$emoji, $entry], self::ITEM_TPL);
         }
 
-        return str_replace(['##NAME##', '##CONTENT##'], [$name, $items], self::TABLE_TPL);
+        return \str_replace(['##NAME##', '##CONTENT##'], [$name, $items], self::TABLE_TPL);
     }
 }

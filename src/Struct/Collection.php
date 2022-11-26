@@ -3,22 +3,14 @@ declare(strict_types=1);
 
 namespace Danger\Struct;
 
-use function array_key_exists;
-use function array_slice;
-
-use Closure;
-
-use function count;
-
-use Countable;
-use Generator;
 use IteratorAggregate;
 
 /**
  * @template T
+ *
  * @implements IteratorAggregate<T>
  */
-abstract class Collection implements IteratorAggregate, Countable
+abstract class Collection implements \IteratorAggregate, \Countable
 {
     /**
      * @var T[]
@@ -70,7 +62,7 @@ abstract class Collection implements IteratorAggregate, Countable
 
     public function count(): int
     {
-        return count($this->elements);
+        return \count($this->elements);
     }
 
     /**
@@ -83,18 +75,18 @@ abstract class Collection implements IteratorAggregate, Countable
 
     public function has(string|int $key): bool
     {
-        return array_key_exists($key, $this->elements);
+        return \array_key_exists($key, $this->elements);
     }
 
     /**
      * @return mixed[]
      */
-    public function map(Closure $closure): array
+    public function map(\Closure $closure): array
     {
         return array_map($closure, $this->elements);
     }
 
-    public function reduce(Closure $closure, mixed $initial = null): mixed
+    public function reduce(\Closure $closure, mixed $initial = null): mixed
     {
         return array_reduce($this->elements, $closure, $initial);
     }
@@ -102,12 +94,12 @@ abstract class Collection implements IteratorAggregate, Countable
     /**
      * @return array<mixed>
      */
-    public function fmap(Closure $closure): array
+    public function fmap(\Closure $closure): array
     {
         return array_filter($this->map($closure));
     }
 
-    public function sort(Closure $closure): void
+    public function sort(\Closure $closure): void
     {
         uasort($this->elements, $closure);
     }
@@ -115,7 +107,7 @@ abstract class Collection implements IteratorAggregate, Countable
     /**
      * @return static(Collection<T>)
      */
-    public function filter(Closure $closure): static
+    public function filter(\Closure $closure): static
     {
         return $this->createNew(array_filter($this->elements, $closure));
     }
@@ -125,7 +117,7 @@ abstract class Collection implements IteratorAggregate, Countable
      */
     public function slice(int $offset, ?int $length = null): static
     {
-        return $this->createNew(array_slice($this->elements, $offset, $length, true));
+        return $this->createNew(\array_slice($this->elements, $offset, $length, true));
     }
 
     /**
@@ -149,7 +141,7 @@ abstract class Collection implements IteratorAggregate, Countable
      */
     public function last()
     {
-        return array_values($this->elements)[count($this->elements) - 1] ?? null;
+        return array_values($this->elements)[\count($this->elements) - 1] ?? null;
     }
 
     public function remove(string $key): void
@@ -158,9 +150,9 @@ abstract class Collection implements IteratorAggregate, Countable
     }
 
     /**
-     * @return Generator<T>
+     * @return \Generator<T>
      */
-    public function getIterator(): Generator
+    public function getIterator(): \Generator
     {
         yield from $this->elements;
     }

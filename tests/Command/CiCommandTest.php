@@ -9,10 +9,6 @@ use Danger\Platform\Github\Github;
 use Danger\Platform\PlatformDetector;
 use Danger\Renderer\HTMLRenderer;
 use Danger\Runner;
-
-use function dirname;
-
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -35,7 +31,7 @@ class CiCommandTest extends TestCase
         $output = new BufferedOutput();
 
         $cmd = new CiCommand($detector, new ConfigLoader(), new Runner(), new HTMLRenderer());
-        $returnCode = $cmd->run(new ArgvInput(['danger', '--config=' . dirname(__DIR__) . '/configs/empty.php']), $output);
+        $returnCode = $cmd->run(new ArgvInput(['danger', '--config=' . \dirname(__DIR__) . '/configs/empty.php']), $output);
 
         static::assertSame(Command::SUCCESS, $returnCode);
         static::assertStringContainsString('Looks good!', $output->fetch());
@@ -51,7 +47,7 @@ class CiCommandTest extends TestCase
         $output = new BufferedOutput();
 
         $cmd = new CiCommand($detector, new ConfigLoader(), new Runner(), new HTMLRenderer());
-        $returnCode = $cmd->run(new ArgvInput(['danger', '--config=' . dirname(__DIR__) . '/configs/all.php']), $output);
+        $returnCode = $cmd->run(new ArgvInput(['danger', '--config=' . \dirname(__DIR__) . '/configs/all.php']), $output);
 
         static::assertSame(Command::FAILURE, $returnCode);
         static::assertStringContainsString('The comment has been created at https://danger.local/test', $output->fetch());
@@ -67,7 +63,7 @@ class CiCommandTest extends TestCase
         $output = new BufferedOutput();
 
         $cmd = new CiCommand($detector, new ConfigLoader(), new Runner(), new HTMLRenderer());
-        $returnCode = $cmd->run(new ArgvInput(['danger', '--config=' . dirname(__DIR__) . '/configs/warning.php']), $output);
+        $returnCode = $cmd->run(new ArgvInput(['danger', '--config=' . \dirname(__DIR__) . '/configs/warning.php']), $output);
 
         static::assertSame(0, $returnCode);
         static::assertStringContainsString('The comment has been created at https://danger.local/test', $output->fetch());
@@ -83,7 +79,7 @@ class CiCommandTest extends TestCase
 
         $cmd = new CiCommand($detector, new ConfigLoader(), new Runner(), new HTMLRenderer());
 
-        static::expectException(InvalidArgumentException::class);
+        static::expectException(\InvalidArgumentException::class);
         static::expectExceptionMessage('Invalid config option given');
 
         $input = new ArgvInput([]);

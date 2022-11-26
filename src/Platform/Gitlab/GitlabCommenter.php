@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Danger\Platform\Gitlab;
 
-use function count;
-
 use Danger\Config;
 use Danger\Renderer\HTMLRenderer;
 use Gitlab\Client;
@@ -33,7 +31,7 @@ class GitlabCommenter
             return $baseUrl . self::NOTE_ANCHOR . $note['id'];
         }
 
-        if (count($noteIds) === 0) {
+        if (\count($noteIds) === 0) {
             /** @var array{'id': string} $note */
             $note = $this->client->mergeRequests()->addNote($projectIdentifier, $prId, $body);
 

@@ -2,15 +2,11 @@
 
 use Danger\Config;
 use Danger\Context;
-use Danger\Rule\CheckPhpCsFixer;
-use Danger\Rule\CheckPhpStan;
 use Danger\Rule\CommitRegex;
 use Danger\Struct\File;
 
 return (new Config())
-    ->useRule(new CommitRegex('/^(feat|fix|docs|perf|refactor|compat|chore)(\(.+\))?\:\s(.{3,})/m'))
-    ->useRule(new CheckPhpCsFixer())
-    ->useRule(new CheckPhpStan())
+    ->useRule(new CommitRegex('/^(feat|ci|fix|docs|perf|refactor|compat|chore)(\(.+\))?\:\s(.{3,})/m'))
     ->useRule(static function (Context $context): void {
         $prFiles = $context
             ->platform

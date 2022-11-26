@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Danger\Rule;
 
-use function count;
-
 use Danger\Context;
 
 class MaxCommit
@@ -15,7 +13,7 @@ class MaxCommit
 
     public function __invoke(Context $context): void
     {
-        if (count($context->platform->pullRequest->getCommits()) > $this->maxCommits) {
+        if (\count($context->platform->pullRequest->getCommits()) > $this->maxCommits) {
             $message = $this->maxCommits . ' commits';
             if ($this->maxCommits === 1) {
                 $message = 'one commit';

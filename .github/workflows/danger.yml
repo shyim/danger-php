@@ -9,11 +9,8 @@ jobs:
       - name: Clone
         uses: actions/checkout@v3
 
-      - name: Composer Install
-        run: composer install
-
       - name: Run Danger
-        run: php bin/danger ci
+        uses: ./
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_PULL_REQUEST_ID: ${{ github.event.pull_request.number }}

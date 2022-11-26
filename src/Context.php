@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Danger;
 
-use function count;
-
 use Danger\Platform\AbstractPlatform;
 
 class Context
@@ -58,7 +56,7 @@ class Context
 
     public function hasFailures(): bool
     {
-        return count($this->failures) > 0;
+        return \count($this->failures) > 0;
     }
 
     /**
@@ -71,7 +69,7 @@ class Context
 
     public function hasWarnings(): bool
     {
-        return count($this->warnings) > 0;
+        return \count($this->warnings) > 0;
     }
 
     /**
@@ -84,6 +82,6 @@ class Context
 
     public function hasNotices(): bool
     {
-        return count($this->notices) > 0;
+        return \count($this->notices) > 0;
     }
 }

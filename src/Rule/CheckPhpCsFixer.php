@@ -3,13 +3,8 @@ declare(strict_types=1);
 
 namespace Danger\Rule;
 
-use function count;
-
 use Danger\Context;
 use Danger\Struct\File;
-
-use const JSON_THROW_ON_ERROR;
-
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -54,9 +49,9 @@ class CheckPhpCsFixer
         // @codeCoverageIgnoreEnd
 
         /** @var array{'files': string[]} $json */
-        $json = json_decode($cmdOutput[0], true, 512, JSON_THROW_ON_ERROR);
+        $json = json_decode($cmdOutput[0], true, 512, \JSON_THROW_ON_ERROR);
 
-        if (count($json['files']) > 0) {
+        if (\count($json['files']) > 0) {
             $context->failure($this->foundErrors);
         }
     }

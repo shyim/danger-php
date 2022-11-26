@@ -3,12 +3,9 @@ declare(strict_types=1);
 
 namespace Danger\Platform\Gitlab;
 
-use function count;
-
 use Danger\Config;
 use Danger\Platform\AbstractPlatform;
 use Danger\Struct\Gitlab\PullRequest;
-use DateTime;
 use Gitlab\Client;
 
 /**
@@ -38,8 +35,8 @@ class Gitlab extends AbstractPlatform
         $this->pullRequest->labels = $this->raw['labels'];
         $this->pullRequest->assignees = array_map(static function (array $assignee) { return $assignee['username']; }, $this->raw['assignees']);
         $this->pullRequest->reviewers = array_map(static function (array $reviewer) { return $reviewer['username']; }, $this->raw['reviewers']);
-        $this->pullRequest->createdAt = new DateTime($this->raw['created_at']);
-        $this->pullRequest->updatedAt = new DateTime($this->raw['updated_at']);
+        $this->pullRequest->createdAt = new \DateTime($this->raw['created_at']);
+        $this->pullRequest->updatedAt = new \DateTime($this->raw['updated_at']);
     }
 
     public function post(string $body, Config $config): string
@@ -94,6 +91,6 @@ class Gitlab extends AbstractPlatform
 
     public function hasDangerMessage(): bool
     {
-        return count($this->commenter->getRelevantNoteIds($this->projectIdentifier, (int) $this->pullRequest->id)) > 0;
+        return \count($this->commenter->getRelevantNoteIds($this->projectIdentifier, (int) $this->pullRequest->id)) > 0;
     }
 }

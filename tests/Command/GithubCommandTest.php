@@ -7,10 +7,6 @@ use Danger\Command\GithubCommand;
 use Danger\ConfigLoader;
 use Danger\Platform\Github\Github;
 use Danger\Runner;
-
-use function dirname;
-
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -42,7 +38,7 @@ class GithubCommandTest extends TestCase
     {
         $cmd = new GithubCommand($this->createMock(Github::class), new ConfigLoader(), new Runner());
 
-        static::expectException(InvalidArgumentException::class);
+        static::expectException(\InvalidArgumentException::class);
         static::expectExceptionMessage('The given url must be a valid Github URL');
 
         $cmd->run(new ArgvInput(['danger', $url]), new NullOutput());
@@ -52,7 +48,7 @@ class GithubCommandTest extends TestCase
     {
         $cmd = new GithubCommand($this->createMock(Github::class), new ConfigLoader(), new Runner());
 
-        static::expectException(InvalidArgumentException::class);
+        static::expectException(\InvalidArgumentException::class);
         static::expectExceptionMessage('Invalid config option given');
 
         $input = new ArgvInput(['danger', 'https://github.com']);
@@ -66,7 +62,7 @@ class GithubCommandTest extends TestCase
     {
         $cmd = new GithubCommand($this->createMock(Github::class), new ConfigLoader(), new Runner());
 
-        static::expectException(InvalidArgumentException::class);
+        static::expectException(\InvalidArgumentException::class);
         static::expectExceptionMessage('The PR links needs to be a string');
 
         $tester = new CommandTester($cmd);
@@ -84,7 +80,7 @@ class GithubCommandTest extends TestCase
 
         $tester = new CommandTester(new GithubCommand($github, new ConfigLoader(), new Runner()));
 
-        $exitCode = $tester->execute(['pr' => 'https://github.com/shyim/danger-php/pull/1', '--config' => dirname(__DIR__) . '/configs/empty.php']);
+        $exitCode = $tester->execute(['pr' => 'https://github.com/shyim/danger-php/pull/1', '--config' => \dirname(__DIR__) . '/configs/empty.php']);
         static::assertSame(Command::SUCCESS, $exitCode);
         static::assertStringContainsString('PR looks good!', $tester->getDisplay());
     }
@@ -102,7 +98,7 @@ class GithubCommandTest extends TestCase
         $tester = new CommandTester($cmd);
         $exitCode = $tester->execute([
             'pr' => 'https://github.com/shyim/danger-php/pull/1',
-            '--config' => dirname(__DIR__) . '/configs/all.php',
+            '--config' => \dirname(__DIR__) . '/configs/all.php',
         ]);
 
         static::assertSame(Command::FAILURE, $exitCode);

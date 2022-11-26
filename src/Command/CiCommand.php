@@ -8,10 +8,6 @@ use Danger\Context;
 use Danger\Platform\PlatformDetector;
 use Danger\Renderer\HTMLRenderer;
 use Danger\Runner;
-use InvalidArgumentException;
-
-use function is_string;
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -45,8 +41,8 @@ class CiCommand extends Command
 
         $config = $input->getOption('config');
 
-        if ($config !== null && !is_string($config)) {
-            throw new InvalidArgumentException('Invalid config option given');
+        if ($config !== null && !\is_string($config)) {
+            throw new \InvalidArgumentException('Invalid config option given');
         }
 
         $config = $this->configLoader->loadByPath($config);

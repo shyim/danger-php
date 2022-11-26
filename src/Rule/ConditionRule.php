@@ -7,6 +7,7 @@ use Danger\Application;
 
 /**
  * @noinspection PhpUnused
+ *
  * @codeCoverageIgnore
  *
  * @deprecated use \Danger\Rule\Condition instead
