@@ -4,10 +4,14 @@ declare(strict_types=1);
 namespace Danger\Tests;
 
 use Danger\Config;
+use Danger\Context;
+use Danger\Platform\AbstractPlatform;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
+ *
+ * @covers \Danger\Config
  */
 class ConfigTest extends TestCase
 {
@@ -45,5 +49,24 @@ class ConfigTest extends TestCase
 
         $config->after(static function (): void {});
         static::assertCount(1, $config->getAfterHooks());
+    }
+
+    public function testGetReportLevelNotice(): void
+    {
+        $config = new Config();
+
+        $context = new Context($this->createMock(AbstractPlatform::class));
+        $context->notice('test');
+
+        static::assertSame(Config::REPORT_LEVEL_NOTICE, $config->getReportLevel($context));
+    }
+
+    public function testGetReportLevelNone(): void
+    {
+        $config = new Config();
+
+        $context = new Context($this->createMock(AbstractPlatform::class));
+
+        static::assertSame(Config::REPORT_LEVEL_NONE, $config->getReportLevel($context));
     }
 }

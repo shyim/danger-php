@@ -115,10 +115,6 @@ class Config
      */
     public function getReportLevel(Context $context): int
     {
-        if (!$context->hasReports()) {
-            return self::REPORT_LEVEL_NONE;
-        }
-
         if ($context->hasFailures()) {
             return self::REPORT_LEVEL_FAILURE;
         }

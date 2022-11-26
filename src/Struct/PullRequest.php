@@ -13,9 +13,9 @@ abstract class PullRequest
 
     public string $body;
 
-    public \DateTime $createdAt;
+    public \DateTimeInterface $createdAt;
 
-    public \DateTime $updatedAt;
+    public \DateTimeInterface $updatedAt;
 
     /**
      * @var string[]
@@ -25,22 +25,22 @@ abstract class PullRequest
     /**
      * @var string[]
      */
-    public array $assignees;
+    public array $assignees = [];
 
     /**
      * @var string[]
      */
-    public array $reviewers;
+    public array $reviewers = [];
 
     /**
      * @var array<string, array{'id': string, 'committed_date': string, 'message': 'string', 'author_name': string, 'author_email': string}|string>
      */
-    public array $rawCommits;
+    public array $rawCommits = [];
 
     /**
      * @var array{'changes': array{'new_path': string, 'diff'?: string, 'new_file': bool, 'deleted_file': bool}[]}
      */
-    public array $rawFiles;
+    public array $rawFiles = ['changes' => []];
 
     /**
      * @return CommitCollection<Commit>
