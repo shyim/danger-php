@@ -40,7 +40,7 @@ class LocalCommand extends AbstractPlatformCommand
             throw new \InvalidArgumentException('Invalid config option given');
         }
 
-        if ($root === null || !\is_string($root)) {
+        if (!\is_string($root)) {
             throw new \InvalidArgumentException('Invalid root option given');
         }
 

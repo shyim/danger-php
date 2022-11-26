@@ -51,7 +51,7 @@ class LocalPullRequest extends PullRequest
         $process = new Process([
             'git',
             'log',
-            '--pretty=format:\'{%n  "commit": "%H",%n  "abbreviated_commit": "%h",%n  "tree": "%T",%n  "abbreviated_tree": "%t",%n  "parent": "%P",%n  "abbreviated_parent": "%p",%n  "refs": "%D",%n  "encoding": "%e",%n  "subject": "%s",%n  "sanitized_subject_line": "%f",%n  "body": "%b",%n  "commit_notes": "%N",%n  "verification_flag": "%G?",%n  "signer": "%GS",%n  "signer_key": "%GK",%n  "author": {%n    "name": "%aN",%n    "email": "%aE",%n    "date": "%aD"%n  },%n  "commiter": {%n    "name": "%cN",%n    "email": "%cE",%n    "date": "%cD"%n  }%n},\'',
+            '--pretty=format:{%n  "commit": "%H",%n  "abbreviated_commit": "%h",%n  "tree": "%T",%n  "abbreviated_tree": "%t",%n  "parent": "%P",%n  "abbreviated_parent": "%p",%n  "refs": "%D",%n  "encoding": "%e",%n  "subject": "%s",%n  "sanitized_subject_line": "%f",%n  "body": "%b",%n  "commit_notes": "%N",%n  "verification_flag": "%G?",%n  "signer": "%GS",%n  "signer_key": "%GK",%n  "author": {%n    "name": "%aN",%n    "email": "%aE",%n    "date": "%aD"%n  },%n  "commiter": {%n    "name": "%cN",%n    "email": "%cE",%n    "date": "%cD"%n  }%n},',
             $this->target . '..' . $this->local,
         ], $this->repo);
 
@@ -60,7 +60,7 @@ class LocalPullRequest extends PullRequest
         $commits = new CommitCollection();
 
         /** @var array{commit: string, author: array{name: string, email: string, date: string}, subject: string}[] $gitOutput */
-        $gitOutput = json_decode('[' . mb_substr(trim($process->getOutput(), '\''), 0, -1) . ']', true);
+        $gitOutput = json_decode('[' . mb_substr($process->getOutput(), 0, -1) . ']', true);
 
         foreach ($gitOutput as $commit) {
             $commitObj = new Commit();
@@ -109,13 +109,11 @@ class LocalPullRequest extends PullRequest
 
             if ($status === 'A') {
                 $element->status = File::STATUS_ADDED;
-            } elseif ($status === 'M') {
-                $element->status = File::STATUS_MODIFIED;
             } else {
                 $element->status = File::STATUS_REMOVED;
             }
 
-            $files->add($element);
+            $files->set($element->name, $element);
         }
 
         return $this->files = $files;
