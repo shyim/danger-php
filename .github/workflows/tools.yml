@@ -1,6 +1,8 @@
 name: Tools
 on:
   push:
+    branches:
+      - "main"
     paths:
       - "**.php"
       - "composer.json"
