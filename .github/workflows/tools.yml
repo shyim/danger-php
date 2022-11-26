@@ -63,6 +63,7 @@ jobs:
       - name: Run PHP-CS-Fixer
         run: vendor/bin/php-cs-fixer fix
 
-      - uses: getsentry/action-git-diff-suggestions@main
+      - name: suggester / shellcheck
+        uses: reviewdog/action-suggester@v1
         with:
-          message: php-cs-fixer
+          tool_name: php-cs-fixer
