@@ -20,9 +20,7 @@ jobs:
         uses: actions/checkout@v2.4.0
 
       - name: Danger
-        uses: docker://ghcr.io/shyim/danger-php:latest
-        with:
-          args: ci
+        uses: shyim/danger-php@0.2.8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_PULL_REQUEST_ID: ${{ github.event.pull_request.number }}
@@ -46,9 +44,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Danger
-        uses: docker://ghcr.io/shyim/danger-php:latest
-        with:
-          args: ci
+        uses: shyim/danger-php@0.2.8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_PULL_REQUEST_ID: ${{ github.event.pull_request.number }}
