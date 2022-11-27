@@ -131,7 +131,7 @@ class LocalPullRequest extends PullRequest
         $file = $this->repo . '/' . $path;
 
         if (!file_exists($file)) {
-            throw new CouldNotGetFileContentException('File not found');
+            throw new CouldNotGetFileContentException($path);
         }
 
         return (string) file_get_contents($file);

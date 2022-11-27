@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Danger\Tests\Platform\Github;
 
 use Danger\Config;
+use Danger\Exception\CouldNotGetFileContentException;
 use Danger\Platform\Github\Github;
 use Danger\Platform\Github\GithubCommenter;
 use Danger\Struct\Comment;
@@ -238,5 +239,49 @@ class GithubTest extends TestCase
         $github->load('FriendsOfShopware/FroshPluginUploader', '144');
 
         static::assertTrue($github->hasDangerMessage());
+    }
+
+    public function testFetchingHeadFile(): void
+    {
+        $commenter = $this->createMock(GithubCommenter::class);
+        $commenter->method('getCommentIds')->willReturn([1]);
+
+        $httpClient = new MockHttpClient([
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('test', ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+        ]);
+
+        $client = Client::createWithHttpClient(new Psr18Client($httpClient));
+
+        $github = new Github($client, $commenter);
+
+        $github->load('FriendsOfShopware/FroshPluginUploader', '144');
+        $composerJson = $github->pullRequest->getFileContent('composer.json');
+
+        static::assertSame('test', $composerJson);
+    }
+
+    public function testFetchingHeadFileFails(): void
+    {
+        $commenter = $this->createMock(GithubCommenter::class);
+        $commenter->method('getCommentIds')->willReturn([1]);
+
+        $httpClient = new MockHttpClient([
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('test', ['http_code' => 404, 'response_headers' => ['content-type' => 'application/json']]),
+        ]);
+
+        $client = Client::createWithHttpClient(new Psr18Client($httpClient));
+
+        $github = new Github($client, $commenter);
+
+        $github->load('FriendsOfShopware/FroshPluginUploader', '144');
+
+        static::expectException(CouldNotGetFileContentException::class);
+        static::expectExceptionMessage('Could not get content of file composer.json');
+
+        $github->pullRequest->getFileContent('composer.json');
     }
 }
