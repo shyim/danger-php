@@ -30,7 +30,7 @@ class PullRequest extends \Danger\Struct\PullRequest
      */
     private ?CommentCollection $comments = null;
 
-    public function __construct(private GithubClient $client, private string $owner, private string $repo)
+    public function __construct(private GithubClient $client, private string $owner, private string $repo, private string $headSha)
     {
     }
 
@@ -108,5 +108,12 @@ class PullRequest extends \Danger\Struct\PullRequest
         }
 
         return $this->comments;
+    }
+
+    public function getFileContent(string $path): ?string
+    {
+        $this->client->repo()->contents()->rawDownload($this->owner, $this->repo, $path, $this->headSha);
+
+        return '';
     }
 }

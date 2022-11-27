@@ -27,11 +27,11 @@ class Github extends AbstractPlatform
         $this->githubOwner = $owner;
         $this->githubRepository = $repository;
 
-        /** @var array{'title': string, 'body': ?string, 'labels': array{'name': string}[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string} $raw */
+        /** @var array{'title': string, 'body': ?string, 'labels': array{'name': string}[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string, head: array{sha: string}} $raw */
         $raw = $this->client->pullRequest()->show($owner, $repository, (int) $id);
         $this->raw = $raw;
 
-        $this->pullRequest = new GithubPullRequest($this->client, $owner, $repository);
+        $this->pullRequest = new GithubPullRequest($this->client, $owner, $repository, $raw['head']['sha']);
         $this->pullRequest->id = $id;
         $this->pullRequest->projectIdentifier = $projectIdentifier;
         $this->pullRequest->title = $this->raw['title'];

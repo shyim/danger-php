@@ -124,4 +124,15 @@ class LocalPullRequest extends PullRequest
     {
         return new CommentCollection();
     }
+
+    public function getFileContent(string $path): ?string
+    {
+        $file = $this->repo . '/' . $path;
+        
+        if (!file_exists($file)) {
+            return null;
+        }
+        
+        return (string) file_get_contents($file);
+    }
 }
