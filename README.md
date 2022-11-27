@@ -25,7 +25,7 @@ composer global require shyim/danger-php
 
 ### Phar Archive
 
-Every release has an phar archive attached
+Every release has a phar archive attached
 
 ### Docker
 

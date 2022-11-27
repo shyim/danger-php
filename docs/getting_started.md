@@ -75,7 +75,7 @@ return (new Config())
 ;
 ```
 
-## useThreadOnFails
+## useThreadOn
 
 **Currently only supported on GitLab**
 
@@ -112,22 +112,5 @@ use Danger\Config;
 
 return (new Config())
     ->useThreadOn(Config::REPORT_LEVEL_NOTICE)
-;
-```
-## useGithubCommentProxy
-
-**Currently only supported on Github**
-
-With this option enabled Danger uses a Comment Proxy instead using the given Token.
-This will be necessary as Github Actions doesn't have permission to comment when the Pull Request comes from a fork
-See [Danger-Comment-Proxy](https://github.com/shyim/danger-comment-proxy) as example implementation
-
-```php
-<?php declare(strict_types=1);
-
-use Danger\Config;
-
-return (new Config())
-    ->useGithubCommentProxy('https://my-host.com')
 ;
 ```
