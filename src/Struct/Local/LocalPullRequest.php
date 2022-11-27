@@ -24,6 +24,7 @@ class LocalPullRequest extends PullRequest
 
     public function __construct(private string $repo, private string $local, private string $target)
     {
+        $this->projectIdentifier = $this->local;
         $this->id = $this->local;
         $this->body = '';
 
