@@ -2,6 +2,7 @@
 
 namespace Danger\Tests\Struct\Local;
 
+use Danger\Exception\CouldNotGetFileContentException;
 use Danger\Struct\File;
 use Danger\Struct\Local\LocalPullRequest;
 use PHPUnit\Framework\TestCase;
@@ -107,5 +108,17 @@ class LocalPullRequestTest extends TestCase
 
         static::assertSame('c', $fileC->getContent());
         static::assertSame(File::STATUS_ADDED, $fileC->status);
+    }
+
+    public function testGetHeadFile(): void
+    {
+        $pr = new LocalPullRequest($this->tmpDir, 'feature2', 'main');
+
+        $file = $pr->getFileContent('c.txt');
+        static::assertSame('c', $file);
+
+        static::expectException(CouldNotGetFileContentException::class);
+
+        $pr->getFileContent('foo.txt');
     }
 }

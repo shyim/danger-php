@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Danger\Tests\Platform\Gitlab;
 
 use Danger\Config;
+use Danger\Exception\CouldNotGetFileContentException;
 use Danger\Platform\Gitlab\Gitlab;
 use Danger\Platform\Gitlab\GitlabCommenter;
 use Danger\Struct\Comment;
@@ -181,5 +182,39 @@ class GitlabTest extends TestCase
         $gitlab->load('test', '1');
 
         static::assertTrue($gitlab->hasDangerMessage());
+    }
+
+    public function testFetchingHeadFile(): void
+    {
+        $mockHttpClient = new MockHttpClient([
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{"content": "dGVzdA=="}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+        ]);
+
+        $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
+
+        $gitlab = new Gitlab($client, $this->createMock(GitlabCommenter::class));
+        $gitlab->load('test', '1');
+
+        $file = $gitlab->pullRequest->getFileContent('composer.json');
+        static::assertSame('test', $file);
+    }
+
+    public function testFetchingHeadFileFails(): void
+    {
+        $mockHttpClient = new MockHttpClient([
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/mr.json'), ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('{}', ['http_response' => 404, 'response_headers' => ['content-type' => 'application/json']]),
+        ]);
+
+        $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
+
+        $gitlab = new Gitlab($client, $this->createMock(GitlabCommenter::class));
+        $gitlab->load('test', '1');
+
+        static::expectException(CouldNotGetFileContentException::class);
+        static::expectExceptionMessage('Could not get content of file composer.json');
+
+        $gitlab->pullRequest->getFileContent('composer.json');
     }
 }

@@ -21,6 +21,7 @@ $context->platform->raw; // Raw API Response
 $context->platform->pullRequest->rawCommits; // Raw API Commits (only available after getCommits() call)
 $context->platform->pullRequest->rawFiles; // Raw API Files (only available after getFiles() call)
 $context->platform->pullRequest->getCommits(); // Collection of commits
+$context->platform->pullRequest->getFileContent('phpstan-baseline.neon'); // Fetch a file content on that head commit
 
 $commit; // Element of commit collection
 $commit->author; // Commit author
