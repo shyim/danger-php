@@ -2,6 +2,7 @@
 
 namespace Danger\Struct\Local;
 
+use Danger\Exception\CouldNotGetFileContentException;
 use Danger\Struct\CommentCollection;
 use Danger\Struct\Commit;
 use Danger\Struct\CommitCollection;
@@ -125,14 +126,14 @@ class LocalPullRequest extends PullRequest
         return new CommentCollection();
     }
 
-    public function getFileContent(string $path): ?string
+    public function getFileContent(string $path): string
     {
         $file = $this->repo . '/' . $path;
-        
+
         if (!file_exists($file)) {
-            return null;
+            throw new CouldNotGetFileContentException('File not found');
         }
-        
+
         return (string) file_get_contents($file);
     }
 }

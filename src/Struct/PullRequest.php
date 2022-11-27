@@ -55,7 +55,7 @@ abstract class PullRequest
     /**
      * Get a file from the pull request head. Don't need to be a changed file.
      */
-    abstract public function getFileContent(string $path): ?string;
+    abstract public function getFileContent(string $path): string;
 
     /**
      * @return CommentCollection<Comment>

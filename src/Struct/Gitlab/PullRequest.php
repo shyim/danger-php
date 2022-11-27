@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Danger\Struct\Gitlab;
 
+use Danger\Exception\CouldNotGetFileContentException;
 use Danger\Struct\Comment;
 use Danger\Struct\CommentCollection;
 use Danger\Struct\Commit;
@@ -135,14 +136,14 @@ class PullRequest extends \Danger\Struct\PullRequest
         return File::STATUS_MODIFIED;
     }
 
-    public function getFileContent(string $path): ?string
+    public function getFileContent(string $path): string
     {
         $file = new GitlabFile($this->client, $this->projectIdentifier, $path, $this->latestSha);
 
         try {
             return $file->getContent();
         } catch (\Throwable $e) {
-            return null;
+            throw new CouldNotGetFileContentException($path, $e);
         }
     }
 }

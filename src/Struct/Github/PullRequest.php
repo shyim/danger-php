@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Danger\Struct\Github;
 
+use Danger\Exception\CouldNotGetFileContentException;
 use Danger\Struct\Comment;
 use Danger\Struct\CommentCollection;
 use Danger\Struct\Commit;
@@ -110,10 +111,13 @@ class PullRequest extends \Danger\Struct\PullRequest
         return $this->comments;
     }
 
-    public function getFileContent(string $path): ?string
+    public function getFileContent(string $path): string
     {
-        $this->client->repo()->contents()->rawDownload($this->owner, $this->repo, $path, $this->headSha);
-
-        return '';
+        try {
+            // @phpstan-ignore-next-line
+            return $this->client->repo()->contents()->rawDownload($this->owner, $this->repo, $path, $this->headSha);
+        } catch (\Throwable $e) {
+            throw new CouldNotGetFileContentException($path, $e);
+        }
     }
 }
