@@ -2,9 +2,8 @@
 
 Danger runs during your CI process, and gives teams the chance to automate common code review chores.
 This project ports [Danger](https://danger.systems/ruby/) to PHP.
-This project is still in the early phase. Feel free to try it out and contribute!
 
-Currently only Github and Gitlab are supported as Platform
+Currently only GitHub and Gitlab are supported as Platform
 
 
 ## Badges
