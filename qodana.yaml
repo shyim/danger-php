@@ -1,0 +1,4 @@
+version: "1.0"
+linter: ghcr.io/shyim/qodana-php:8.1
+include:
+  - name: CheckDependencyLicenses
