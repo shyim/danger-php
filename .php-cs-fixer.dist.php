@@ -51,8 +51,8 @@ return (new PhpCsFixer\Config())
         'php_unit_test_class_requires_covers' => false,
     ])
     ->setFinder(PhpCsFixer\Finder::create()
-    ->exclude('vendor')
-    ->exclude('tests/fixtures')
-    ->in(__DIR__)
+        ->exclude('vendor')
+        ->exclude('tests/fixtures')
+        ->in(__DIR__)
     )
-    ;
+;
