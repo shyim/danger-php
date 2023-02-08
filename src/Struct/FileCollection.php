@@ -13,9 +13,7 @@ class FileCollection extends Collection
      */
     public function matches(string $pattern): self
     {
-        return $this->filter(static function (File $file) use ($pattern): bool {
-            return fnmatch($pattern, $file->name);
-        });
+        return $this->filter(static fn (File $file): bool => fnmatch($pattern, $file->name));
     }
 
     /**
@@ -23,9 +21,7 @@ class FileCollection extends Collection
      */
     public function matchesContent(string $pattern): self
     {
-        return $this->filter(static function (File $file) use ($pattern): bool {
-            return !(($matches = preg_grep($pattern, [$file->getContent()])) === false || \count($matches) === 0);
-        });
+        return $this->filter(static fn (File $file): bool => !(($matches = preg_grep($pattern, [$file->getContent()])) === false || \count($matches) === 0));
     }
 
     /**
@@ -33,8 +29,6 @@ class FileCollection extends Collection
      */
     public function filterStatus(string $status): self
     {
-        return $this->filter(static function (File $file) use ($status): bool {
-            return $file->status === $status;
-        });
+        return $this->filter(static fn (File $file): bool => $file->status === $status);
     }
 }

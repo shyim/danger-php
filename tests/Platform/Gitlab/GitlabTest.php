@@ -42,8 +42,8 @@ class GitlabTest extends TestCase
         static::assertSame(['Test'], $gitlab->pullRequest->labels);
         static::assertSame(['shyim'], $gitlab->pullRequest->assignees);
         static::assertSame(['dangertestuser', 'dangertestuser2'], $gitlab->pullRequest->reviewers);
-        static::assertSame(1621638766, $gitlab->pullRequest->createdAt->getTimestamp());
-        static::assertSame(1621672778, $gitlab->pullRequest->updatedAt->getTimestamp());
+        static::assertSame(1_621_638_766, $gitlab->pullRequest->createdAt->getTimestamp());
+        static::assertSame(1_621_672_778, $gitlab->pullRequest->updatedAt->getTimestamp());
 
         $commits = $gitlab->pullRequest->getCommits();
         static::assertSame($commits, $gitlab->pullRequest->getCommits());
@@ -54,7 +54,7 @@ class GitlabTest extends TestCase
         static::assertSame('Add new file', $commit->message);
         static::assertSame('Shyim', $commit->author);
         static::assertSame('s.sayakci@gmail.com', $commit->authorEmail);
-        static::assertSame(1621672778, $commit->createdAt->getTimestamp());
+        static::assertSame(1_621_672_778, $commit->createdAt->getTimestamp());
         static::assertSame('2d7f9727fb1a786543df555bb55ad4febeeb2f2f', $commit->sha);
         static::assertFalse($commit->verified);
 
@@ -67,8 +67,8 @@ class GitlabTest extends TestCase
         static::assertCount(1, $comments);
         static::assertSame('shyim', $comment->author);
         static::assertStringContainsString('<table>', $comment->body);
-        static::assertSame(1621672794, $comment->createdAt->getTimestamp());
-        static::assertSame(1621672794, $comment->updatedAt->getTimestamp());
+        static::assertSame(1_621_672_794, $comment->createdAt->getTimestamp());
+        static::assertSame(1_621_672_794, $comment->updatedAt->getTimestamp());
     }
 
     public function testFiles(): void

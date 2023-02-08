@@ -45,8 +45,8 @@ class GithubTest extends TestCase
         static::assertSame(['Dependencies'], $github->pullRequest->labels);
         static::assertSame(['shyim'], $github->pullRequest->assignees);
         static::assertSame(['dangertestuser', 'dangertestuser2'], $github->pullRequest->reviewers);
-        static::assertSame(1621542059, $github->pullRequest->createdAt->getTimestamp());
-        static::assertSame(1621547349, $github->pullRequest->updatedAt->getTimestamp());
+        static::assertSame(1_621_542_059, $github->pullRequest->createdAt->getTimestamp());
+        static::assertSame(1_621_547_349, $github->pullRequest->updatedAt->getTimestamp());
 
         $commits = $github->pullRequest->getCommits();
         static::assertSame($commits, $github->pullRequest->getCommits());
@@ -57,7 +57,7 @@ class GithubTest extends TestCase
         static::assertSame('fix(ci): Fix commit linting for external', $commit->message);
         static::assertSame('Soner Sayakci', $commit->author);
         static::assertSame('s.sayakci@shopware.com', $commit->authorEmail);
-        static::assertSame(1621547082, $commit->createdAt->getTimestamp());
+        static::assertSame(1_621_547_082, $commit->createdAt->getTimestamp());
         static::assertSame('04911c4a084c06d8edac20cff34c236329175c66', $commit->sha);
         static::assertFalse($commit->verified);
 
@@ -86,8 +86,8 @@ class GithubTest extends TestCase
         static::assertCount(2, $comments);
         static::assertSame('codecov[bot]', $comment->author);
         static::assertStringContainsString('<!--- Danger-PHP-Marker -->', $comment->body);
-        static::assertSame(1621542100, $comment->createdAt->getTimestamp());
-        static::assertSame(1621547093, $comment->updatedAt->getTimestamp());
+        static::assertSame(1_621_542_100, $comment->createdAt->getTimestamp());
+        static::assertSame(1_621_547_093, $comment->updatedAt->getTimestamp());
     }
 
     public function testPost(): void

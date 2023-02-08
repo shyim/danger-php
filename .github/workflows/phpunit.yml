@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['8.0', '8.1']
+        php: ['8.1', '8.2']
     steps:
       - uses: actions/checkout@v3
 
@@ -41,6 +41,8 @@ jobs:
 
       - name: Run test suite
         run: php vendor/bin/phpunit
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: 1
 
       - uses: codecov/codecov-action@v3
         with:

@@ -14,10 +14,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('ci')]
 class CiCommand extends Command
 {
-    public static $defaultName = 'ci';
-
     public function __construct(
         private PlatformDetector $platformDetector,
         private ConfigLoader $configLoader,

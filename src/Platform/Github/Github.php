@@ -36,13 +36,9 @@ class Github extends AbstractPlatform
         $this->pullRequest->projectIdentifier = $projectIdentifier;
         $this->pullRequest->title = $this->raw['title'];
         $this->pullRequest->body = $this->raw['body'] ?? '';
-        $this->pullRequest->labels = array_map(static function (array $label): string {
-            return $label['name'];
-        }, $this->raw['labels']
+        $this->pullRequest->labels = array_map(static fn (array $label): string => $label['name'], $this->raw['labels']
         );
-        $this->pullRequest->assignees = array_map(static function (array $assignee): string {
-            return $assignee['login'];
-        }, $this->raw['assignees']
+        $this->pullRequest->assignees = array_map(static fn (array $assignee): string => $assignee['login'], $this->raw['assignees']
         );
         $this->pullRequest->reviewers = $this->getReviews($owner, $repository, $id);
         $this->pullRequest->createdAt = new \DateTime($this->raw['created_at']);
@@ -119,14 +115,10 @@ class Github extends AbstractPlatform
      */
     private function getReviews(string $owner, string $repository, string $id): array
     {
-        $requestedReviewers = array_map(static function (array $reviewer): string {
-            return $reviewer['login'];
-        }, $this->raw['requested_reviewers']);
+        $requestedReviewers = array_map(static fn (array $reviewer): string => $reviewer['login'], $this->raw['requested_reviewers']);
 
         $reviewersRequest = $this->client->pullRequest()->reviews()->all($owner, $repository, (int) $id);
-        $reviewers = array_map(static function (array $reviewer) {
-            return $reviewer['user']['login'];
-        }, $reviewersRequest);
+        $reviewers = array_map(static fn (array $reviewer) => $reviewer['user']['login'], $reviewersRequest);
 
         return array_unique(array_merge($requestedReviewers, $reviewers));
     }
