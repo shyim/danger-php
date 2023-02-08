@@ -18,7 +18,7 @@ class PlatformDetectorTest extends TestCase
     {
         $detector = new PlatformDetector($this->createMock(Github::class), $this->createMock(Gitlab::class));
         static::expectException(UnsupportedCIException::class);
-        static::expectDeprecationMessage('Could not detect CI Platform');
+        static::expectExceptionMessage('Could not detect CI Platform');
         $detector->detect();
     }
 

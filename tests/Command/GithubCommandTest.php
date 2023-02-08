@@ -21,7 +21,7 @@ class GithubCommandTest extends TestCase
     /**
      * @return array<int, string>[]
      */
-    public function invalidUrls(): array
+    public static function invalidUrls(): array
     {
         return [
             ['https://github.com'],

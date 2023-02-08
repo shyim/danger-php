@@ -12,10 +12,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('github-local')]
 class GithubCommand extends AbstractPlatformCommand
 {
-    public static $defaultName = 'github-local';
-
     public function __construct(private Github $github, private ConfigLoader $configLoader, private Runner $runner)
     {
         parent::__construct();

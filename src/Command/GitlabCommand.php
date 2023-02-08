@@ -13,10 +13,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('gitlab-local')]
 class GitlabCommand extends AbstractPlatformCommand
 {
-    public static $defaultName = 'gitlab-local';
-
     public function __construct(private Gitlab $gitlab, private ConfigLoader $configLoader, private Runner $runner)
     {
         parent::__construct();

@@ -8,10 +8,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('init')]
 class InitCommand extends Command
 {
-    public static $defaultName = 'init';
-
     protected function configure(): void
     {
         $this->setDescription('Initializes a new danger.php');

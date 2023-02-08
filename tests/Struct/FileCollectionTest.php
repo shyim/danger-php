@@ -71,9 +71,7 @@ class FileCollectionTest extends TestCase
         $f = new File('');
         $c = new FileCollection([$f]);
 
-        $bool = $c->reduce(static function (): bool {
-            return true;
-        });
+        $bool = $c->reduce(static fn (): bool => true);
 
         static::assertTrue($bool);
     }
@@ -88,9 +86,7 @@ class FileCollectionTest extends TestCase
 
         $c = new FileCollection([$f2, $f1]);
 
-        $c->sort(static function (File $a, File $b): int {
-            return $a->name <=> $b->name;
-        });
+        $c->sort(static fn (File $a, File $b): int => $a->name <=> $b->name);
 
         $file = $c->first();
         static::assertInstanceOf(File::class, $file);
@@ -146,9 +142,7 @@ class FileCollectionTest extends TestCase
         $f1->name = 'A';
 
         $c = new FileCollection([$f1]);
-        $list = $c->fmap(function (File $file) {
-            return $file->name;
-        });
+        $list = $c->fmap(fn (File $file) => $file->name);
 
         static::assertSame(['A'], $list);
     }

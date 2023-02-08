@@ -48,15 +48,15 @@
         }
     ],
     "require-dev": {
-        "roave/security-advisories": "dev-latest",
-        "friendsofphp/php-cs-fixer": "^3.14",
-        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "dev-master",
+        "phpunit/phpunit": "^10.0",
         "phpstan/phpstan": "^1.9.14",
         "phpstan/phpstan-phpunit": "^1.3.3",
         "phpstan/extension-installer": "^1.2.0",
         "phpstan/phpstan-deprecation-rules": "^1.1.1",
         "phpstan/phpstan-strict-rules": "^1.4.5",
-        "infection/infection": "^0.26.18"
+        "infection/infection": "^0.26.18",
+        "rector/rector": "*"
     },
     "scripts": {
         "phpstan": "phpstan analyse",
