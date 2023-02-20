@@ -52,7 +52,7 @@
         "friendsofphp/php-cs-fixer": "dev-master",
         "phpunit/phpunit": "^10.0",
         "phpstan/phpstan": "^1.9.18",
-        "phpstan/phpstan-phpunit": "^1.3.3",
+        "phpstan/phpstan-phpunit": "^1.3.4",
         "phpstan/extension-installer": "^1.2.0",
         "phpstan/phpstan-deprecation-rules": "^1.1.1",
         "phpstan/phpstan-strict-rules": "^1.4.5",
