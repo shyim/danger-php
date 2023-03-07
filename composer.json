@@ -29,7 +29,7 @@
         "symfony/http-client": "^6.2",
         "nyholm/psr7": "^1.5",
         "symfony/finder": "^6.2",
-        "m4tthumphrey/php-gitlab-api": "^11.8"
+        "m4tthumphrey/php-gitlab-api": "^11.9"
     },
     "replace": {
         "symfony/polyfill-ctype": "*",
