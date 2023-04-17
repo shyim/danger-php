@@ -56,7 +56,7 @@
         "phpstan/extension-installer": "^1.2.0",
         "phpstan/phpstan-deprecation-rules": "^1.1.3",
         "phpstan/phpstan-strict-rules": "^1.5.0",
-        "infection/infection": "^0.26.19"
+        "infection/infection": "^0.26.20"
     },
     "scripts": {
         "phpstan": "phpstan analyse",
