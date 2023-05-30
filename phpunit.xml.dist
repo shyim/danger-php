@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" colors="true" processIsolation="false" stopOnFailure="false" bootstrap="vendor/autoload.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" colors="true" processIsolation="false" stopOnFailure="false" bootstrap="vendor/autoload.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
   <coverage>
-    <include>
-      <directory>./src/</directory>
-    </include>
-    <exclude>
-        </exclude>
     <report>
       <clover outputFile="clover.xml"/>
     </report>
@@ -19,4 +14,11 @@
     <ini name="error_reporting" value="-1"/>
   </php>
   <logging/>
+  <source>
+    <include>
+      <directory>./src/</directory>
+    </include>
+    <exclude>
+        </exclude>
+  </source>
 </phpunit>
