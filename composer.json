@@ -20,15 +20,15 @@
         "ext-mbstring": "*",
         "ext-ctype": "*",
         "ext-intl": "*",
-        "symfony/console": "^6.2",
-        "symfony/dependency-injection": "^6.2",
-        "symfony/filesystem": "^6.2",
-        "symfony/process": "^6.2",
+        "symfony/console": "^6.3",
+        "symfony/dependency-injection": "^6.3",
+        "symfony/filesystem": "^6.3",
+        "symfony/process": "^6.3",
         "knplabs/github-api": "^3.11",
-        "symfony/config": "^6.2",
-        "symfony/http-client": "^6.2",
+        "symfony/config": "^6.3",
+        "symfony/http-client": "^6.3",
         "nyholm/psr7": "^1.8",
-        "symfony/finder": "^6.2",
+        "symfony/finder": "^6.3",
         "m4tthumphrey/php-gitlab-api": "^11.10"
     },
     "replace": {
@@ -65,7 +65,8 @@
     "config": {
         "allow-plugins": {
             "phpstan/extension-installer": true,
-            "infection/extension-installer": true
+            "infection/extension-installer": true,
+            "php-http/discovery": true
         }
     }
 }
