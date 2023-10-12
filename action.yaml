@@ -5,6 +5,6 @@ branding:
   color: 'purple'
 runs:
   using: 'docker'
-  image: 'ghcr.io/shyim/danger-php:latest'
+  image: 'docker://ghcr.io/shyim/danger-php:latest'
   args:
     - "ci"
