@@ -33,7 +33,7 @@ jobs:
           php-version: '8.1'
 
       - name: Download box
-        run: wget https://github.com/humbug/box/releases/download/3.11.0/box.phar
+        run: wget https://github.com/humbug/box/releases/download/4.4.0/box.phar
 
       - name: Remove dev deps
         run: composer install --no-dev
