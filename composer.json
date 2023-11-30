@@ -28,7 +28,7 @@
         "symfony/config": "^6.4",
         "symfony/http-client": "^6.3",
         "nyholm/psr7": "^1.8",
-        "symfony/finder": "^6.3",
+        "symfony/finder": "^6.4",
         "m4tthumphrey/php-gitlab-api": "^11.12"
     },
     "replace": {
