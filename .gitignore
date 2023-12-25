@@ -1,4 +1,7 @@
 /.idea
+/.cache
+/rootfs
+/db
 /vendor
 /.php-cs-fixer.cache
 /.phpunit.cache
