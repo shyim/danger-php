@@ -59,6 +59,9 @@ jobs:
       - name: Login into Github Docker Registery
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
+      - name: Install Chisel
+        uses: shyim/chisel-installer@main
+
       - name: Build Docker image arm64
         run: ./build.sh ${{ steps.get_version.outputs.VERSION }} arm64 --push
 
