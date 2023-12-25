@@ -59,8 +59,14 @@ jobs:
       - name: Login into Github Docker Registery
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
+      - name: Login into Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_PAT }}" | docker login -u shyim --password-stdin
+
       - name: Install Chisel
         uses: shyim/chisel-installer@main
+
+      - name: Install Regctl
+        uses: iarekylew00t/regctl-installer@v1
 
       - name: Build Docker image arm64
         run: ./build.sh ${{ steps.get_version.outputs.VERSION }} arm64 --push
@@ -75,3 +81,7 @@ jobs:
       - run: docker manifest push ghcr.io/shyim/danger-php:latest
 
       - run: docker manifest push ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }}
+
+      - run: regctl image copy ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }} shyim/danger-php:${{ steps.get_version.outputs.VERSION }}
+
+      - run: regctl image copy ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }} shyim/danger-php:latest
