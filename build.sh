@@ -26,7 +26,7 @@ if [[ ! -d db ]]; then
   git clone -b ubuntu-23.10-php https://github.com/shyim/chisel-releases.git db
 fi
 
-chisel cut --arch=$arch --release ./db --root rootfs/ php8.2-cli_base php8.2-common_phar php8.2-common_ctype php8.2-mbstring_all php8.2-intl_all php8.2-xml_xml dash_bins coreutils_bins grep_bins bash_bins ca-certificates_data openssl_data
+chisel cut --arch=$arch --release ./db --root rootfs/ php8.2-cli_base php8.2-common_phar-cli php8.2-common_ctype-cli php8.2-mbstring_cli php8.2-intl_cli php8.2-xml_xml-cli dash_bins coreutils_bins grep_bins bash_bins ca-certificates_data openssl_data
 
 if [[ -e ".cache/danger-${version}.phar" ]]; then
     echo "Using cached version"
@@ -48,7 +48,7 @@ chmod +x rootfs/app/bin/danger
 cp ".cache/danger-${version}.phar" rootfs/danger.phar
 chmod +x rootfs/danger.phar
 
-docker build --platform "linux/${arch}" -t "ghcr.io/shyim/danger-php:${version}-${arch}" .
+docker build --platform "linux/${arch}" -t "ghcr.io/shyim/danger-php:test" .
 
 if [[ "$params" == "--push" ]]; then
   docker push "ghcr.io/shyim/danger-php:${version}-${arch}"
