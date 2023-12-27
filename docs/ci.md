@@ -56,7 +56,7 @@ jobs:
 Danger:
     image:
         name: ghcr.io/shyim/danger-php:latest
-        entrypoint: ["/bin/sh", "-c"]
+        entrypoint: [""]
     rules:
       - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     script:
