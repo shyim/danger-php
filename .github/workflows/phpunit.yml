@@ -44,6 +44,6 @@ jobs:
         env:
           PHP_CS_FIXER_IGNORE_ENV: 1
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           file: ./clover.xml
