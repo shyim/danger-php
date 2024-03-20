@@ -24,7 +24,7 @@
         "symfony/dependency-injection": "^7.0",
         "symfony/filesystem": "^7.0",
         "symfony/process": "^7.0",
-        "knplabs/github-api": "^3.13",
+        "knplabs/github-api": "^3.14",
         "symfony/config": "^7.0",
         "symfony/http-client": "^7.0",
         "nyholm/psr7": "^1.8",
