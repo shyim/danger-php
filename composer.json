@@ -21,7 +21,7 @@
         "ext-ctype": "*",
         "ext-intl": "*",
         "symfony/console": "^7.0",
-        "symfony/dependency-injection": "^7.0",
+        "symfony/dependency-injection": "^7.1",
         "symfony/filesystem": "^7.0",
         "symfony/process": "^7.0",
         "knplabs/github-api": "^3.14",
