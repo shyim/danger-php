@@ -57,4 +57,52 @@ class DisallowRepeatedCommitsTest extends TestCase
 
         static::assertFalse($context->hasFailures());
     }
+
+    public function testRuleMatchesWithMergeCommits(): void
+    {
+        $commit = new Commit();
+        $commit->message = 'Test';
+
+        $secondCommit = new Commit();
+        $secondCommit->message = 'Test';
+
+        $thirdCommit = new Commit();
+        $thirdCommit->message = 'Merge branch master into feature';
+
+        $github = $this->createMock(Github::class);
+        $pr = $this->createMock(PullRequest::class);
+        $pr->method('getCommits')->willReturn(new CommitCollection([$commit, $secondCommit, $thirdCommit]));
+        $github->pullRequest = $pr;
+
+        $context = new Context($github);
+
+        $rule = new DisallowRepeatedCommits();
+        $rule($context);
+
+        static::assertTrue($context->hasFailures());
+    }
+
+    public function testRuleNotMatchesWithMultipleMergeCommits(): void
+    {
+        $commit = new Commit();
+        $commit->message = 'Test';
+
+        $secondCommit = new Commit();
+        $secondCommit->message = 'Merge branch master into features';
+
+        $thirdCommit = new Commit();
+        $thirdCommit->message = 'Merge branch master into feature';
+
+        $github = $this->createMock(Github::class);
+        $pr = $this->createMock(PullRequest::class);
+        $pr->method('getCommits')->willReturn(new CommitCollection([$commit, $secondCommit, $thirdCommit]));
+        $github->pullRequest = $pr;
+
+        $context = new Context($github);
+
+        $rule = new DisallowRepeatedCommits();
+        $rule($context);
+
+        static::assertFalse($context->hasFailures());
+    }
 }
