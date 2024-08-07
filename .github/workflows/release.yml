@@ -31,17 +31,11 @@ jobs:
         with:
           php-version: '8.2'
 
-      - name: Download box
-        run: wget https://github.com/humbug/box/releases/download/4.6.1/box.phar
-
-      - name: Remove dev deps
-        run: composer install --no-dev
-
       - name: Set version string
         run: sed -i -e "s/__VERSION__/${{ steps.get_version.outputs.VERSION }}/g" src/Application.php
 
-      - name: Build phar
-        run: php box.phar compile
+      - name: Build
+        run: composer build
 
       - name: Create Release
         id: create_release
@@ -62,26 +56,17 @@ jobs:
       - name: Login into Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_PAT }}" | docker login -u shyim --password-stdin
 
-      - name: Install Chisel
-        uses: shyim/chisel-installer@main
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-      - name: Install Regctl
-        uses: iarekylew00t/regctl-installer@v1
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }}
+            ghcr.io/shyim/danger-php:latest
+            shyim/danger-php:${{ steps.get_version.outputs.VERSION }}
+            shyim/danger-php:latest
 
-      - name: Build Docker image arm64
-        run: ./build.sh ${{ steps.get_version.outputs.VERSION }} arm64 --push
-
-      - name: Build Docker image amd64
-        run: ./build.sh ${{ steps.get_version.outputs.VERSION }} amd64 --push
-
-      - run: docker manifest create ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }} --amend ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }}-amd64 --amend ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }}-arm64
-
-      - run: docker manifest create ghcr.io/shyim/danger-php:latest --amend ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }}-amd64 --amend ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }}-arm64
-
-      - run: docker manifest push ghcr.io/shyim/danger-php:latest
-
-      - run: docker manifest push ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }}
-
-      - run: regctl image copy ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }} shyim/danger-php:${{ steps.get_version.outputs.VERSION }}
-
-      - run: regctl image copy ghcr.io/shyim/danger-php:${{ steps.get_version.outputs.VERSION }} shyim/danger-php:latest
