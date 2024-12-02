@@ -55,7 +55,7 @@ class GithubCommand extends AbstractPlatformCommand
     {
         $pregMatch = preg_match('/^https:\/\/github\.com\/(?<owner>[\w\-]*)\/(?<repo>[\w\-]*)\/pull\/(?<id>\d*)/', $url, $matches);
 
-        if ($pregMatch === 0) {
+        if ($pregMatch === 0 || !isset($matches['owner'], $matches['repo'], $matches['id'])) {
             throw new \InvalidArgumentException('The given url must be a valid Github URL');
         }
 
