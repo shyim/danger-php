@@ -23,7 +23,7 @@
         "symfony/console": "^7.1",
         "symfony/dependency-injection": "^7.1",
         "symfony/filesystem": "^7.1",
-        "symfony/process": "^7.1",
+        "symfony/process": "^7.2",
         "knplabs/github-api": "^3.16",
         "symfony/config": "^7.1",
         "symfony/http-client": "^7.1",
