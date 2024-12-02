@@ -20,7 +20,7 @@
         "ext-mbstring": "*",
         "ext-ctype": "*",
         "ext-intl": "*",
-        "symfony/console": "^7.1",
+        "symfony/console": "^7.2",
         "symfony/dependency-injection": "^7.1",
         "symfony/filesystem": "^7.1",
         "symfony/process": "^7.1",
