@@ -26,7 +26,7 @@
         "symfony/process": "^7.1",
         "knplabs/github-api": "^3.16",
         "symfony/config": "^7.1",
-        "symfony/http-client": "^7.1",
+        "symfony/http-client": "^7.2",
         "nyholm/psr7": "^1.8",
         "symfony/finder": "^7.1",
         "m4tthumphrey/php-gitlab-api": "^11.14"
