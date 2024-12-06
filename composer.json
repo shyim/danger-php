@@ -51,7 +51,7 @@
     ],
     "require-dev": {
         "friendsofphp/php-cs-fixer": "dev-master",
-        "phpunit/phpunit": "^11.4",
+        "phpunit/phpunit": "^11.5",
         "phpstan/phpstan": "^1.12.9",
         "phpstan/phpstan-phpunit": "^1.4.0",
         "phpstan/extension-installer": "^1.4.3",
