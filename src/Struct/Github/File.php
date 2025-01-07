@@ -20,7 +20,6 @@ class File extends \Danger\Struct\File
         }
 
         $rawDownload = $this->client->repo()->contents()->rawDownload($this->owner, $this->repo, $this->fileName, $this->headSha);
-        var_dump($rawDownload);
         \assert(is_string($rawDownload));
         $this->content = $rawDownload;
 
