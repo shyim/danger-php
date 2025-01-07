@@ -29,6 +29,7 @@ class GithubTest extends TestCase
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/commits.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/files.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('Verify commit'),
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/comments_containg_danger.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 

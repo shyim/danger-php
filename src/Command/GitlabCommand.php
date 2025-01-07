@@ -7,13 +7,14 @@ use Danger\ConfigLoader;
 use Danger\Context;
 use Danger\Platform\Gitlab\Gitlab;
 use Danger\Runner;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[\Symfony\Component\Console\Attribute\AsCommand('gitlab-local')]
+#[AsCommand('gitlab-local')]
 class GitlabCommand extends AbstractPlatformCommand
 {
     public function __construct(private Gitlab $gitlab, private ConfigLoader $configLoader, private Runner $runner)

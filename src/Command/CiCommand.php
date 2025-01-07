@@ -8,20 +8,21 @@ use Danger\Context;
 use Danger\Platform\PlatformDetector;
 use Danger\Renderer\HTMLRenderer;
 use Danger\Runner;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[\Symfony\Component\Console\Attribute\AsCommand('ci')]
+#[AsCommand('ci')]
 class CiCommand extends Command
 {
     public function __construct(
         private PlatformDetector $platformDetector,
         private ConfigLoader $configLoader,
         private Runner $runner,
-        private HTMLRenderer $renderer
+        private HTMLRenderer $renderer,
     ) {
         parent::__construct();
     }

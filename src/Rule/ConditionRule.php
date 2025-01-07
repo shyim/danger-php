@@ -14,9 +14,6 @@ use Danger\Application;
  */
 class ConditionRule extends Condition
 {
-    /**
-     * {@inheritDoc}
-     */
     public function __construct(callable $condition, array $rules)
     {
         $deprecationMessage = sprintf(Application::RULE_DEPRECATION_MESSAGE, Condition::class);

@@ -71,7 +71,7 @@ class PullRequest extends \Danger\Struct\PullRequest
         $collection = new FileCollection();
 
         foreach ($this->rawFiles as $rawGithubFile) {
-            $file = new GithubFile($rawGithubFile['raw_url']);
+            $file = new GithubFile($this->client, $this->owner, $this->repo, $rawGithubFile['filename'], $this->headSha);
             $file->name = $rawGithubFile['filename'];
             $file->status = $rawGithubFile['status'];
             $file->additions = $rawGithubFile['additions'];

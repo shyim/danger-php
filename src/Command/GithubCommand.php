@@ -7,12 +7,13 @@ use Danger\ConfigLoader;
 use Danger\Context;
 use Danger\Platform\Github\Github;
 use Danger\Runner;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\Symfony\Component\Console\Attribute\AsCommand('github-local')]
+#[AsCommand('github-local')]
 class GithubCommand extends AbstractPlatformCommand
 {
     public function __construct(private Github $github, private ConfigLoader $configLoader, private Runner $runner)
