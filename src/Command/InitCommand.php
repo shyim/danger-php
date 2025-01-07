@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace Danger\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[\Symfony\Component\Console\Attribute\AsCommand('init')]
+#[AsCommand('init')]
 class InitCommand extends Command
 {
     protected function configure(): void

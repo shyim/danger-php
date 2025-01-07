@@ -15,7 +15,7 @@ class CheckPhpCsFixer
     public function __construct(
         private string $command = 'php vendor/bin/php-cs-fixer fix --format=json',
         private string $executionFailed = 'PHP-CS-Fixer did not run',
-        private string $foundErrors = 'Found some Code-Style issues. Please run <code>./vendor/bin/php-cs-fixer fix</code> on your branch'
+        private string $foundErrors = 'Found some Code-Style issues. Please run <code>./vendor/bin/php-cs-fixer fix</code> on your branch',
     ) {
     }
 
