@@ -9,6 +9,9 @@ class File extends \Danger\Struct\File
 {
     private ?string $content = null;
 
+    /**
+     * @internal
+     */
     public function __construct(private Client $client, private string $owner, private string $repo, private string $fileName, private string $headSha)
     {
     }

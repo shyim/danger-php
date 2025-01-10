@@ -78,6 +78,11 @@ class LocalPullRequest extends PullRequest
         return $this->commits = $commits;
     }
 
+    public function getFile(string $fileName): File
+    {
+        return new LocalFile($this->repo . '/' . $fileName);
+    }
+
     public function getFiles(): FileCollection
     {
         if ($this->files !== null) {

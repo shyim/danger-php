@@ -110,6 +110,12 @@ class LocalPullRequestTest extends TestCase
         static::assertSame(File::STATUS_ADDED, $fileC->status);
     }
 
+    public function testGetSingleFile(): void
+    {
+        $pr = new LocalPullRequest($this->tmpDir, 'feature2', 'main');
+        static::assertSame('', $pr->getFile('a.txt')->getContent());
+    }
+
     public function testGetHeadFile(): void
     {
         $pr = new LocalPullRequest($this->tmpDir, 'feature2', 'main');

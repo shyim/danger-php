@@ -53,6 +53,11 @@ abstract class PullRequest
     abstract public function getFiles(): FileCollection;
 
     /**
+     * Returns a single file from the pull request head.
+     */
+    abstract public function getFile(string $fileName): File;
+
+    /**
      * Get a file from the pull request head. Don't need to be a changed file.
      */
     abstract public function getFileContent(string $path): string;

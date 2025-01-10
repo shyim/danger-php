@@ -60,6 +60,11 @@ class PullRequest extends \Danger\Struct\PullRequest
         return $this->commits = $collection;
     }
 
+    public function getFile(string $fileName): File
+    {
+        return new GithubFile($this->client, $this->owner, $this->repo, $fileName, $this->headSha);
+    }
+
     public function getFiles(): FileCollection
     {
         if ($this->files !== null) {

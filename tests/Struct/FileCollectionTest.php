@@ -5,7 +5,6 @@ namespace Danger\Tests\Struct;
 
 use Danger\Struct\File as FileAlias;
 use Danger\Struct\FileCollection;
-use Danger\Struct\Github\File;
 use PHPUnit\Framework\TestCase;
 
 /**
