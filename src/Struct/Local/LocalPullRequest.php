@@ -116,6 +116,8 @@ class LocalPullRequest extends PullRequest
 
             if ($status === 'A') {
                 $element->status = File::STATUS_ADDED;
+            } elseif ($status === 'M') {
+                $element->status = File::STATUS_MODIFIED;
             } else {
                 $element->status = File::STATUS_REMOVED;
             }
