@@ -24,6 +24,7 @@ class LocalPullRequestTest extends TestCase
         file_put_contents($this->tmpDir . '/a.txt', 'a');
         file_put_contents($this->tmpDir . '/b.txt', 'b');
         file_put_contents($this->tmpDir . '/c.txt', 'c');
+        file_put_contents($this->tmpDir . '/modified.txt', 'a');
 
         (new Process(['git', 'init'], $this->tmpDir))->mustRun();
         (new Process(['git', 'config', 'commit.gpgsign', 'false'], $this->tmpDir))->mustRun();
@@ -31,6 +32,7 @@ class LocalPullRequestTest extends TestCase
         (new Process(['git', 'config', 'user.email', 'unit@php.com'], $this->tmpDir))->mustRun();
         (new Process(['git', 'branch', '-m', 'main'], $this->tmpDir))->mustRun();
         (new Process(['git', 'add', 'a.txt'], $this->tmpDir))->mustRun();
+        (new Process(['git', 'add', 'modified.txt'], $this->tmpDir))->mustRun();
         (new Process(['git', 'commit', '-m', 'initial'], $this->tmpDir))->mustRun();
 
         (new Process(['git', 'checkout', '-b', 'feature'], $this->tmpDir))->mustRun();
@@ -40,7 +42,9 @@ class LocalPullRequestTest extends TestCase
         (new Process(['git', 'checkout', '-b', 'feature2'], $this->tmpDir))->mustRun();
         (new Process(['git', 'rm', 'a.txt'], $this->tmpDir))->mustRun();
         file_put_contents($this->tmpDir . '/b.txt', 'b2');
-        (new Process(['git', 'add', 'b.txt', 'c.txt'], $this->tmpDir))->mustRun();
+        file_put_contents($this->tmpDir . '/modified.txt', 'b');
+        (new Process(['git', 'add', 'b.txt', 'c.txt', 'modified.txt'], $this->tmpDir))->mustRun();
+
         (new Process(['git', 'commit', '-m', 'all modes'], $this->tmpDir))->mustRun();
     }
 
@@ -108,6 +112,10 @@ class LocalPullRequestTest extends TestCase
 
         static::assertSame('c', $fileC->getContent());
         static::assertSame(File::STATUS_ADDED, $fileC->status);
+
+        $fileModified = $files->get('modified.txt');
+        static::assertNotNull($fileModified);
+        static::assertSame(File::STATUS_MODIFIED, $fileModified->status);
     }
 
     public function testGetSingleFile(): void
