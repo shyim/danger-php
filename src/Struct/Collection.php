@@ -103,7 +103,7 @@ abstract class Collection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return static(Collection<T>)
+     * @return static<T>
      */
     public function filter(\Closure $closure): static
     {
@@ -111,7 +111,7 @@ abstract class Collection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return static(Collection<T>)
+     * @return static<T>
      */
     public function slice(int $offset, ?int $length = null): static
     {
@@ -156,9 +156,9 @@ abstract class Collection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @param T[] $elements
+     * @param iterable<array-key, T> $elements
      *
-     * @return static(Collection<T>)
+     * @return static<T>
      */
     protected function createNew(iterable $elements = []): static
     {
