@@ -8,6 +8,7 @@ abstract class File
     public const STATUS_ADDED = 'added';
     public const STATUS_REMOVED = 'removed';
     public const STATUS_MODIFIED = 'modified';
+    public const STATUS_RENAMED = 'renamed';
 
     public string $name;
 
