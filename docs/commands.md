@@ -12,6 +12,10 @@ This command runs the local Danger configuration against a Github PR without mod
 
 - Github Pull Request URL
 
+### Environment variables
+
+- GITHUB_TOKEN with a GitHub token
+
 ## gitlab-local
 
 This command runs the local Danger configuration against a Gitlab PR without modifying anything;
