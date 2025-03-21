@@ -31,6 +31,11 @@ class PullRequest extends \Danger\Struct\PullRequest
      */
     private ?CommentCollection $comments = null;
 
+    /**
+     * @var array{'changes': array{'new_path': string, 'diff'?: string, 'new_file': bool, 'deleted_file': bool}[]}
+     */
+    public array $rawFiles = ['changes' => []];
+
     public function __construct(private Client $client, private string $latestSha)
     {
     }

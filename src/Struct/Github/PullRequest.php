@@ -31,6 +31,11 @@ class PullRequest extends \Danger\Struct\PullRequest
      */
     private ?CommentCollection $comments = null;
 
+    /**
+     * @var list<array{filename: string, status: string, additions: int, deletions: int, changes: int, patch: string}>
+     */
+    public array $rawFiles = [];
+
     public function __construct(private GithubClient $client, private string $owner, private string $repo, private string $headSha)
     {
     }
@@ -71,7 +76,9 @@ class PullRequest extends \Danger\Struct\PullRequest
             return $this->files;
         }
 
-        $this->rawFiles = $this->client->pullRequest()->files($this->owner, $this->repo, $this->id);
+        $this->rawFiles = (new ResultPager($this->client))
+            ->fetch($this->client->pullRequest(), 'files', [$this->owner, $this->repo, $this->id])
+        ;
 
         $collection = new FileCollection();
 

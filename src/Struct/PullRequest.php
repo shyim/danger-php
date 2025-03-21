@@ -38,11 +38,6 @@ abstract class PullRequest
     public array $rawCommits = [];
 
     /**
-     * @var array{'changes': array{'new_path': string, 'diff'?: string, 'new_file': bool, 'deleted_file': bool}[]}
-     */
-    public array $rawFiles = ['changes' => []];
-
-    /**
      * @return CommitCollection<Commit>
      */
     abstract public function getCommits(): CommitCollection;
