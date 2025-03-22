@@ -19,19 +19,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 class GithubCommandTest extends TestCase
 {
     /**
-     * @return array<int, string>[]
-     */
-    public static function invalidUrls(): array
-    {
-        return [
-            ['https://github.com'],
-            ['testhttps://github.com'],
-            ['testhttps://github.com/shyim/danger-php'],
-            ['https://gitlab.com'],
-        ];
-    }
-
-    /**
      * @dataProvider invalidUrls
      */
     public function testInvalidUrl(string $url): void
@@ -42,6 +29,19 @@ class GithubCommandTest extends TestCase
         static::expectExceptionMessage('The given url must be a valid Github URL');
 
         $cmd->run(new ArgvInput(['danger', $url]), new NullOutput());
+    }
+
+    /**
+     * @return array<int, string>[]
+     */
+    public static function invalidUrls(): array
+    {
+        return [
+            ['https://github.com'],
+            ['testhttps://github.com'],
+            ['testhttps://github.com/shyim/danger-php'],
+            ['https://gitlab.com'],
+        ];
     }
 
     public function testInvalidConfig(): void
