@@ -6,13 +6,13 @@ namespace Danger\Tests;
 use Danger\Config;
 use Danger\Context;
 use Danger\Platform\AbstractPlatform;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- *
- * @covers \Danger\Config
  */
+#[CoversClass(Config::class)]
 class ConfigTest extends TestCase
 {
     public function testConfig(): void

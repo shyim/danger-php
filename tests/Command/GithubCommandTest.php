@@ -7,6 +7,7 @@ use Danger\Command\GithubCommand;
 use Danger\ConfigLoader;
 use Danger\Platform\Github\Github;
 use Danger\Runner;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -18,9 +19,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class GithubCommandTest extends TestCase
 {
-    /**
-     * @dataProvider invalidUrls
-     */
+    #[DataProvider('invalidUrls')]
     public function testInvalidUrl(string $url): void
     {
         $cmd = new GithubCommand($this->createMock(Github::class), new ConfigLoader(), new Runner());

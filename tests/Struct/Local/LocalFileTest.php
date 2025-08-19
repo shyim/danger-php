@@ -3,13 +3,13 @@
 namespace Danger\Tests\Struct\Local;
 
 use Danger\Struct\Local\LocalFile;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- *
- * @covers \Danger\Struct\Local\LocalFile
  */
+#[CoversClass(LocalFile::class)]
 class LocalFileTest extends TestCase
 {
     public function testGetContent(): void

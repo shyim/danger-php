@@ -12,6 +12,6 @@ class LocalFile extends File
 
     public function getContent(): string
     {
-        return (string) file_get_contents($this->file);
+        return (string) @file_get_contents($this->file);
     }
 }

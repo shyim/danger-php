@@ -77,7 +77,7 @@ class PullRequest extends \Danger\Struct\PullRequest
         }
 
         $this->rawFiles = (new ResultPager($this->client))
-            ->fetch($this->client->pullRequest(), 'files', [$this->owner, $this->repo, $this->id])
+            ->fetchAll($this->client->pullRequest(), 'files', [$this->owner, $this->repo, $this->id])
         ;
 
         $collection = new FileCollection();

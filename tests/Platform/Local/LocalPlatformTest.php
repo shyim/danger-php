@@ -5,14 +5,14 @@ namespace Danger\Tests\Platform\Local;
 use Danger\Config;
 use Danger\Platform\Local\LocalPlatform;
 use Danger\Struct\Local\LocalPullRequest;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 
 /**
- * @covers \Danger\Platform\Local\LocalPlatform
- *
  * @internal
  */
+#[CoversClass(LocalPlatform::class)]
 class LocalPlatformTest extends TestCase
 {
     public function testPlatform(): void

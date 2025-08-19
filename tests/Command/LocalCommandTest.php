@@ -6,6 +6,7 @@ use Danger\Command\LocalCommand;
 use Danger\ConfigLoader;
 use Danger\Platform\Local\LocalPlatform;
 use Danger\Runner;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -14,10 +15,9 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 /**
- * @covers \Danger\Command\LocalCommand
- *
  * @internal
  */
+#[CoversClass(LocalCommand::class)]
 class LocalCommandTest extends TestCase
 {
     public function testInvalidConfig(): void
