@@ -125,6 +125,79 @@ class LocalPullRequest extends PullRequest
             $files->set($element->name, $element);
         }
 
+        // Get numstat for additions/deletions
+        $numstatProcess = new Process([
+            'git',
+            'diff',
+            $this->target . '..' . $this->local,
+            '--numstat',
+        ], $this->repo);
+
+        $numstatProcess->mustRun();
+
+        foreach (explode(\PHP_EOL, $numstatProcess->getOutput()) as $line) {
+            if ($line === '') {
+                continue;
+            }
+
+            $parts = preg_split('/\s+/', $line, 3);
+            if (count($parts) !== 3) {
+                continue;
+            }
+
+            [$additions, $deletions, $filename] = $parts;
+            $file = $files->get($filename);
+
+            if ($file !== null) {
+                $file->additions = $additions === '-' ? 0 : (int) $additions;
+                $file->deletions = $deletions === '-' ? 0 : (int) $deletions;
+                $file->changes = $file->additions + $file->deletions;
+            }
+        }
+
+        // Get patch for each file
+        $patchProcess = new Process([
+            'git',
+            'diff',
+            $this->target . '..' . $this->local,
+        ], $this->repo);
+
+        $patchProcess->mustRun();
+
+        $fullDiff = $patchProcess->getOutput();
+
+        // Parse the full diff to extract patches for individual files
+        $currentFile = null;
+        $currentPatch = '';
+
+        foreach (explode(\PHP_EOL, $fullDiff) as $line) {
+            if (str_starts_with($line, 'diff --git ')) {
+                // Save previous file's patch
+                if ($currentFile !== null && $currentPatch !== '') {
+                    $file = $files->get($currentFile);
+                    if ($file !== null) {
+                        $file->patch = $currentPatch;
+                    }
+                }
+
+                // Extract filename from "diff --git a/filename b/filename"
+                if (preg_match('/^diff --git a\/(.*) b\//', $line, $matches)) {
+                    $currentFile = $matches[1];
+                    $currentPatch = $line . \PHP_EOL;
+                }
+            } elseif ($currentFile !== null) {
+                $currentPatch .= $line . \PHP_EOL;
+            }
+        }
+
+        // Save last file's patch
+        if ($currentFile !== null && $currentPatch !== '') {
+            $file = $files->get($currentFile);
+            if ($file !== null) {
+                $file->patch = rtrim($currentPatch);
+            }
+        }
+
         return $this->files = $files;
     }
 
