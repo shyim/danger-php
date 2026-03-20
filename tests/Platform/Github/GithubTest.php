@@ -10,6 +10,7 @@ use Danger\Platform\Github\GithubCommenter;
 use Danger\Struct\Comment;
 use Danger\Struct\Commit;
 use Danger\Struct\File;
+use Danger\Struct\PullRequest;
 use Github\Client;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
@@ -46,6 +47,7 @@ class GithubTest extends TestCase
         static::assertSame(['Dependencies'], $github->pullRequest->labels);
         static::assertSame(['shyim'], $github->pullRequest->assignees);
         static::assertSame(['dangertestuser', 'dangertestuser2'], $github->pullRequest->reviewers);
+        static::assertSame(PullRequest::STATE_MERGED, $github->pullRequest->state);
         static::assertSame(1_621_542_059, $github->pullRequest->createdAt->getTimestamp());
         static::assertSame(1_621_547_349, $github->pullRequest->updatedAt->getTimestamp());
 
