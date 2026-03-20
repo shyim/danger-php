@@ -141,7 +141,7 @@ class FileCollectionTest extends TestCase
         $f1->name = 'A';
 
         $c = new FileCollection([$f1]);
-        $list = $c->fmap(fn (FakeFile $file) => $file->name);
+        $list = $c->fmap(static fn (FakeFile $file) => $file->name);
 
         static::assertSame(['A'], $list);
     }

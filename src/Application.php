@@ -24,7 +24,7 @@ class Application extends SymfonyApplication
             /** @var Command $command */
             $command = $this->container->get($taggedService);
 
-            $this->add($command);
+            $this->addCommand($command);
         }
     }
 

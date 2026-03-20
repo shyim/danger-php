@@ -19,7 +19,7 @@ class DisallowRepeatedCommits
         if ($context->platform instanceof Github) {
             $messages = array_filter(
                 $messages,
-                fn ($message) => !(preg_match('/^Merge branch .* into .*$/', $message) === 1),
+                static fn ($message) => !(preg_match('/^Merge branch .* into .*$/', $message) === 1),
             );
         }
 

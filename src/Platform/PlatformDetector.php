@@ -28,14 +28,24 @@ class PlatformDetector
 
     private function createFromGithubContext(): AbstractPlatform
     {
-        $this->github->load($_SERVER['GITHUB_REPOSITORY'], $_SERVER['GITHUB_PULL_REQUEST_ID']);
+        /** @var string $repository */
+        $repository = $_SERVER['GITHUB_REPOSITORY'];
+        /** @var string $pullRequestId */
+        $pullRequestId = $_SERVER['GITHUB_PULL_REQUEST_ID'];
+
+        $this->github->load($repository, $pullRequestId);
 
         return $this->github;
     }
 
     private function createFromGitlabContext(): AbstractPlatform
     {
-        $this->gitlab->load($_SERVER['CI_PROJECT_ID'], $_SERVER['CI_MERGE_REQUEST_IID']);
+        /** @var string $projectId */
+        $projectId = $_SERVER['CI_PROJECT_ID'];
+        /** @var string $mergeRequestIid */
+        $mergeRequestIid = $_SERVER['CI_MERGE_REQUEST_IID'];
+
+        $this->gitlab->load($projectId, $mergeRequestIid);
 
         return $this->gitlab;
     }

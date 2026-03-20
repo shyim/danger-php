@@ -1,10 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 use Danger\Config;
 
 return
     (new Config())
-        ->useRule(function (Danger\Context $context): void {
+        ->useRule(static function (Danger\Context $context): void {
             $context->warning('Test');
         })
 ;

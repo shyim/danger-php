@@ -94,7 +94,7 @@ abstract class Collection implements \IteratorAggregate, \Countable
      */
     public function fmap(\Closure $closure): array
     {
-        return array_filter($this->map($closure));
+        return array_filter($this->map($closure), static fn (mixed $value): bool => (bool) $value);
     }
 
     public function sort(\Closure $closure): void

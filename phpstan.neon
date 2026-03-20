@@ -1,6 +1,5 @@
 parameters:
     level: max
-    inferPrivatePropertyTypeFromConstructor: true
     reportUnmatchedIgnoredErrors: false
 
     paths:
