@@ -98,6 +98,9 @@ class LocalPullRequestTest extends TestCase
 
         static::assertSame('a.txt', $fileA->name);
         static::assertSame(File::STATUS_REMOVED, $fileA->status);
+        static::assertSame(0, $fileA->additions);
+        static::assertSame(1, $fileA->deletions);
+        static::assertSame(1, $fileA->changes);
 
         $fileB = $files->get('b.txt');
 
@@ -105,6 +108,10 @@ class LocalPullRequestTest extends TestCase
 
         static::assertSame('b2', $fileB->getContent());
         static::assertSame(File::STATUS_ADDED, $fileB->status);
+        static::assertSame(1, $fileB->additions);
+        static::assertSame(0, $fileB->deletions);
+        static::assertSame(1, $fileB->changes);
+        static::assertNotEmpty($fileB->patch);
 
         $fileC = $files->get('c.txt');
 
@@ -112,10 +119,94 @@ class LocalPullRequestTest extends TestCase
 
         static::assertSame('c', $fileC->getContent());
         static::assertSame(File::STATUS_ADDED, $fileC->status);
+        static::assertSame(1, $fileC->additions);
+        static::assertSame(0, $fileC->deletions);
+        static::assertSame(1, $fileC->changes);
 
         $fileModified = $files->get('modified.txt');
         static::assertNotNull($fileModified);
         static::assertSame(File::STATUS_MODIFIED, $fileModified->status);
+        static::assertSame(1, $fileModified->additions);
+        static::assertSame(1, $fileModified->deletions);
+        static::assertSame(2, $fileModified->changes);
+        static::assertNotEmpty($fileModified->patch);
+    }
+
+    public function testDiffStatsForSingleAddedFile(): void
+    {
+        $pr = new LocalPullRequest($this->tmpDir, 'feature', 'main');
+
+        $files = $pr->getFiles();
+
+        static::assertCount(1, $files);
+
+        $fileB = $files->get('b.txt');
+        static::assertNotNull($fileB);
+
+        static::assertSame(File::STATUS_ADDED, $fileB->status);
+        static::assertSame(1, $fileB->additions);
+        static::assertSame(0, $fileB->deletions);
+        static::assertSame(1, $fileB->changes);
+        static::assertNotEmpty($fileB->patch);
+    }
+
+    public function testDiffStatsForMultilineChanges(): void
+    {
+        (new Process(['git', 'checkout', '-b', 'multiline'], $this->tmpDir))->mustRun();
+
+        file_put_contents($this->tmpDir . '/multi.txt', "line1\nline2\nline3\nline4\nline5\n");
+        (new Process(['git', 'add', 'multi.txt'], $this->tmpDir))->mustRun();
+        (new Process(['git', 'commit', '-m', 'add multiline file'], $this->tmpDir))->mustRun();
+
+        (new Process(['git', 'checkout', '-b', 'multiline-edit'], $this->tmpDir))->mustRun();
+
+        file_put_contents($this->tmpDir . '/multi.txt', "line1\nchanged2\nline3\nchanged4\nline5\nnewline6\n");
+        (new Process(['git', 'add', 'multi.txt'], $this->tmpDir))->mustRun();
+        (new Process(['git', 'commit', '-m', 'edit multiline file'], $this->tmpDir))->mustRun();
+
+        $pr = new LocalPullRequest($this->tmpDir, 'multiline-edit', 'multiline');
+
+        $files = $pr->getFiles();
+
+        static::assertCount(1, $files);
+
+        $file = $files->get('multi.txt');
+        static::assertNotNull($file);
+
+        static::assertSame(File::STATUS_MODIFIED, $file->status);
+        static::assertSame(3, $file->additions);
+        static::assertSame(2, $file->deletions);
+        static::assertSame(5, $file->changes);
+
+        static::assertStringContainsString('+changed2', $file->patch);
+        static::assertStringContainsString('-line2', $file->patch);
+        static::assertStringContainsString('+newline6', $file->patch);
+    }
+
+    public function testPatchContentForDeletedFile(): void
+    {
+        $pr = new LocalPullRequest($this->tmpDir, 'feature2', 'main');
+
+        $files = $pr->getFiles();
+
+        $fileA = $files->get('a.txt');
+        static::assertNotNull($fileA);
+        static::assertSame(File::STATUS_REMOVED, $fileA->status);
+        static::assertStringContainsString('-a', $fileA->patch);
+    }
+
+    public function testPatchContentForModifiedFile(): void
+    {
+        $pr = new LocalPullRequest($this->tmpDir, 'feature2', 'main');
+
+        $files = $pr->getFiles();
+
+        $fileModified = $files->get('modified.txt');
+        static::assertNotNull($fileModified);
+
+        static::assertStringContainsString('-a', $fileModified->patch);
+        static::assertStringContainsString('+b', $fileModified->patch);
+        static::assertStringContainsString('@@', $fileModified->patch);
     }
 
     public function testGetSingleFile(): void
