@@ -90,18 +90,30 @@ class LocalPullRequest extends PullRequest
             return $this->files;
         }
 
-        $process = new Process([
-            'git',
-            'diff',
-            $this->target . '..' . $this->local,
-            '--name-status',
+        $diffRange = $this->target . '..' . $this->local;
+
+        $nameStatusProcess = new Process([
+            'git', 'diff', $diffRange, '--name-status',
         ], $this->repo);
 
-        $process->mustRun();
+        $numstatProcess = new Process([
+            'git', 'diff', $diffRange, '--numstat',
+        ], $this->repo);
+
+        $patchProcess = new Process([
+            'git', 'diff', $diffRange,
+        ], $this->repo);
+
+        $nameStatusProcess->mustRun();
+        $numstatProcess->mustRun();
+        $patchProcess->mustRun();
+
+        $numstats = $this->parseNumstat($numstatProcess->getOutput());
+        $patches = $this->parsePatch($patchProcess->getOutput());
 
         $files = new FileCollection();
 
-        foreach (explode(\PHP_EOL, $process->getOutput()) as $line) {
+        foreach (explode(\PHP_EOL, $nameStatusProcess->getOutput()) as $line) {
             if ($line === '') {
                 continue;
             }
@@ -111,9 +123,10 @@ class LocalPullRequest extends PullRequest
 
             $element = new LocalFile($this->repo . '/' . $file);
             $element->name = $file;
-            $element->additions = 0;
-            $element->changes = 0;
-            $element->deletions = 0;
+            $element->additions = $numstats[$file]['additions'] ?? 0;
+            $element->deletions = $numstats[$file]['deletions'] ?? 0;
+            $element->changes = $element->additions + $element->deletions;
+            $element->patch = $patches[$file] ?? '';
 
             if ($status === 'A') {
                 $element->status = File::STATUS_ADDED;
@@ -127,6 +140,89 @@ class LocalPullRequest extends PullRequest
         }
 
         return $this->files = $files;
+    }
+
+    /**
+     * @return array<string, array{additions: int, deletions: int}>
+     */
+    private function parseNumstat(string $output): array
+    {
+        $result = [];
+
+        foreach (explode(\PHP_EOL, $output) as $line) {
+            if ($line === '') {
+                continue;
+            }
+
+            $parts = preg_split('/\t/', $line, 3);
+            if ($parts === false || \count($parts) < 3) {
+                continue;
+            }
+
+            $result[$parts[2]] = [
+                'additions' => $parts[0] === '-' ? 0 : (int) $parts[0],
+                'deletions' => $parts[1] === '-' ? 0 : (int) $parts[1],
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function parsePatch(string $output): array
+    {
+        $result = [];
+        $currentFile = null;
+        $currentPatch = '';
+        $fallbackFile = null;
+
+        foreach (explode(\PHP_EOL, $output) as $line) {
+            if (str_starts_with($line, 'diff --git ')) {
+                if ($currentFile !== null) {
+                    $result[$currentFile] = $currentPatch;
+                }
+
+                $currentFile = null;
+                $currentPatch = '';
+                $fallbackFile = null;
+
+                continue;
+            }
+
+            if ($currentFile === null && str_starts_with($line, '--- a/')) {
+                $fallbackFile = mb_substr($line, 6);
+
+                continue;
+            }
+
+            if ($currentFile === null && str_starts_with($line, '+++ b/')) {
+                $currentFile = mb_substr($line, 6);
+
+                continue;
+            }
+
+            if ($currentFile === null && $line === '+++ /dev/null') {
+                $currentFile = $fallbackFile;
+
+                continue;
+            }
+
+            if ($currentFile === null && str_starts_with($line, '--- ')) {
+                continue;
+            }
+
+            if ($currentFile !== null) {
+                $currentPatch .= ($currentPatch !== '' ? \PHP_EOL : '') . $line;
+            }
+        }
+
+        if ($currentFile !== null) {
+            $result[$currentFile] = $currentPatch;
+        }
+
+        return $result;
     }
 
     public function getComments(): CommentCollection
