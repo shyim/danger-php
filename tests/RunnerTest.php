@@ -22,12 +22,12 @@ class RunnerTest extends TestCase
         $afterExecuted = false;
 
         $config = new Config();
-        $config->useRule(function () use (&$ruleExecuted, &$afterExecuted): void {
+        $config->useRule(static function () use (&$ruleExecuted, &$afterExecuted): void {
             static::assertFalse($afterExecuted); /** @phpstan-ignore-line */
             $ruleExecuted = true;
         });
 
-        $config->after(function () use (&$ruleExecuted, &$afterExecuted): void {
+        $config->after(static function () use (&$ruleExecuted, &$afterExecuted): void {
             static::assertTrue($ruleExecuted);
             $afterExecuted = true;
         });

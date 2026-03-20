@@ -33,7 +33,7 @@ abstract class PullRequest
     public array $reviewers = [];
 
     /**
-     * @var array<string, array{'id': string, 'committed_date': string, 'message': 'string', 'author_name': string, 'author_email': string}|string>
+     * @var array<mixed>
      */
     public array $rawCommits = [];
 

@@ -101,6 +101,7 @@ class GitlabCommenter
     public function getRelevantNoteIds(string $projectIdentifier, int $prId): array
     {
         $pager = new ResultPager($this->client, 100);
+        /** @var list<array{id: int, system: bool, body: string}> $notes */
         $notes = $pager->fetchAll($this->client->mergeRequests(), 'showNotes', [$projectIdentifier, $prId]);
 
         $ids = [];
@@ -111,7 +112,7 @@ class GitlabCommenter
             }
 
             if (str_contains($note['body'], HTMLRenderer::MARKER)) {
-                $ids[] = (int) $note['id'];
+                $ids[] = $note['id'];
             }
         }
 
@@ -124,6 +125,7 @@ class GitlabCommenter
     private function getRelevantThreadIds(string $projectIdentifier, int $prId): array
     {
         $pager = new ResultPager($this->client, 100);
+        /** @var list<array{id: string, notes: list<array{id: int, body: string}>}> $threads */
         $threads = $pager->fetchAll($this->client->mergeRequests(), 'showDiscussions', [$projectIdentifier, $prId]);
 
         $ids = [];
@@ -132,7 +134,7 @@ class GitlabCommenter
             if (str_contains($thread['notes'][0]['body'], HTMLRenderer::MARKER)) {
                 $ids[] = [
                     'threadId' => $thread['id'],
-                    'noteId' => (int) $thread['notes'][0]['id'],
+                    'noteId' => $thread['notes'][0]['id'],
                     'noteBody' => $thread['notes'][0]['body'],
                 ];
             }

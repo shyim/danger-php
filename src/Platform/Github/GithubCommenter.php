@@ -27,11 +27,12 @@ class GithubCommenter
     private function commentUsingProxy(string $owner, string $repo, string $id, string $body, Config $config): string
     {
         $url = sprintf('%s/repos/%s/%s/issues/%s/comments', $config->getGithubCommentProxy(), $owner, $repo, $id);
+        /** @var array{html_url?: string} $response */
         $response = $this->httpClient->request('POST', $url, [
             'json' => ['body' => $body, 'mode' => $config->getUpdateCommentMode()],
             'headers' => [
                 'User-Agent' => 'Comment-Proxy',
-                'temporary-github-token' => $_SERVER['GITHUB_TOKEN'],
+                'temporary-github-token' => \is_string($_SERVER['GITHUB_TOKEN'] ?? null) ? $_SERVER['GITHUB_TOKEN'] : '',
             ],
         ])->toArray();
 
@@ -54,6 +55,7 @@ class GithubCommenter
                 $this->client->issues()->comments()->remove($owner, $repo, $commentId);
             }
 
+            /** @var array{html_url: string} $comment */
             $comment = $this->client->issues()->comments()->create($owner, $repo, (int) $id, ['body' => $body]);
 
             return $comment['html_url'];
@@ -63,6 +65,7 @@ class GithubCommenter
          * Could not find any comment. Lets create a new one
          */
         if (\count($ids) === 0) {
+            /** @var array{html_url: string} $comment */
             $comment = $this->client->issues()->comments()->create($owner, $repo, (int) $id, ['body' => $body]);
 
             return $comment['html_url'];
@@ -75,6 +78,7 @@ class GithubCommenter
          */
         foreach ($ids as $i => $commentId) {
             if ($i === 0) {
+                /** @var array{html_url: string} $comment */
                 $comment = $this->client->issues()->comments()->update($owner, $repo, $commentId, ['body' => $body]);
 
                 $url = $comment['html_url'];
@@ -95,11 +99,12 @@ class GithubCommenter
         $ids = [];
 
         $pager = new ResultPager($this->client);
+        /** @var list<array{id: int, body: string}> $comments */
         $comments = $pager->fetchAll($this->client->issues()->comments(), 'all', [$owner, $repo, (int) $id]);
 
         foreach ($comments as $comment) {
             if (str_contains($comment['body'], HTMLRenderer::MARKER)) {
-                $ids[] = (int) $comment['id'];
+                $ids[] = $comment['id'];
             }
         }
 
@@ -114,7 +119,7 @@ class GithubCommenter
                 'json' => ['body' => 'delete', 'mode' => $config->getUpdateCommentMode()],
                 'headers' => [
                     'User-Agent' => 'Comment-Proxy',
-                    'temporary-github-token' => $_SERVER['GITHUB_TOKEN'],
+                    'temporary-github-token' => \is_string($_SERVER['GITHUB_TOKEN'] ?? null) ? $_SERVER['GITHUB_TOKEN'] : '',
                 ],
             ])->toArray();
 

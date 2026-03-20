@@ -9,11 +9,12 @@ return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR12' => true,
         '@PSR12:risky' => true,
-        '@PHP74Migration' => true,
-        '@PHP74Migration:risky' => true,
+        '@PHP82Migration' => true,
+        '@PHP80Migration:risky' => true,
         '@PhpCsFixer' => true,
         '@Symfony' => true,
         '@Symfony:risky' => true,
+        'declare_strict_types' => ['strategy' => 'enforce'],
         // Ensure there is no code on the same line as the PHP open tag and it is followed by a blank line.
         'blank_line_after_opening_tag' => false,
         // Using `isset($var) &&` multiple times should be done in one call.

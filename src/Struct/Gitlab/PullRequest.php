@@ -111,6 +111,7 @@ class PullRequest extends \Danger\Struct\PullRequest
         $this->comments = new CommentCollection();
 
         $pager = new ResultPager($this->client);
+        /** @var list<array{system: bool, author: array{username: string}, body: string, created_at: string, updated_at: string}> $list */
         $list = $pager->fetchAll($this->client->mergeRequests(), 'showNotes', [$this->projectIdentifier, (int) $this->id]);
 
         foreach ($list as $commentArray) {

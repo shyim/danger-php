@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Danger\Struct\Local;
 
@@ -106,7 +107,7 @@ class LocalPullRequest extends PullRequest
             }
 
             $status = $line[0];
-            $file = trim(mb_substr($line, 1));
+            $file = mb_trim(mb_substr($line, 1));
 
             $element = new LocalFile($this->repo . '/' . $file);
             $element->name = $file;

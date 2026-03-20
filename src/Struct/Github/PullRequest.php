@@ -32,7 +32,7 @@ class PullRequest extends \Danger\Struct\PullRequest
     private ?CommentCollection $comments = null;
 
     /**
-     * @var list<array{filename: string, status: string, additions: int, deletions: int, changes: int, patch: string}>
+     * @var list<array{filename: string, status: string, additions: int, deletions: int, changes: int, patch?: string}>
      */
     public array $rawFiles = [];
 
@@ -46,11 +46,13 @@ class PullRequest extends \Danger\Struct\PullRequest
             return $this->commits;
         }
 
-        $this->rawCommits = $this->client->pullRequest()->commits($this->owner, $this->repo, $this->id);
+        /** @var list<array{sha: string, commit: array{message: string, committer: array{date: string, name: string, email: string}, verification: array{verified: bool}}}> $rawCommits */
+        $rawCommits = $this->client->pullRequest()->commits($this->owner, $this->repo, $this->id);
+        $this->rawCommits = $rawCommits;
 
         $collection = new CommitCollection();
 
-        foreach ($this->rawCommits as $rawGithubCommit) {
+        foreach ($rawCommits as $rawGithubCommit) {
             $commit = new Commit();
             $commit->sha = $rawGithubCommit['sha'];
             $commit->createdAt = new \DateTime($rawGithubCommit['commit']['committer']['date']);
@@ -76,13 +78,15 @@ class PullRequest extends \Danger\Struct\PullRequest
             return $this->files;
         }
 
-        $this->rawFiles = (new ResultPager($this->client))
+        /** @var list<array{filename: string, status: string, additions: int, deletions: int, changes: int, patch?: string}> $rawFiles */
+        $rawFiles = (new ResultPager($this->client))
             ->fetchAll($this->client->pullRequest(), 'files', [$this->owner, $this->repo, $this->id])
         ;
+        $this->rawFiles = $rawFiles;
 
         $collection = new FileCollection();
 
-        foreach ($this->rawFiles as $rawGithubFile) {
+        foreach ($rawFiles as $rawGithubFile) {
             $file = new GithubFile($this->client, $this->owner, $this->repo, $rawGithubFile['filename'], $this->headSha);
             $file->name = $rawGithubFile['filename'];
             $file->status = $rawGithubFile['status'];
@@ -107,6 +111,7 @@ class PullRequest extends \Danger\Struct\PullRequest
         }
 
         $pager = new ResultPager($this->client);
+        /** @var list<array{user: array{login: string}, body: string, created_at: string, updated_at: string}> $list */
         $list = $pager->fetchAll($this->client->pullRequest()->comments(), 'all', [$this->owner, $this->repo, $this->id]);
         $this->comments = new CommentCollection();
 

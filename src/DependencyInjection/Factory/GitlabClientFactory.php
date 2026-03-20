@@ -11,11 +11,11 @@ class GitlabClientFactory
     {
         $client = new Client();
 
-        if (isset($_SERVER['CI_SERVER_URL'])) {
+        if (isset($_SERVER['CI_SERVER_URL']) && \is_string($_SERVER['CI_SERVER_URL'])) {
             $client->setUrl($_SERVER['CI_SERVER_URL']);
         }
 
-        if (isset($_SERVER['DANGER_GITLAB_TOKEN'])) {
+        if (isset($_SERVER['DANGER_GITLAB_TOKEN']) && \is_string($_SERVER['DANGER_GITLAB_TOKEN'])) {
             $client->authenticate($_SERVER['DANGER_GITLAB_TOKEN'], Client::AUTH_HTTP_TOKEN);
         }
 

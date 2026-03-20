@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Danger\Command;
 
@@ -47,14 +48,18 @@ class LocalCommand extends AbstractPlatformCommand
         if ($headBranch === null) {
             $process = new Process(['git', 'symbolic-ref', '--short', 'refs/remotes/origin/HEAD'], $root);
             $process->mustRun();
-            $headBranch = trim($process->getOutput());
+            $headBranch = mb_trim($process->getOutput());
         }
 
         $process = new Process(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], $root);
         $process->mustRun();
-        $localBranch = trim($process->getOutput());
+        $localBranch = mb_trim($process->getOutput());
 
         $config = $this->configLoader->loadByPath($configPath);
+
+        if (!\is_string($headBranch)) {
+            throw new \InvalidArgumentException('Invalid head-branch option given');
+        }
 
         $this->localPlatform->load($root, $localBranch . '|' . $headBranch);
 

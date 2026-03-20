@@ -12,7 +12,7 @@ class GithubClientFactory
     {
         $client = new Client();
 
-        if (isset($_SERVER['GITHUB_TOKEN'])) {
+        if (isset($_SERVER['GITHUB_TOKEN']) && \is_string($_SERVER['GITHUB_TOKEN'])) {
             $client->authenticate($_SERVER['GITHUB_TOKEN'], null, AuthMethod::ACCESS_TOKEN);
         }
 
