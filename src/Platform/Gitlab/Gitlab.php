@@ -6,10 +6,11 @@ namespace Danger\Platform\Gitlab;
 use Danger\Config;
 use Danger\Platform\AbstractPlatform;
 use Danger\Struct\Gitlab\PullRequest;
+use Danger\Struct\PullRequest as BasePullRequest;
 use Gitlab\Client;
 
 /**
- * @property array{'sha': string, 'title': string, 'web_url': string, 'description': string|null, 'labels': string[], 'assignees': array{'username': string}[], 'reviewers': array{'username': string}[], 'created_at': string, 'updated_at': string} $raw
+ * @property array{'sha': string, 'title': string, 'web_url': string, 'description': string|null, 'state': string, 'labels': string[], 'assignees': array{'username': string}[], 'reviewers': array{'username': string}[], 'created_at': string, 'updated_at': string} $raw
  */
 class Gitlab extends AbstractPlatform
 {
@@ -23,7 +24,7 @@ class Gitlab extends AbstractPlatform
     {
         $this->projectIdentifier = $projectIdentifier;
 
-        /** @var array{'sha': string, 'title': string, 'web_url': string, 'description': string|null, 'labels': string[], 'assignees': array{'username': string}[], 'reviewers': array{'username': string}[], 'created_at': string, 'updated_at': string} $res */
+        /** @var array{'sha': string, 'title': string, 'web_url': string, 'description': string|null, 'state': string, 'labels': string[], 'assignees': array{'username': string}[], 'reviewers': array{'username': string}[], 'created_at': string, 'updated_at': string} $res */
         $res = $this->client->mergeRequests()->show($projectIdentifier, (int) $id);
         $this->raw = $res;
 
@@ -35,6 +36,11 @@ class Gitlab extends AbstractPlatform
         $this->pullRequest->labels = $this->raw['labels'];
         $this->pullRequest->assignees = array_map(static fn (array $assignee) => $assignee['username'], $this->raw['assignees']);
         $this->pullRequest->reviewers = array_map(static fn (array $reviewer) => $reviewer['username'], $this->raw['reviewers']);
+        $this->pullRequest->state = match ($this->raw['state']) {
+            'merged' => BasePullRequest::STATE_MERGED,
+            'closed' => BasePullRequest::STATE_CLOSED,
+            default => BasePullRequest::STATE_OPEN,
+        };
         $this->pullRequest->createdAt = new \DateTime($this->raw['created_at']);
         $this->pullRequest->updatedAt = new \DateTime($this->raw['updated_at']);
     }

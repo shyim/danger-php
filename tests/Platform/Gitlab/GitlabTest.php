@@ -10,6 +10,7 @@ use Danger\Platform\Gitlab\GitlabCommenter;
 use Danger\Struct\Comment;
 use Danger\Struct\Commit;
 use Danger\Struct\File;
+use Danger\Struct\PullRequest;
 use Gitlab\Client;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
@@ -42,6 +43,7 @@ class GitlabTest extends TestCase
         static::assertSame(['Test'], $gitlab->pullRequest->labels);
         static::assertSame(['shyim'], $gitlab->pullRequest->assignees);
         static::assertSame(['dangertestuser', 'dangertestuser2'], $gitlab->pullRequest->reviewers);
+        static::assertSame(PullRequest::STATE_OPEN, $gitlab->pullRequest->state);
         static::assertSame(1_621_638_766, $gitlab->pullRequest->createdAt->getTimestamp());
         static::assertSame(1_621_672_778, $gitlab->pullRequest->updatedAt->getTimestamp());
 

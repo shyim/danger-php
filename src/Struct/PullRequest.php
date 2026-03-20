@@ -5,6 +5,10 @@ namespace Danger\Struct;
 
 abstract class PullRequest
 {
+    public const STATE_OPEN = 'open';
+    public const STATE_CLOSED = 'closed';
+    public const STATE_MERGED = 'merged';
+
     public string $id;
 
     public string $projectIdentifier;
@@ -12,6 +16,8 @@ abstract class PullRequest
     public string $title;
 
     public string $body;
+
+    public string $state = self::STATE_OPEN;
 
     public \DateTimeInterface $createdAt;
 

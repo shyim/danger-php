@@ -6,10 +6,11 @@ namespace Danger\Platform\Github;
 use Danger\Config;
 use Danger\Platform\AbstractPlatform;
 use Danger\Struct\Github\PullRequest as GithubPullRequest;
+use Danger\Struct\PullRequest;
 use Github\Client;
 
 /**
- * @property array{'title': string, 'body': ?string, 'labels': array{'name': string}[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string} $raw
+ * @property array{'title': string, 'body': ?string, 'state': string, 'merged': bool, 'labels': array{'name': string}[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string} $raw
  */
 class Github extends AbstractPlatform
 {
@@ -27,7 +28,7 @@ class Github extends AbstractPlatform
         $this->githubOwner = $owner;
         $this->githubRepository = $repository;
 
-        /** @var array{'title': string, 'body': ?string, 'labels': array{'name': string}[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string, head: array{sha: string}} $raw */
+        /** @var array{'title': string, 'body': ?string, 'state': string, 'merged': bool, 'labels': array{'name': string}[], 'assignees': array{'login': string}[], 'requested_reviewers': array{'login': string}[], 'created_at': string, 'updated_at': string, head: array{sha: string}} $raw */
         $raw = $this->client->pullRequest()->show($owner, $repository, (int) $id);
         $this->raw = $raw;
 
@@ -41,6 +42,9 @@ class Github extends AbstractPlatform
         $this->pullRequest->assignees = array_map(static fn (array $assignee): string => $assignee['login'], $this->raw['assignees']
         );
         $this->pullRequest->reviewers = $this->getReviews($owner, $repository, $id);
+        $this->pullRequest->state = $this->raw['merged']
+            ? PullRequest::STATE_MERGED
+            : ($this->raw['state'] === 'open' ? PullRequest::STATE_OPEN : PullRequest::STATE_CLOSED);
         $this->pullRequest->createdAt = new \DateTime($this->raw['created_at']);
         $this->pullRequest->updatedAt = new \DateTime($this->raw['updated_at']);
     }
