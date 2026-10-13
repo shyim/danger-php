@@ -2,8 +2,13 @@ FROM ghcr.io/shyim/wolfi-php/base:latest
 
 RUN <<EOF
 set -eo pipefail
-apk add --no-cache \
+# Replace inherited libc pins so APK can select versions compatible with PHP.
+apk add --no-cache --upgrade \
     ca-certificates \
+    glibc \
+    glibc-locale-posix \
+    ld-linux \
+    libcrypt1 \
     php-8.2 \
     php-8.2-mbstring \
     php-8.2-ctype \
@@ -28,4 +33,5 @@ chmod +x /app/bin/danger
 EOF
 
 COPY danger.phar /danger.phar
+RUN danger --version
 ENTRYPOINT [ "/usr/bin/php", "/danger.phar" ]
