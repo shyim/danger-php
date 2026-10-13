@@ -148,7 +148,7 @@ abstract class Collection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return \Generator<T>
+     * @return \Generator<array-key, T>
      */
     public function getIterator(): \Generator
     {
