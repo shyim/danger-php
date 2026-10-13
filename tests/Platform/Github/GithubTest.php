@@ -93,6 +93,25 @@ class GithubTest extends TestCase
         static::assertSame(1_621_547_093, $comment->updatedAt->getTimestamp());
     }
 
+    public function testLoadSkipsReviewsFromDeletedUsers(): void
+    {
+        $httpClient = new MockHttpClient([
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/reviews_deleted_user.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/commits.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/files.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+            new MockResponse('Verify commit'),
+            new MockResponse((string) file_get_contents(__DIR__ . '/payloads/comments_containg_danger.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
+        ]);
+
+        $client = Client::createWithHttpClient(new Psr18Client($httpClient));
+
+        $github = new Github($client, new GithubCommenter($client, new MockHttpClient()));
+        $github->load('FriendsOfShopware/FroshPluginUploader', '144');
+
+        static::assertSame(['dangertestuser', 'dangertestuser2'], $github->pullRequest->reviewers);
+    }
+
     public function testPost(): void
     {
         $commenter = $this->createMock(GithubCommenter::class);
