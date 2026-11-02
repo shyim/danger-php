@@ -14,6 +14,8 @@ Currently only GitHub and Gitlab are supported as Platform
 
 ## Installation
 
+Requires PHP 8.4 or newer with the ctype, intl, and mbstring extensions.
+
 ### Composer
 
 Install danger-php using Composer
