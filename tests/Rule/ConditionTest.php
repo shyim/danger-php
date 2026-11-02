@@ -16,7 +16,7 @@ class ConditionTest extends TestCase
 {
     public function testConditionMet(): void
     {
-        $github = $this->createMock(Github::class);
+        $github = static::createStub(Github::class);
         $context = new Context($github);
         $innerRuleExecuted = false;
 
@@ -36,7 +36,7 @@ class ConditionTest extends TestCase
 
     public function testConditionNotMet(): void
     {
-        $github = $this->createMock(Github::class);
+        $github = static::createStub(Github::class);
         $context = new Context($github);
         $innerRuleExecuted = false;
 

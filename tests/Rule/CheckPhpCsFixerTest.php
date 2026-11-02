@@ -18,8 +18,8 @@ class CheckPhpCsFixerTest extends TestCase
 {
     public function testRuleRunsWithoutIssues(): void
     {
-        $github = $this->createMock(Github::class);
-        $pullRequest = $this->createMock(PullRequest::class);
+        $github = static::createStub(Github::class);
+        $pullRequest = static::createStub(PullRequest::class);
         $github->pullRequest = $pullRequest;
         $pullRequest->method('getFiles')->willReturn(new FileCollection([
             new TestFile('test.php', '<?php
@@ -39,8 +39,8 @@ var_dump(\'Test\');
 
     public function testRuleFailures(): void
     {
-        $github = $this->createMock(Github::class);
-        $pullRequest = $this->createMock(PullRequest::class);
+        $github = static::createStub(Github::class);
+        $pullRequest = static::createStub(PullRequest::class);
         $github->pullRequest = $pullRequest;
         $pullRequest->method('getFiles')->willReturn(new FileCollection([
             new TestFile('test.php', '<?php   var_dump("asd");;;'),

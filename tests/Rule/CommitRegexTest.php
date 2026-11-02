@@ -21,8 +21,8 @@ class CommitRegexTest extends TestCase
         $commit = new Commit();
         $commit->message = 'Test';
 
-        $github = $this->createMock(Github::class);
-        $pr = $this->createMock(PullRequest::class);
+        $github = static::createStub(Github::class);
+        $pr = static::createStub(PullRequest::class);
         $pr->method('getCommits')->willReturn(new CommitCollection([$commit]));
         $github->pullRequest = $pr;
 
@@ -39,8 +39,8 @@ class CommitRegexTest extends TestCase
         $commit = new Commit();
         $commit->message = 'feat: Test';
 
-        $github = $this->createMock(Github::class);
-        $pr = $this->createMock(PullRequest::class);
+        $github = static::createStub(Github::class);
+        $pr = static::createStub(PullRequest::class);
         $pr->method('getCommits')->willReturn(new CommitCollection([$commit]));
         $github->pullRequest = $pr;
 

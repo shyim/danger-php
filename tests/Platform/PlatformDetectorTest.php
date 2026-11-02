@@ -16,9 +16,9 @@ class PlatformDetectorTest extends TestCase
 {
     public function testUnknown(): void
     {
-        $detector = new PlatformDetector($this->createMock(Github::class), $this->createMock(Gitlab::class));
+        $detector = new PlatformDetector(static::createStub(Github::class), static::createStub(Gitlab::class));
         static::expectException(UnsupportedCIException::class);
-        static::expectExceptionMessage('Could not detect CI Platform');
+        static::expectExceptionMessageIsOrContains('Could not detect CI Platform');
         $detector->detect();
     }
 
@@ -31,7 +31,7 @@ class PlatformDetectorTest extends TestCase
         $github = $this->createMock(Github::class);
         $github->expects(static::once())->method('load');
 
-        $detector = new PlatformDetector($github, $this->createMock(Gitlab::class));
+        $detector = new PlatformDetector($github, static::createStub(Gitlab::class));
         static::assertSame($github, $detector->detect());
 
         unset($_SERVER['GITHUB_REPOSITORY'], $_SERVER['GITHUB_PULL_REQUEST_ID'], $_SERVER['GITHUB_TOKEN']);
@@ -47,7 +47,7 @@ class PlatformDetectorTest extends TestCase
         $gitlab = $this->createMock(Gitlab::class);
         $gitlab->expects(static::once())->method('load');
 
-        $detector = new PlatformDetector($this->createMock(Github::class), $gitlab);
+        $detector = new PlatformDetector(static::createStub(Github::class), $gitlab);
         static::assertSame($gitlab, $detector->detect());
 
         unset($_SERVER['GITLAB_CI'], $_SERVER['CI_PROJECT_ID'], $_SERVER['CI_MERGE_REQUEST_IID'], $_SERVER['DANGER_GITLAB_TOKEN']);

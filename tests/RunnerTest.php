@@ -33,7 +33,7 @@ class RunnerTest extends TestCase
         });
 
         $config->useThreadOn(Config::REPORT_LEVEL_FAILURE);
-        $runner->run($config, new Context($this->createMock(Github::class)));
+        $runner->run($config, new Context(static::createStub(Github::class)));
 
         static::assertTrue($ruleExecuted);
         static::assertTrue($afterExecuted);

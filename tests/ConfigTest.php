@@ -55,7 +55,7 @@ class ConfigTest extends TestCase
     {
         $config = new Config();
 
-        $context = new Context($this->createMock(AbstractPlatform::class));
+        $context = new Context(static::createStub(AbstractPlatform::class));
         $context->notice('test');
 
         static::assertSame(Config::REPORT_LEVEL_NOTICE, $config->getReportLevel($context));
@@ -65,7 +65,7 @@ class ConfigTest extends TestCase
     {
         $config = new Config();
 
-        $context = new Context($this->createMock(AbstractPlatform::class));
+        $context = new Context(static::createStub(AbstractPlatform::class));
 
         static::assertSame(Config::REPORT_LEVEL_NONE, $config->getReportLevel($context));
     }

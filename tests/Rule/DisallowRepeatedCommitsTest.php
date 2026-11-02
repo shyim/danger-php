@@ -24,8 +24,8 @@ class DisallowRepeatedCommitsTest extends TestCase
         $secondCommit = new Commit();
         $secondCommit->message = 'Test';
 
-        $github = $this->createMock(Github::class);
-        $pr = $this->createMock(PullRequest::class);
+        $github = static::createStub(Github::class);
+        $pr = static::createStub(PullRequest::class);
         $pr->method('getCommits')->willReturn(new CommitCollection([$commit, $secondCommit]));
         $github->pullRequest = $pr;
 
@@ -45,8 +45,8 @@ class DisallowRepeatedCommitsTest extends TestCase
         $secondCommit = new Commit();
         $secondCommit->message = 'Test2';
 
-        $github = $this->createMock(Github::class);
-        $pr = $this->createMock(PullRequest::class);
+        $github = static::createStub(Github::class);
+        $pr = static::createStub(PullRequest::class);
         $pr->method('getCommits')->willReturn(new CommitCollection([$commit, $secondCommit]));
         $github->pullRequest = $pr;
 
@@ -69,8 +69,8 @@ class DisallowRepeatedCommitsTest extends TestCase
         $thirdCommit = new Commit();
         $thirdCommit->message = 'Merge branch master into feature';
 
-        $github = $this->createMock(Github::class);
-        $pr = $this->createMock(PullRequest::class);
+        $github = static::createStub(Github::class);
+        $pr = static::createStub(PullRequest::class);
         $pr->method('getCommits')->willReturn(new CommitCollection([$commit, $secondCommit, $thirdCommit]));
         $github->pullRequest = $pr;
 
@@ -93,8 +93,8 @@ class DisallowRepeatedCommitsTest extends TestCase
         $thirdCommit = new Commit();
         $thirdCommit->message = 'Merge branch master into feature';
 
-        $github = $this->createMock(Github::class);
-        $pr = $this->createMock(PullRequest::class);
+        $github = static::createStub(Github::class);
+        $pr = static::createStub(PullRequest::class);
         $pr->method('getCommits')->willReturn(new CommitCollection([$commit, $secondCommit, $thirdCommit]));
         $github->pullRequest = $pr;
 
