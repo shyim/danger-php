@@ -22,10 +22,10 @@ class GithubCommandTest extends TestCase
     #[DataProvider('invalidUrls')]
     public function testInvalidUrl(string $url): void
     {
-        $cmd = new GithubCommand($this->createMock(Github::class), new ConfigLoader(), new Runner());
+        $cmd = new GithubCommand(static::createStub(Github::class), new ConfigLoader(), new Runner());
 
         static::expectException(\InvalidArgumentException::class);
-        static::expectExceptionMessage('The given url must be a valid Github URL');
+        static::expectExceptionMessageIsOrContains('The given url must be a valid Github URL');
 
         $cmd->run(new ArgvInput(['danger', $url]), new NullOutput());
     }
@@ -45,10 +45,10 @@ class GithubCommandTest extends TestCase
 
     public function testInvalidConfig(): void
     {
-        $cmd = new GithubCommand($this->createMock(Github::class), new ConfigLoader(), new Runner());
+        $cmd = new GithubCommand(static::createStub(Github::class), new ConfigLoader(), new Runner());
 
         static::expectException(\InvalidArgumentException::class);
-        static::expectExceptionMessage('Invalid config option given');
+        static::expectExceptionMessageIsOrContains('Invalid config option given');
 
         $input = new ArgvInput(['danger', 'https://github.com']);
         $input->bind($cmd->getDefinition());
@@ -59,10 +59,10 @@ class GithubCommandTest extends TestCase
 
     public function testInvalidPr(): void
     {
-        $cmd = new GithubCommand($this->createMock(Github::class), new ConfigLoader(), new Runner());
+        $cmd = new GithubCommand(static::createStub(Github::class), new ConfigLoader(), new Runner());
 
         static::expectException(\InvalidArgumentException::class);
-        static::expectExceptionMessage('The PR links needs to be a string');
+        static::expectExceptionMessageIsOrContains('The PR links needs to be a string');
 
         $tester = new CommandTester($cmd);
         $tester->execute(['pr' => []]);

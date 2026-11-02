@@ -18,8 +18,8 @@ class MaxCommitTest extends TestCase
 {
     public function testRuleMatches(): void
     {
-        $github = $this->createMock(Github::class);
-        $pr = $this->createMock(PullRequest::class);
+        $github = static::createStub(Github::class);
+        $pr = static::createStub(PullRequest::class);
         $pr->method('getCommits')->willReturn(new CommitCollection([new Commit(), new Commit()]));
         $github->pullRequest = $pr;
 
@@ -33,8 +33,8 @@ class MaxCommitTest extends TestCase
 
     public function testRuleNotMatches(): void
     {
-        $github = $this->createMock(Github::class);
-        $pr = $this->createMock(PullRequest::class);
+        $github = static::createStub(Github::class);
+        $pr = static::createStub(PullRequest::class);
         $pr->method('getCommits')->willReturn(new CommitCollection([new Commit()]));
         $github->pullRequest = $pr;
 

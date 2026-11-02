@@ -25,7 +25,7 @@ class GitlabCommandTest extends TestCase
             unset($_SERVER['DANGER_GITLAB_TOKEN']);
         }
 
-        $cmd = new GitlabCommand($this->createMock(Gitlab::class), new ConfigLoader(), new Runner());
+        $cmd = new GitlabCommand(static::createStub(Gitlab::class), new ConfigLoader(), new Runner());
         $output = new BufferedOutput();
         $cmd->run(new ArgvInput(['danger', 'test', '1']), $output);
 
@@ -36,10 +36,10 @@ class GitlabCommandTest extends TestCase
     {
         $_SERVER['DANGER_GITLAB_TOKEN'] = '1';
 
-        $cmd = new GitlabCommand($this->createMock(Gitlab::class), new ConfigLoader(), new Runner());
+        $cmd = new GitlabCommand(static::createStub(Gitlab::class), new ConfigLoader(), new Runner());
 
         static::expectException(\InvalidArgumentException::class);
-        static::expectExceptionMessage('Invalid config option given');
+        static::expectExceptionMessageIsOrContains('Invalid config option given');
 
         $input = new ArgvInput(['danger', 'https://github.com']);
         $input->bind($cmd->getDefinition());

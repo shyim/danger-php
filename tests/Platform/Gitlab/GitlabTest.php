@@ -158,7 +158,7 @@ class GitlabTest extends TestCase
 
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
 
-        $gitlab = new Gitlab($client, $this->createMock(GitlabCommenter::class));
+        $gitlab = new Gitlab($client, static::createStub(GitlabCommenter::class));
         $gitlab->load('test', '1');
 
         $gitlab->removeLabels('Test');
@@ -177,7 +177,7 @@ class GitlabTest extends TestCase
         ]);
 
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
-        $commenter = $this->createMock(GitlabCommenter::class);
+        $commenter = static::createStub(GitlabCommenter::class);
         $commenter->method('getRelevantNoteIds')->willReturn([1, 2, 3]);
 
         $gitlab = new Gitlab($client, $commenter);
@@ -195,7 +195,7 @@ class GitlabTest extends TestCase
 
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
 
-        $gitlab = new Gitlab($client, $this->createMock(GitlabCommenter::class));
+        $gitlab = new Gitlab($client, static::createStub(GitlabCommenter::class));
         $gitlab->load('test', '1');
 
         $file = $gitlab->pullRequest->getFileContent('composer.json');
@@ -211,11 +211,11 @@ class GitlabTest extends TestCase
 
         $client = Client::createWithHttpClient(new Psr18Client($mockHttpClient));
 
-        $gitlab = new Gitlab($client, $this->createMock(GitlabCommenter::class));
+        $gitlab = new Gitlab($client, static::createStub(GitlabCommenter::class));
         $gitlab->load('test', '1');
 
         static::expectException(CouldNotGetFileContentException::class);
-        static::expectExceptionMessage('Could not get content of file composer.json');
+        static::expectExceptionMessageIsOrContains('Could not get content of file composer.json');
 
         $gitlab->pullRequest->getFileContent('composer.json');
     }

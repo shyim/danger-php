@@ -25,7 +25,7 @@ class CiCommandTest extends TestCase
         $platform = $this->createMock(Github::class);
         $platform->expects(static::once())->method('removePost');
 
-        $detector = $this->createMock(PlatformDetector::class);
+        $detector = static::createStub(PlatformDetector::class);
         $detector->method('detect')->willReturn($platform);
 
         $output = new BufferedOutput();
@@ -39,10 +39,10 @@ class CiCommandTest extends TestCase
 
     public function testNotValid(): void
     {
-        $platform = $this->createMock(Github::class);
+        $platform = static::createStub(Github::class);
         $platform->method('post')->willReturn('https://danger.local/test');
 
-        $detector = $this->createMock(PlatformDetector::class);
+        $detector = static::createStub(PlatformDetector::class);
         $detector->method('detect')->willReturn($platform);
         $output = new BufferedOutput();
 
@@ -55,10 +55,10 @@ class CiCommandTest extends TestCase
 
     public function testNotValidWarning(): void
     {
-        $platform = $this->createMock(Github::class);
+        $platform = static::createStub(Github::class);
         $platform->method('post')->willReturn('https://danger.local/test');
 
-        $detector = $this->createMock(PlatformDetector::class);
+        $detector = static::createStub(PlatformDetector::class);
         $detector->method('detect')->willReturn($platform);
         $output = new BufferedOutput();
 
@@ -71,16 +71,16 @@ class CiCommandTest extends TestCase
 
     public function testInvalidConfig(): void
     {
-        $platform = $this->createMock(Github::class);
+        $platform = static::createStub(Github::class);
         $platform->method('post')->willReturn('https://danger.local/test');
 
-        $detector = $this->createMock(PlatformDetector::class);
+        $detector = static::createStub(PlatformDetector::class);
         $detector->method('detect')->willReturn($platform);
 
         $cmd = new CiCommand($detector, new ConfigLoader(), new Runner(), new HTMLRenderer());
 
         static::expectException(\InvalidArgumentException::class);
-        static::expectExceptionMessage('Invalid config option given');
+        static::expectExceptionMessageIsOrContains('Invalid config option given');
 
         $input = new ArgvInput([]);
         $input->bind($cmd->getDefinition());

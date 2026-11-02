@@ -152,7 +152,7 @@ class GithubTest extends TestCase
 
     public function testLabels(): void
     {
-        $commenter = $this->createMock(GithubCommenter::class);
+        $commenter = static::createStub(GithubCommenter::class);
 
         $httpClient = new MockHttpClient([
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
@@ -179,7 +179,7 @@ class GithubTest extends TestCase
 
     public function testLabelsWithoutPermission(): void
     {
-        $commenter = $this->createMock(GithubCommenter::class);
+        $commenter = static::createStub(GithubCommenter::class);
 
         $httpClient = new MockHttpClient([
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
@@ -202,7 +202,7 @@ class GithubTest extends TestCase
 
     public function testAddLabelOtherErrorNotIgnored(): void
     {
-        $commenter = $this->createMock(GithubCommenter::class);
+        $commenter = static::createStub(GithubCommenter::class);
 
         $httpClient = new MockHttpClient([
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
@@ -217,14 +217,14 @@ class GithubTest extends TestCase
         $github->load('FriendsOfShopware/FroshPluginUploader', '144');
 
         static::expectException(\RuntimeException::class);
-        static::expectExceptionMessage('Permission Denied');
+        static::expectExceptionMessageIsOrContains('Permission Denied');
 
         $github->addLabels('Test');
     }
 
     public function testRemoveLabelOtherErrorNotIgnored(): void
     {
-        $commenter = $this->createMock(GithubCommenter::class);
+        $commenter = static::createStub(GithubCommenter::class);
 
         $httpClient = new MockHttpClient([
             new MockResponse((string) file_get_contents(__DIR__ . '/payloads/pr.json'), ['http_code' => 200, 'response_headers' => ['content-type' => 'application/json']]),
@@ -239,14 +239,14 @@ class GithubTest extends TestCase
         $github->load('FriendsOfShopware/FroshPluginUploader', '144');
 
         static::expectException(\RuntimeException::class);
-        static::expectExceptionMessage('Permission Denied');
+        static::expectExceptionMessageIsOrContains('Permission Denied');
 
         $github->removeLabels('Test');
     }
 
     public function testHasDangerComment(): void
     {
-        $commenter = $this->createMock(GithubCommenter::class);
+        $commenter = static::createStub(GithubCommenter::class);
         $commenter->method('getCommentIds')->willReturn([1]);
 
         $httpClient = new MockHttpClient([
@@ -265,7 +265,7 @@ class GithubTest extends TestCase
 
     public function testFetchingHeadFile(): void
     {
-        $commenter = $this->createMock(GithubCommenter::class);
+        $commenter = static::createStub(GithubCommenter::class);
         $commenter->method('getCommentIds')->willReturn([1]);
 
         $httpClient = new MockHttpClient([
@@ -286,7 +286,7 @@ class GithubTest extends TestCase
 
     public function testFetchingHeadFileFails(): void
     {
-        $commenter = $this->createMock(GithubCommenter::class);
+        $commenter = static::createStub(GithubCommenter::class);
         $commenter->method('getCommentIds')->willReturn([1]);
 
         $httpClient = new MockHttpClient([
@@ -302,7 +302,7 @@ class GithubTest extends TestCase
         $github->load('FriendsOfShopware/FroshPluginUploader', '144');
 
         static::expectException(CouldNotGetFileContentException::class);
-        static::expectExceptionMessage('Could not get content of file composer.json');
+        static::expectExceptionMessageIsOrContains('Could not get content of file composer.json');
 
         $github->pullRequest->getFileContent('composer.json');
     }

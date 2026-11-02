@@ -15,7 +15,7 @@ class CheckPhpStanTest extends TestCase
 {
     public function testValid(): void
     {
-        $github = $this->createMock(Github::class);
+        $github = static::createStub(Github::class);
         $context = new Context($github);
 
         $rule = new CheckPhpStan();
@@ -26,7 +26,7 @@ class CheckPhpStanTest extends TestCase
 
     public function testInvalid(): void
     {
-        $github = $this->createMock(Github::class);
+        $github = static::createStub(Github::class);
         $context = new Context($github);
 
         $path = \dirname(__DIR__, 2) . '/src/Test.php';

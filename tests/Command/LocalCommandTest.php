@@ -22,10 +22,10 @@ class LocalCommandTest extends TestCase
 {
     public function testInvalidConfig(): void
     {
-        $cmd = new LocalCommand(new ConfigLoader(), new Runner(), $this->createMock(LocalPlatform::class));
+        $cmd = new LocalCommand(new ConfigLoader(), new Runner(), static::createStub(LocalPlatform::class));
 
         static::expectException(\InvalidArgumentException::class);
-        static::expectExceptionMessage('Invalid config option given');
+        static::expectExceptionMessageIsOrContains('Invalid config option given');
 
         $input = new ArgvInput(['danger']);
         $input->bind($cmd->getDefinition());
@@ -36,10 +36,10 @@ class LocalCommandTest extends TestCase
 
     public function testInvalidRoot(): void
     {
-        $cmd = new LocalCommand(new ConfigLoader(), new Runner(), $this->createMock(LocalPlatform::class));
+        $cmd = new LocalCommand(new ConfigLoader(), new Runner(), static::createStub(LocalPlatform::class));
 
         static::expectException(\InvalidArgumentException::class);
-        static::expectExceptionMessage('Invalid root option given');
+        static::expectExceptionMessageIsOrContains('Invalid root option given');
 
         $input = new ArgvInput(['danger']);
         $input->bind($cmd->getDefinition());
@@ -72,7 +72,7 @@ class LocalCommandTest extends TestCase
         (new Filesystem())->remove($tmpDir);
         (new Process(['git', 'clone', 'file://' . $tmpDirTarget, $tmpDir]))->mustRun();
 
-        $cmd = new LocalCommand(new ConfigLoader(), new Runner(), $this->createMock(LocalPlatform::class));
+        $cmd = new LocalCommand(new ConfigLoader(), new Runner(), static::createStub(LocalPlatform::class));
 
         $input = new ArgvInput(['danger', '--config=' . \dirname(__DIR__) . '/configs/empty.php', '--root=' . $tmpDir]);
         $input->bind($cmd->getDefinition());

@@ -34,7 +34,7 @@ class GithubCommenterTest extends TestCase
 
         static::expectException(\RuntimeException::class);
 
-        $commenter = new GithubCommenter($this->createMock(Client::class), $client);
+        $commenter = new GithubCommenter(static::createStub(Client::class), $client);
         $commenter->comment(
             'test',
             'test',
@@ -50,7 +50,7 @@ class GithubCommenterTest extends TestCase
             new MockResponse('{"html_url": "https://test.de"}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
-        $commenter = new GithubCommenter($this->createMock(Client::class), $client);
+        $commenter = new GithubCommenter(static::createStub(Client::class), $client);
         static::assertSame('https://test.de', $commenter->comment(
             'test',
             'test',
@@ -66,7 +66,7 @@ class GithubCommenterTest extends TestCase
             new MockResponse('{}', ['http_response' => 200, 'response_headers' => ['content-type' => 'application/json']]),
         ]);
 
-        $commenter = new GithubCommenter($this->createMock(Client::class), $client);
+        $commenter = new GithubCommenter(static::createStub(Client::class), $client);
         $commenter->remove(
             'test',
             'test',

@@ -16,13 +16,13 @@ class HTMLRendererTest extends TestCase
     public function testRenderEmpty(): void
     {
         $renderer = new HTMLRenderer();
-        static::assertSame(HTMLRenderer::MARKER, $renderer->convert(new Context($this->createMock(Github::class))));
+        static::assertSame(HTMLRenderer::MARKER, $renderer->convert(new Context(static::createStub(Github::class))));
     }
 
     public function testRenderFailure(): void
     {
         $renderer = new HTMLRenderer();
-        $context = new Context($this->createMock(Github::class));
+        $context = new Context(static::createStub(Github::class));
         $context->failure('Test');
 
         static::assertStringContainsString(HTMLRenderer::MARKER, $renderer->convert($context));
