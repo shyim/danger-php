@@ -1,33 +1,28 @@
-FROM ghcr.io/shyim/wolfi-php/base:latest
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:88a20e2d017bd20cdc0cb3910de603e7bea9512a6c351a8dd3c9df212ab03d73
 
 RUN <<EOF
 set -eo pipefail
-# Replace inherited libc pins so APK can select versions compatible with PHP.
 apk add --no-cache --upgrade \
     ca-certificates \
-    glibc \
-    glibc-locale-posix \
-    ld-linux \
-    libcrypt1 \
-    php-8.2 \
-    php-8.2-mbstring \
-    php-8.2-ctype \
-    php-8.2-curl \
-    php-8.2-intl \
-    php-8.2-phar \
-    php-8.2-xml \
-    php-8.2-xmlreader \
-    php-8.2-xmlwriter \
-    php-8.2-dom \
-    php-8.2-simplexml
+    php-8.5 \
+    php-8.5-mbstring \
+    php-8.5-ctype \
+    php-8.5-curl \
+    php-8.5-intl \
+    php-8.5-phar \
+    php-8.5-xml \
+    php-8.5-xmlreader \
+    php-8.5-xmlwriter \
+    php-8.5-dom \
+    php-8.5-simplexml
 
 mkdir -p /bin
-echo "#/bin/sh" > /bin/danger
+echo "#!/bin/sh" > /bin/danger
 echo "php /danger.phar \"\$@\"" >> /bin/danger
 chmod +x /bin/danger
 
 mkdir -p /app/bin
-echo "#/bin/sh" > /app/bin/danger
+echo "#!/bin/sh" > /app/bin/danger
 echo "php /danger.phar \"\$@\"" >> /app/bin/danger
 chmod +x /app/bin/danger
 EOF
