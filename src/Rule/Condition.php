@@ -8,11 +8,12 @@ use Danger\Context;
 class Condition
 {
     /**
-     * @var callable
+     * @var callable(Context): bool
      */
     private $condition;
 
     /**
+     * @param callable(Context): bool $condition
      * @param callable[] $rules
      */
     public function __construct(callable $condition, private array $rules)
